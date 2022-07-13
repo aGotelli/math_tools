@@ -48,4 +48,22 @@ static Eigen::MatrixXd Ad(const Eigen::Matrix3d &t_R,
     return Ad;
 }
 
+static Eigen::MatrixXd DeltaAd(const Eigen::Matrix3d &t_R,
+                   const Eigen::Vector3d &t_r){
+    //  Decompose the strain
+
+    Eigen::Matrix<double, 6, 6> Ad;
+    Ad <<       t_R    , Eigen::Matrix3d::Zero(),
+          skew(t_r)*t_R,          t_R ;
+
+    return Ad;
+}
+
+
+Eigen::Quaterniond rotateAlongAxis(const double &t_angle, const Eigen::Vector3d &t_axis)
+{
+    const auto axis_projection = sin(t_angle/2)*t_axis;
+    return Eigen::Quaterniond(cos(t_angle/2), axis_projection[0], axis_projection[1], axis_projection[2]);
+}
+
 #endif // LIE_ALGEBRA_UTILITIES_H
