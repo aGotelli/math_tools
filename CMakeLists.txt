@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
 
-project(math_tools LANGUAGES CXX VERSION 1.0)
-set(ProjectVersion "v_1_0")
+project(math_tools LANGUAGES CXX VERSION 1.1)
+set(ProjectVersion "v_1_1")
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)

@@ -34,6 +34,12 @@ std::vector<double> ComputeChebyshevPoints(const unsigned int t_number_of_chebys
  */
 Eigen::MatrixXd getDn(const unsigned int t_number_of_chebyshev_nodes);
 
+Eigen::MatrixXd getD_NN(const unsigned int t_number_of_chebyshev_nodes,
+                        const unsigned int t_state_dimension);
+
+Eigen::MatrixXd getD_IN(const unsigned int t_number_of_chebyshev_nodes,
+                        const unsigned int t_state_dimension);
+
 
 
 #endif // CHEBYSHEV_DIFFERENTIATION_HPP
