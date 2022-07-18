@@ -34,9 +34,22 @@ std::vector<double> ComputeChebyshevPoints(const unsigned int t_number_of_chebys
  */
 Eigen::MatrixXd getDn(const unsigned int t_number_of_chebyshev_nodes);
 
+
+/*!
+ * \brief getD_NN computes the block-diagonal matrix corresponding to the influence of the unknown values onto themselfs
+ * \param t_number_of_chebyshev_nodes the number of Chebyshev point to be used in the numerical integration
+ * \param t_state_dimension the dimension of the system that is integrated
+ * \return The block-diagonal matrix corresponding to the influence of the unknown values onto themselfs
+ */
 Eigen::MatrixXd getD_NN(const unsigned int t_number_of_chebyshev_nodes,
                         const unsigned int t_state_dimension);
 
+/*!
+ * \brief getD_IN computes the block-diagonal matrix corresponding to the influence of the initial condition ontt the unknown values
+ * \param t_number_of_chebyshev_nodes
+ * \param t_state_dimension
+ * \return The block-diagonal matrix corresponding to the influence of the initial condition ontt the unknown values
+ */
 Eigen::MatrixXd getD_IN(const unsigned int t_number_of_chebyshev_nodes,
                         const unsigned int t_state_dimension);
 

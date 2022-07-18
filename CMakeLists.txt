@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
 
-project(math_tools LANGUAGES CXX VERSION 1.1)
-set(ProjectVersion "v_1_1")
+project(math_tools LANGUAGES CXX VERSION 1.2)
+set(ProjectVersion "v_1_2")
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -66,9 +66,6 @@ install(
 )
 
 # add the possibility tu run 'make uninstall' to remove files added via 'make install'
-# NOTE: this will remove files only, and not their parent directories.
-# WARNING: this will work only if you do not play around the installed targets manually,
-# and if you do not change the install destination.
 configure_file(
   cmake/cmake_uninstall.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
