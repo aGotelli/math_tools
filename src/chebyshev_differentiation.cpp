@@ -96,32 +96,60 @@ Eigen::MatrixXd getDn(const unsigned int t_number_of_chebyshev_nodes)
 }
 
 Eigen::MatrixXd getD_NN(const unsigned int t_number_of_chebyshev_nodes,
-                        const unsigned int t_state_dimension)
+                        const unsigned int t_state_dimension,
+                        const INTEGRATION_DIRECTION &t_integration_direction)
 {
     //  Get the Chebyshev differentiation matrix
     const Eigen::MatrixXd Dn = getDn(t_number_of_chebyshev_nodes);
 
-    //  Extract the block that define mutual infualces of the unknown states
-    const auto Dn_NN = Dn.block(0, 0, t_number_of_chebyshev_nodes-1, t_number_of_chebyshev_nodes-1);
+    Eigen::MatrixXd Dn_NN;
+
+    if(t_integration_direction == INTEGRATION_DIRECTION::FORWARD) {
+
+        //  Extract the block that define mutual infualces of the unknown states
+        Dn_NN = Dn.block(0, 0, t_number_of_chebyshev_nodes-1, t_number_of_chebyshev_nodes-1);
+
+    } else { // INTEGRATION_DIRECTION::BACKWARD
+
+        //  Extract the block that define mutual infualces of the unknown states
+        Dn_NN = -Dn.block(1, 1, t_number_of_chebyshev_nodes-1, t_number_of_chebyshev_nodes-1);
+
+    }
 
     //  Make a block diagonal matrix with the Dn_NN matrices
-    const Eigen::MatrixXd D_NN = Eigen::KroneckerProduct(Eigen::MatrixXd::Identity(t_state_dimension, t_state_dimension), Dn_NN);
+    const Eigen::MatrixXd D_NN  = Eigen::KroneckerProduct(Eigen::MatrixXd::Identity(t_state_dimension, t_state_dimension), Dn_NN);
 
     return D_NN;
+
 }
 
 Eigen::MatrixXd getD_IN(const unsigned int t_number_of_chebyshev_nodes,
-                        const unsigned int t_state_dimension)
+                        const unsigned int t_state_dimension,
+                        const INTEGRATION_DIRECTION &t_integration_direction)
 {
+
     //  Get the Chebyshev differentiation matrix
     const Eigen::MatrixXd Dn = getDn(t_number_of_chebyshev_nodes);
 
-    //  Extract the block that define influence of initial condition into the unknown states
-    const auto Dn_IN = Dn.block(0, t_number_of_chebyshev_nodes-1, t_number_of_chebyshev_nodes-1, 1);
+    Eigen::MatrixXd Dn_IN;
+
+    if(t_integration_direction == INTEGRATION_DIRECTION::FORWARD) {
+
+        //  Extract the block that define influence of initial condition into the unknown states
+        Dn_IN = Dn.block(0, t_number_of_chebyshev_nodes-1, t_number_of_chebyshev_nodes-1, 1);
+
+    } else { // INTEGRATION_DIRECTION::BACKWARD
+
+        //  Extract the block that define influence of initial condition into the unknown states
+        Dn_IN = -Dn.block(1, 0, t_number_of_chebyshev_nodes-1, 1);
+
+    }
 
     //  Make a block diagonal matrix with the Dn_NN matrices
     const Eigen::MatrixXd D_IN = Eigen::KroneckerProduct(Eigen::MatrixXd::Identity(t_state_dimension, t_state_dimension), Dn_IN);
 
     return D_IN;
+
+
 }
 

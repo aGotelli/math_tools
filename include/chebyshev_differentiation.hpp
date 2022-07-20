@@ -17,6 +17,15 @@
 #include <eigen3/Eigen/Dense>
 #include <iostream>
 
+
+
+enum class INTEGRATION_DIRECTION {
+    FORWARD,
+    BACKWARD
+};
+
+
+
 /*!
  * \brief ComputeChebyshevPoints Computes the Chebyshev points in the given interval
  * \tparam t_N The number of Chebyshev points.
@@ -42,7 +51,8 @@ Eigen::MatrixXd getDn(const unsigned int t_number_of_chebyshev_nodes);
  * \return The block-diagonal matrix corresponding to the influence of the unknown values onto themselfs
  */
 Eigen::MatrixXd getD_NN(const unsigned int t_number_of_chebyshev_nodes,
-                        const unsigned int t_state_dimension);
+                        const unsigned int t_state_dimension,
+                        const INTEGRATION_DIRECTION &t_integration_direction);
 
 /*!
  * \brief getD_IN computes the block-diagonal matrix corresponding to the influence of the initial condition ontt the unknown values
@@ -51,7 +61,8 @@ Eigen::MatrixXd getD_NN(const unsigned int t_number_of_chebyshev_nodes,
  * \return The block-diagonal matrix corresponding to the influence of the initial condition ontt the unknown values
  */
 Eigen::MatrixXd getD_IN(const unsigned int t_number_of_chebyshev_nodes,
-                        const unsigned int t_state_dimension);
+                        const unsigned int t_state_dimension,
+                        const INTEGRATION_DIRECTION &t_integration_direction);
 
 
 
