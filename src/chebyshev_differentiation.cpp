@@ -11,7 +11,8 @@
 
 #include "chebyshev_differentiation.hpp"
 #include <unsupported/Eigen/KroneckerProduct>
-
+#include <numeric>
+#include <vector>
 
 
 std::vector<double> ComputeChebyshevPoints(const unsigned int t_number_of_chebyshev_nodes,
@@ -151,5 +152,19 @@ Eigen::MatrixXd getD_IN(const unsigned int t_number_of_chebyshev_nodes,
     return D_IN;
 
 
+}
+
+
+std::vector<unsigned int> defineIntegrationPoints(unsigned int t_number_of_chebyshev_nodes,
+                                                  INTEGRATION_DIRECTION t_integration_direction)
+{
+    std::vector<unsigned int> integration_points(t_number_of_chebyshev_nodes-1);
+
+    if(t_integration_direction == INTEGRATION_DIRECTION::FORWARD)
+        std::iota(integration_points.begin(), integration_points.end(), 0);
+    else
+        std::iota(integration_points.begin(), integration_points.end(), 1);
+
+    return integration_points;
 }
 

@@ -65,5 +65,8 @@ Eigen::MatrixXd getD_IN(const unsigned int t_number_of_chebyshev_nodes,
                         const INTEGRATION_DIRECTION &t_integration_direction);
 
 
+std::vector<unsigned int> defineIntegrationPoints(unsigned int t_number_of_chebyshev_nodes,
+                                                  INTEGRATION_DIRECTION t_integration_direction);
+
 
 #endif // CHEBYSHEV_DIFFERENTIATION_HPP
