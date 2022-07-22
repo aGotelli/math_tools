@@ -113,7 +113,7 @@ Eigen::MatrixXd getD_NN(const unsigned int t_number_of_chebyshev_nodes,
     } else { // INTEGRATION_DIRECTION::BACKWARD
 
         //  Extract the block that define mutual infualces of the unknown states
-        Dn_NN = -Dn.block(1, 1, t_number_of_chebyshev_nodes-1, t_number_of_chebyshev_nodes-1);
+        Dn_NN = Dn.block(1, 1, t_number_of_chebyshev_nodes-1, t_number_of_chebyshev_nodes-1);
 
     }
 
@@ -142,7 +142,7 @@ Eigen::MatrixXd getD_IN(const unsigned int t_number_of_chebyshev_nodes,
     } else { // INTEGRATION_DIRECTION::BACKWARD
 
         //  Extract the block that define influence of initial condition into the unknown states
-        Dn_IN = -Dn.block(1, 0, t_number_of_chebyshev_nodes-1, 1);
+        Dn_IN = Dn.block(1, 0, t_number_of_chebyshev_nodes-1, 1);
 
     }
 
