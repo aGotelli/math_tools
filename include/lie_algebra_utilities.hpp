@@ -14,6 +14,9 @@
 
 #include <Eigen/Dense>
 
+namespace LieAlgebra {
+
+
 
 Eigen::Matrix3d skew(const Eigen::Vector3d &t_v);
 
@@ -36,7 +39,7 @@ Eigen::MatrixXd DeltaAd(const Eigen::Matrix3d &t_R,
 Eigen::Quaterniond rotateAlongAxis(const double &t_angle, const Eigen::Vector3d &t_axis);
 
 
-
+}   //  namespace LieAlgebra
 
 
 #endif // LIE_ALGEBRA_UTILITIES_H

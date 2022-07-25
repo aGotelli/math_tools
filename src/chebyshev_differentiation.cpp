@@ -2,7 +2,6 @@
  * \file chebyshev_differentiation.cpp
  * \author Andrea Gotelli (Andrea.Gotelli@ls2n.fr)
  * \brief This files contains the base class for integrating a linear ode with the spectral numerical integration
- * \version 0.1
  * \date 06-07-2022
  *
  * \copyright Copyright (c) 2022
@@ -13,7 +12,7 @@
 #include <unsupported/Eigen/KroneckerProduct>
 #include <numeric>
 #include <vector>
-
+namespace Chebyshev {
 
 std::vector<double> ComputeChebyshevPoints(const unsigned int t_number_of_chebyshev_nodes,
                                                     const unsigned int t_L)
@@ -168,3 +167,4 @@ std::vector<unsigned int> defineIntegrationPoints(unsigned int t_number_of_cheby
     return integration_points;
 }
 
+}   //  namespace Chebyshev

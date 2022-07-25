@@ -4,7 +4,7 @@
 
 
 
-
+namespace LieAlgebra {
 
 
 
@@ -73,3 +73,6 @@ Eigen::Quaterniond rotateAlongAxis(const double &t_angle, const Eigen::Vector3d 
     const auto axis_projection = sin(t_angle/2)*t_axis;
     return Eigen::Quaterniond(cos(t_angle/2), axis_projection[0], axis_projection[1], axis_projection[2]);
 }
+
+
+}   //  namespace LieAlgebra

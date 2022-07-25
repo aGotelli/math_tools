@@ -2,7 +2,6 @@
  * \file chebyshev_differentiation.hpp
  * \author Andrea Gotelli (Andrea.Gotelli@ls2n.fr)
  * \brief This file contains the functions related to Chebyshev points and differentiation matrix
- * \version 0.1
  * \date 06/07/2022
  * 
  * \copyright Copyright (c) 2022
@@ -16,6 +15,8 @@
 
 #include <eigen3/Eigen/Dense>
 #include <iostream>
+
+namespace Chebyshev {
 
 
 
@@ -68,5 +69,7 @@ Eigen::MatrixXd getD_IN(const unsigned int t_number_of_chebyshev_nodes,
 std::vector<unsigned int> defineIntegrationPoints(unsigned int t_number_of_chebyshev_nodes,
                                                   INTEGRATION_DIRECTION t_integration_direction);
 
+
+}   //  namespace Chebyshev
 
 #endif // CHEBYSHEV_DIFFERENTIATION_HPP
