@@ -30,6 +30,9 @@ add_subdirectory(src)
 
 
 
+
+
+
 # generates URLConfig.cmake file to use our package in other projects
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
@@ -46,6 +49,8 @@ write_basic_package_version_file(
   VERSION ${PROJECT_VERSION}
   COMPATIBILITY SameMajorVersion
 )
+
+
 
 # when running make install, config files should be copied as well
 install(

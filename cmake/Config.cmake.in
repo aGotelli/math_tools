@@ -8,3 +8,5 @@ find_library(@PROJECT_NAME@_LIBRARIES NAMES @PROJECT_NAME@ PATHS ${@PROJECT_NAME
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(@PROJECT_NAME@ DEFAULT_MSG @PROJECT_NAME@_INCLUDE_DIRS @PROJECT_NAME@_LIBRARIES)
+
+
