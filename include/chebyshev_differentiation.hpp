@@ -44,6 +44,26 @@ std::vector<double> ComputeChebyshevPoints(const unsigned int t_number_of_chebys
  */
 Eigen::MatrixXd getDn(const unsigned int t_number_of_chebyshev_nodes);
 
+/*!
+ * \brief getDn_NN gives the submatrix of Dn for the spectral numerical integration
+ * \param t_number_of_chebyshev_nodes is the number of Chebyshev points used in the integration
+ * \param t_integration_direction is the direction of integration
+ * \return The Dn_NN matrix giving the influeces of the unknown points onto themself
+ */
+Eigen::MatrixXd getDn_NN(const unsigned int t_number_of_chebyshev_nodes,
+                        const INTEGRATION_DIRECTION &t_integration_direction);
+
+
+/*!
+ * \brief getDn_IN gives the submatrix of Dn for the spectral numerical integration
+ * \param t_number_of_chebyshev_nodes is the number of Chebyshev points used in the integration
+ * \param t_integration_direction is the direction of integration
+ * \return The Dn_IN matrix giving the influeces of the initial conditions onto the unknown points
+ */
+Eigen::MatrixXd getDn_IN(const unsigned int t_number_of_chebyshev_nodes,
+                        const INTEGRATION_DIRECTION &t_integration_direction);
+
+
 
 /*!
  * \brief getD_NN computes the block-diagonal matrix corresponding to the influence of the unknown values onto themselfs
@@ -69,6 +89,16 @@ Eigen::MatrixXd getD_IN(const unsigned int t_number_of_chebyshev_nodes,
 std::vector<unsigned int> defineIntegrationPoints(unsigned int t_number_of_chebyshev_nodes,
                                                   INTEGRATION_DIRECTION t_integration_direction);
 
+
+
+/*!
+ * \brief getintialConditionAddress defines the addess of the intial condition for the integration
+ * \param t_number_of_chebyshev_nodes defines how many Chebyshev points are used in the discretization
+ * \param t_integration_direction defines the direction of integration
+ * \return The address of the initial conditions
+ */
+unsigned int getintialConditionAddress(unsigned int t_number_of_chebyshev_nodes,
+                                       INTEGRATION_DIRECTION t_integration_direction);
 
 }   //  namespace Chebyshev
 

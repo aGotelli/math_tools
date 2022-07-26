@@ -95,6 +95,43 @@ Eigen::MatrixXd getDn(const unsigned int t_number_of_chebyshev_nodes)
     return Dn;
 }
 
+
+
+
+Eigen::MatrixXd getDn_NN(const unsigned int t_number_of_chebyshev_nodes,
+                        const INTEGRATION_DIRECTION &t_integration_direction)
+{
+    //  Get the Chebyshev differentiation matrix
+    const Eigen::MatrixXd Dn = getDn(t_number_of_chebyshev_nodes);
+
+    //  Extract the block that define influence of initial condition into the unknown states and invert it
+    if(t_integration_direction == INTEGRATION_DIRECTION::FORWARD)
+        return Dn.block(0, 0, Dn.rows()-1, Dn.cols()-1);
+    else
+        return Dn.block(1, 1, Dn.rows()-1, Dn.cols()-1);
+
+}
+
+
+
+Eigen::MatrixXd getDn_IN(const unsigned int t_number_of_chebyshev_nodes,
+                        const INTEGRATION_DIRECTION &t_integration_direction)
+{
+    //  Get the Chebyshev differentiation matrix
+    const Eigen::MatrixXd Dn = getDn(t_number_of_chebyshev_nodes);
+
+
+    //  Extract the block that define influence of initial condition into the unknown states
+    if(t_integration_direction == INTEGRATION_DIRECTION::FORWARD)
+        return Dn.block(0, t_number_of_chebyshev_nodes-1, t_number_of_chebyshev_nodes-1, 1);
+    else
+        return Dn.block(1, 0, t_number_of_chebyshev_nodes-1, 1);
+
+}
+
+
+
+
 Eigen::MatrixXd getD_NN(const unsigned int t_number_of_chebyshev_nodes,
                         const unsigned int t_state_dimension,
                         const INTEGRATION_DIRECTION &t_integration_direction)
@@ -166,5 +203,13 @@ std::vector<unsigned int> defineIntegrationPoints(unsigned int t_number_of_cheby
 
     return integration_points;
 }
+
+
+unsigned int getintialConditionAddress(unsigned int t_number_of_chebyshev_nodes,
+                                       INTEGRATION_DIRECTION t_integration_direction)
+{
+     return t_integration_direction == INTEGRATION_DIRECTION::FORWARD ? t_number_of_chebyshev_nodes-1 : 0;
+}
+
 
 }   //  namespace Chebyshev
