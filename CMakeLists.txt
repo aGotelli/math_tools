@@ -1,11 +1,15 @@
 cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
 
-project(math_tools LANGUAGES CXX VERSION 1.3)
-set(ProjectVersion "v_1_3")
+project(math_tools LANGUAGES CXX VERSION 2.0)
+set(ProjectVersion "v_2_0")
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+set(CMAKE_RELEASE_POSTFIX "")
+set(CMAKE_DEBUG_POSTFIX "-debug")
+
+message(STATUS "${PROJECT_NAME} version ${PROJECT_VERSION}")
 
 # external utilities to configure the package
 include(GNUInstallDirs)
@@ -14,34 +18,19 @@ set(LIB_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR})
 
 
 
+
+
 find_package(Eigen3 3.4 NO_MODULE REQUIRED)
 
 find_package(benchmark REQUIRED)
 
 
-include_directories(include)
+# process the content of src, ie, the actual code
+add_subdirectory(src)
 
 
 
-add_library(${PROJECT_NAME} SHARED    include/chebyshev_differentiation.hpp
-                                      src/chebyshev_differentiation.cpp
-                                      include/lie_algebra_utilities.hpp
-                                      src/lie_algebra_utilities.cpp)
-target_link_libraries(${PROJECT_NAME} Eigen3::Eigen)
-
-
-
-add_executable(tests tests/tests.cpp)
-target_link_libraries(tests math_tools)
-
-
-
-
-install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_LIBDIR})
-install(DIRECTORY include DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
-
-
-# generates Config.cmake file to use our package in other projects
+# generates URLConfig.cmake file to use our package in other projects
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
   cmake/Config.cmake.in # input template
