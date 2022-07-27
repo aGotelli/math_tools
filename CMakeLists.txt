@@ -14,6 +14,19 @@ find_package(Eigen3 3.4 NO_MODULE REQUIRED)
 find_package(benchmark REQUIRED)
 
 
+#   External utilities to configure the package
+include(GNUInstallDirs)
+set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR})
+set(LIB_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR})
+
+
+#   Give different names for debug and Release
+set(CMAKE_RELEASE_POSTFIX "")
+set(CMAKE_DEBUG_POSTFIX "-debug")
+
+
+
+
 #   Process the content of src, ie, the actual code
 add_subdirectory(src)
 

@@ -1,16 +1,3 @@
-
-
-
-#   Give different names for debug and Release
-set(CMAKE_RELEASE_POSTFIX "")
-set(CMAKE_DEBUG_POSTFIX "-debug")
-
-
-#   External utilities to configure the package
-include(GNUInstallDirs)
-set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR})
-set(LIB_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR})
-
 #   Generates ${PROJECT_NAME}Config.cmake file to use our package in other projects
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
