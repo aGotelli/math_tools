@@ -6,6 +6,33 @@
 
 namespace LieAlgebra {
 
+SE3Pose::SE3Pose(const Eigen::VectorXd &t_quaternion,
+                 const Eigen::VectorXd &t_position) :   m_quaternion(Eigen::Quaterniond(t_quaternion(0),
+                                                                                        t_quaternion(1),
+                                                                                        t_quaternion(2),
+                                                                                        t_quaternion(3))),
+                                                        m_position(t_position)
+{}
+
+
+Eigen::Matrix3d SE3Pose::getRotationMatrix() const
+{
+    return m_quaternion.toRotationMatrix();
+}
+
+Eigen::Matrix4d SE3Pose::getSE3Pose() const
+{
+    return (Eigen::Matrix4d() << getRotationMatrix(), m_position.transpose(),
+                                 Eigen::RowVector3d::Zero(), 1).finished();
+}
+
+
+
+Screw::Screw(const Eigen::Vector3d &t_angular,
+             const Eigen::Vector3d &t_linear) : m_angular(t_angular),
+                                                m_linear(t_linear)
+{}
+
 
 
 
