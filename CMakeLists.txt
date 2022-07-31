@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
 project(math_tools LANGUAGES CXX VERSION 2.0)
 set(ProjectVersion "v_2_0")
@@ -32,3 +32,6 @@ add_subdirectory(src)
 
 #   Install the library using the default routine
 include(cmake/installation_module.cmake)
+
+
+include(cmake/documentation_module.cmake)
