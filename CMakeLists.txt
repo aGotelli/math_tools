@@ -34,4 +34,4 @@ add_subdirectory(src)
 include(cmake/installation_module.cmake)
 
 
-include(cmake/documentation_module.cmake)
+#include(cmake/documentation_module.cmake)
