@@ -17,6 +17,14 @@
 namespace LieAlgebra {
 
 
+
+
+
+
+typedef Eigen::Matrix<double, 6, 1> Vector6d ;
+
+
+
 struct SE3Pose {
     SE3Pose()=default;
 
@@ -36,31 +44,52 @@ struct SE3Pose {
 };
 
 
-struct Screw {
-    Screw()=default;
-
-    Screw(const Eigen::Vector3d &t_angular,
-          const Eigen::Vector3d &t_linear);
 
 
-    Eigen::Vector3d m_angular { Eigen::Vector3d::Zero() };
-    Eigen::Vector3d m_linear { Eigen::Vector3d::Zero() };
-};
+
 
 struct Kinematics {
     Kinematics()=default;
 
     SE3Pose m_pose;
 
-    Screw m_twist;
-    Screw m_accelerations;
+    Vector6d m_twist;
+    Vector6d m_accelerations;
+};
+
+
+struct TangentKinematics {
+    Vector6d m_Delta_zeta;
+
+    Vector6d m_Delta_twist;
+
+    Vector6d m_Delta_acceleration;
+};
+
+template<class DataType>
+struct GeneralizedCoordinates {
+    DataType m_q;
+    DataType m_dot_q;
+    DataType m_ddot_q;
 };
 
 
 
+struct Screw {
+    Screw()=default;
+
+    Screw(const Eigen::Vector3d &t_angular,
+          const Eigen::Vector3d &t_linear);
+
+    Vector6d operator=(Eigen::VectorXd)
+    {
+        return ( Vector6d() << m_angular, m_linear ).finished();
+    }
 
 
-
+    Eigen::Vector3d m_angular { Eigen::Vector3d::Zero() };
+    Eigen::Vector3d m_linear { Eigen::Vector3d::Zero() };
+};
 
 
 Eigen::Matrix3d skew(const Eigen::Vector3d &t_v);
