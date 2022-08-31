@@ -17,7 +17,8 @@
 namespace LieAlgebra {
 
 
-
+/// Define a scalar which is compatible with Eigen::VectorXd
+typedef Eigen::Matrix<double, 1, 1> Vector1d ;
 
 
 
@@ -28,11 +29,22 @@ typedef Eigen::Matrix<double, 6, 1> Vector6d ;
 struct SE3Pose {
     SE3Pose()=default;
 
-    SE3Pose(const Eigen::VectorXd &t_quaternion,
-            const Eigen::VectorXd &t_position);
+
+    SE3Pose(const Eigen::Vector3d &t_position);
 
 
-    std::string operator <<(const SE3Pose &t_other);
+//    SE3Pose(const Eigen::Vector3d &t_xyz_rotations,
+//            const Eigen::Vector3d &t_position);
+
+
+    SE3Pose(const Eigen::Vector4d &t_quaternion,
+            const Eigen::Vector3d &t_position);
+
+
+
+
+
+    std::string toString()const;
 
     Eigen::Matrix3d getRotationMatrix()const;
 
@@ -51,6 +63,12 @@ struct SE3Pose {
 struct Kinematics {
     Kinematics()=default;
 
+
+    Kinematics(const SE3Pose &t_pose);
+
+
+    std::string toString()const;
+
     SE3Pose m_pose;
 
     Vector6d m_twist;
@@ -68,6 +86,7 @@ struct TangentKinematics {
 
 template<class DataType>
 struct GeneralizedCoordinates {
+
     DataType m_q;
     DataType m_dot_q;
     DataType m_ddot_q;

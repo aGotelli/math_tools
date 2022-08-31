@@ -6,13 +6,50 @@
 
 namespace LieAlgebra {
 
-SE3Pose::SE3Pose(const Eigen::VectorXd &t_quaternion,
-                 const Eigen::VectorXd &t_position) :   m_quaternion(Eigen::Quaterniond(t_quaternion(0),
-                                                                                        t_quaternion(1),
-                                                                                        t_quaternion(2),
-                                                                                        t_quaternion(3))),
-                                                        m_position(t_position)
+
+SE3Pose::SE3Pose(const Eigen::Vector3d &t_position)
+    : m_position(t_position)
 {}
+
+
+//SE3Pose::SE3Pose(const Eigen::Vector3d &t_xyz_rotations,
+//                 const Eigen::Vector3d &t_position)
+//    : m_quaternion( [&](){ const auto R = Eigen::Matrix3d::eulerAngles(t_xyz_rotations(0),
+//                                                 t_xyz_rotations(1),
+//                                                 t_xyz_rotations(2));
+//    return R}() ),
+//      m_position(t_position)
+//{}
+
+
+SE3Pose::SE3Pose(const Eigen::Vector4d &t_quaternion,
+                 const Eigen::Vector3d &t_position)
+    : m_quaternion(Eigen::Quaterniond(t_quaternion(0),
+                                      t_quaternion(1),
+                                      t_quaternion(2),
+                                      t_quaternion(3))),
+      m_position(t_position)
+{}
+
+std::string SE3Pose::toString()const
+{
+    std::stringstream message;
+
+    message << "Pose :\n";
+    message << "    - position [x, y, z] : [ " << m_position.x() << ", " << m_position.y() << ", " << m_position.z() << "]\n";
+    message << "    - orientation : \n";
+    message << "        - quaternion [w, x, y, z] : [ " << m_quaternion.w() << ", "  << m_quaternion.x() << ", "  << m_quaternion.y() << ", "  << m_quaternion.z() << "]\n";
+
+    const auto R = getRotationMatrix();
+    message << "                            | " << R.row(0) << " |\n";
+    message << "        - rotation matrix : | " << R.row(1) << " |\n";
+    message << "                            | " << R.row(2) << " |\n";
+//    message << "            " << getRotationMatrix();
+    message << "\n\n";
+
+
+    return message.str();
+}
 
 
 Eigen::Matrix3d SE3Pose::getRotationMatrix() const
@@ -34,6 +71,29 @@ Screw::Screw(const Eigen::Vector3d &t_angular,
 {}
 
 
+
+
+Kinematics::Kinematics(const SE3Pose &t_pose)
+    : m_pose(t_pose)
+{}
+
+
+std::string Kinematics::toString()const
+{
+    std::stringstream message;
+
+    message << m_pose.toString();
+    message << "Twist :\n";
+    message << "    - angular [x, y, z] : [ " << m_twist(0) << ", " << m_twist(1) << ", " << m_twist(2) << "]\n";
+    message << "    - linear  [x, y, z] : [ " << m_twist(3) << ", " << m_twist(4) << ", " << m_twist(5) << "]\n";
+    message << "Acceleration :\n";
+    message << "    - angular [x, y, z] : [ " << m_accelerations(0) << ", " << m_accelerations(1) << ", " << m_accelerations(2) << "]\n";
+    message << "    - linear  [x, y, z] : [ " << m_accelerations(3) << ", " << m_accelerations(4) << ", " << m_accelerations(5) << "]\n";
+    message << "\n\n";
+
+
+    return message.str();
+}
 
 
 Eigen::Matrix3d skew(const Eigen::Vector3d &t_v)
