@@ -96,7 +96,7 @@ Eigen::Matrix3d skew(const Eigen::Vector3d &t_v);
 
 
 
-Eigen::MatrixXd ad(const Eigen::VectorXd &t_strain);
+Eigen::MatrixXd ad(const Vector6d &t_twist);
 
 
 
@@ -105,12 +105,28 @@ Eigen::MatrixXd Ad(const Eigen::Matrix3d &t_R,
 
 
 
+Eigen::MatrixXd DotAd(const Eigen::Matrix3d &t_R,
+                      const Eigen::Vector3d &t_r,
+                      const Vector6d &t_twist);
+
+
+
 Eigen::MatrixXd DeltaAd(const Eigen::Matrix3d &t_R,
-                   const Eigen::Vector3d &t_r);
+                        const Eigen::Vector3d &t_r,
+                        const Vector6d &t_Delta_zeta);
 
 
 
-Eigen::Quaterniond rotateAlongAxis(const double &t_angle, const Eigen::Vector3d &t_axis);
+Eigen::MatrixXd DeltaDotAd(const Eigen::Matrix3d &t_R,
+                           const Eigen::Vector3d &t_r,
+                           const Vector6d &t_Delta_zeta,
+                           const Vector6d &t_eta,
+                           const Vector6d &t_Delta_eta);
+
+
+
+Eigen::Quaterniond rotateAlongAxis(const double &t_angle,
+                                   const Eigen::Vector3d &t_axis);
 
 
 

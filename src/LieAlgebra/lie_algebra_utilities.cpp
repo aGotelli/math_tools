@@ -49,15 +49,15 @@ Eigen::Matrix3d skew(const Eigen::Vector3d &t_v)
 
 
 
-Eigen::MatrixXd ad(const Eigen::VectorXd &t_strain)
+Eigen::MatrixXd ad(const Vector6d &t_twist)
 {
     //  Decompose the strain
-    const Eigen::Vector3d k = t_strain.block<3,1>(0,0);
-    const Eigen::Vector3d gamma = t_strain.block<3,1>(3,0);
+    const Eigen::Vector3d angular = t_twist.block<3,1>(0,0);
+    const Eigen::Vector3d linear = t_twist.block<3,1>(3,0);
 
     Eigen::MatrixXd ad(6,6);
-    ad << skew(k)    , Eigen::Matrix3d::Zero(),
-          skew(gamma),          skew(k) ;
+    ad << skew(angular),     Eigen::Matrix3d::Zero(),
+          skew(linear) ,         skew(angular) ;
 
     return ad;
 }
@@ -79,19 +79,32 @@ Eigen::MatrixXd Ad(const Eigen::Matrix3d &t_R,
 
 
 
-
-Eigen::MatrixXd DeltaAd(const Eigen::Matrix3d &t_R,
-                   const Eigen::Vector3d &t_r)
+Eigen::MatrixXd DotAd(const Eigen::Matrix3d &t_R,
+                      const Eigen::Vector3d &t_r,
+                      const Vector6d &t_twist)
 {
-    //  Decompose the strain
-
-    Eigen::Matrix<double, 6, 6> Ad;
-    Ad <<       t_R    , Eigen::Matrix3d::Zero(),
-          skew(t_r)*t_R,          t_R ;
-
-    return Ad;
+    return Ad(t_R, t_r) * ad(t_twist);
 }
 
+
+
+Eigen::MatrixXd DeltaAd(const Eigen::Matrix3d &t_R,
+                        const Eigen::Vector3d &t_r,
+                        const Vector6d &t_Delta_zeta)
+{
+    return Ad(t_R, t_r)*ad(t_Delta_zeta);
+}
+
+
+
+Eigen::MatrixXd DeltaDotAd(const Eigen::Matrix3d &t_R,
+                           const Eigen::Vector3d &t_r,
+                           const Vector6d &t_Delta_zeta,
+                           const Vector6d &t_eta,
+                           const Vector6d &t_Delta_eta)
+{
+    return Ad(t_R, t_r) * ( ad(t_Delta_zeta)*ad(t_eta) + ad(t_Delta_eta) );
+}
 
 
 
