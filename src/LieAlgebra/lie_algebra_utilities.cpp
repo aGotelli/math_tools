@@ -148,6 +148,13 @@ Eigen::MatrixXd Ad(const Eigen::Matrix3d &t_R,
 }
 
 
+Eigen::MatrixXd Ad(const SE3Pose &t_pose)
+{
+    return Ad(t_pose.getRotationMatrix(),
+              t_pose.m_position);
+}
+
+
 
 Eigen::MatrixXd DotAd(const Eigen::Matrix3d &t_R,
                       const Eigen::Vector3d &t_r,

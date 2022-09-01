@@ -124,6 +124,10 @@ Eigen::MatrixXd Ad(const Eigen::Matrix3d &t_R,
 
 
 
+Eigen::MatrixXd Ad(const SE3Pose &t_pose);
+
+
+
 Eigen::MatrixXd DotAd(const Eigen::Matrix3d &t_R,
                       const Eigen::Vector3d &t_r,
                       const Vector6d &t_twist);
