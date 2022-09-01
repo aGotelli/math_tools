@@ -13,6 +13,8 @@ message(STATUS "${PROJECT_NAME} version ${PROJECT_VERSION}")
 find_package(Eigen3 3.4 NO_MODULE REQUIRED)
 find_package(benchmark REQUIRED)
 
+find_package(GTest)
+
 
 #   External utilities to configure the package
 include(GNUInstallDirs)
@@ -29,6 +31,15 @@ set(CMAKE_DEBUG_POSTFIX "-debug")
 
 #   Process the content of src, ie, the actual code
 add_subdirectory(src)
+
+# testing
+if(GTest_FOUND)
+  message(STATUS "Building tests")
+  enable_testing()
+
+  add_subdirectory(tests)
+
+endif(GTest_FOUND)
 
 #   Install the library using the default routine
 include(cmake/installation_module.cmake)
