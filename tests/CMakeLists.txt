@@ -18,6 +18,7 @@ target_link_libraries(test_SE3Pose
         ${PROJECT_NAME}
         GTest::GTest
 )
+add_test(test_SE3Pose  test_SE3Pose)
 
 
 
