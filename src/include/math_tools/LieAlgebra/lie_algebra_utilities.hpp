@@ -33,15 +33,15 @@ struct SE3Pose {
     SE3Pose(const Eigen::Vector3d &t_position);
 
 
-//    SE3Pose(const Eigen::Vector3d &t_xyz_rotations,
-//            const Eigen::Vector3d &t_position);
+    SE3Pose(const Eigen::Quaterniond &t_quaternion,
+            const Eigen::Vector3d &t_position);
 
 
     SE3Pose(const Eigen::Vector4d &t_quaternion,
             const Eigen::Vector3d &t_position);
 
 
-
+    SE3Pose operator*(const SE3Pose &t_other)const;
 
 
     std::string toString()const;

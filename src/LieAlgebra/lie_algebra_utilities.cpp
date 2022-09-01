@@ -12,14 +12,11 @@ SE3Pose::SE3Pose(const Eigen::Vector3d &t_position)
 {}
 
 
-//SE3Pose::SE3Pose(const Eigen::Vector3d &t_xyz_rotations,
-//                 const Eigen::Vector3d &t_position)
-//    : m_quaternion( [&](){ const auto R = Eigen::Matrix3d::eulerAngles(t_xyz_rotations(0),
-//                                                 t_xyz_rotations(1),
-//                                                 t_xyz_rotations(2));
-//    return R}() ),
-//      m_position(t_position)
-//{}
+SE3Pose::SE3Pose(const Eigen::Quaterniond &t_quaternion,
+                 const Eigen::Vector3d &t_position)
+    : m_quaternion( t_quaternion ),
+      m_position(t_position)
+{}
 
 
 SE3Pose::SE3Pose(const Eigen::Vector4d &t_quaternion,
@@ -30,6 +27,19 @@ SE3Pose::SE3Pose(const Eigen::Vector4d &t_quaternion,
                                       t_quaternion(3))),
       m_position(t_position)
 {}
+
+
+SE3Pose SE3Pose::operator*(const SE3Pose &t_other) const
+{
+
+    SE3Pose result_pose;
+    result_pose.m_quaternion = m_quaternion * t_other.m_quaternion;
+
+    result_pose.m_position = m_quaternion.toRotationMatrix()*t_other.m_position
+                            + m_position;
+
+    return result_pose;
+}
 
 std::string SE3Pose::toString()const
 {
