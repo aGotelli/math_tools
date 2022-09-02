@@ -156,7 +156,7 @@ Matrix6d Ad(const SE3Pose &t_pose)
 
 
 
-Matrix6d DotAd(const Eigen::Matrix3d &t_R,
+Matrix6d dotAd(const Eigen::Matrix3d &t_R,
                const Eigen::Vector3d &t_r,
                const Vector6d &t_twist)
 {
@@ -165,21 +165,21 @@ Matrix6d DotAd(const Eigen::Matrix3d &t_R,
 
 
 
-Matrix6d DotAd(const SE3Pose &t_pose,
+Matrix6d dotAd(const SE3Pose &t_pose,
                const Vector6d &t_twist)
 {
-    return DotAd(t_pose.m_quaternion.toRotationMatrix(),
+    return dotAd(t_pose.m_quaternion.toRotationMatrix(),
                  t_pose.m_position,
                  t_twist);
 }
 
 
 
-Matrix6d DotAd(const Kinematics &t_kinematics)
+Matrix6d dotAd(const Kinematics &t_kinematics)
 {
     const auto [pose, twist, _] = t_kinematics;
 
-    return DotAd(pose, twist);
+    return dotAd(pose, twist);
 }
 
 
