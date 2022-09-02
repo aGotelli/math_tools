@@ -12,6 +12,7 @@
 #ifndef LIE_ALGEBRA_UTILITIES_H
 #define LIE_ALGEBRA_UTILITIES_H
 
+
 #include <Eigen/Dense>
 
 namespace LieAlgebra {
@@ -24,6 +25,9 @@ typedef Eigen::Matrix<double, 1, 1> Vector1d ;
 
 typedef Eigen::Matrix<double, 6, 1> Vector6d ;
 
+
+
+typedef Eigen::Matrix<double, 6, 6> Matrix6d ;
 
 
 struct SE3Pose {
@@ -115,36 +119,68 @@ Eigen::Matrix3d skew(const Eigen::Vector3d &t_v);
 
 
 
-Eigen::MatrixXd ad(const Vector6d &t_twist);
+Matrix6d ad(const Vector6d &t_twist);
 
 
 
-Eigen::MatrixXd Ad(const Eigen::Matrix3d &t_R,
-                   const Eigen::Vector3d &t_r);
+Matrix6d Ad(const Eigen::Matrix3d &t_R,
+            const Eigen::Vector3d &t_r);
 
 
 
-Eigen::MatrixXd Ad(const SE3Pose &t_pose);
+Matrix6d Ad(const SE3Pose &t_pose);
 
 
 
-Eigen::MatrixXd DotAd(const Eigen::Matrix3d &t_R,
-                      const Eigen::Vector3d &t_r,
+Matrix6d DotAd(const Eigen::Matrix3d &t_R,
+               const Eigen::Vector3d &t_r,
+               const Vector6d &t_twist);
+
+
+
+Matrix6d DotAd(const SE3Pose &t_pose,
                       const Vector6d &t_twist);
 
 
 
-Eigen::MatrixXd DeltaAd(const Eigen::Matrix3d &t_R,
-                        const Eigen::Vector3d &t_r,
-                        const Vector6d &t_Delta_zeta);
+Matrix6d DotAd(const Kinematics &t_kinematics);
 
 
 
-Eigen::MatrixXd DeltaDotAd(const Eigen::Matrix3d &t_R,
-                           const Eigen::Vector3d &t_r,
-                           const Vector6d &t_Delta_zeta,
-                           const Vector6d &t_eta,
-                           const Vector6d &t_Delta_eta);
+Matrix6d DeltaAd(const Eigen::Matrix3d &t_R,
+                 const Eigen::Vector3d &t_r,
+                 const Vector6d &t_Delta_zeta);
+
+
+
+Matrix6d DeltaAd(const SE3Pose &t_pose,
+                 const Vector6d &t_Delta_zeta);
+
+
+
+Matrix6d DeltaDotAd(const Eigen::Matrix3d &t_R,
+                    const Eigen::Vector3d &t_r,
+                    const Vector6d &t_Delta_zeta,
+                    const Vector6d &t_eta,
+                    const Vector6d &t_Delta_eta);
+
+
+
+Matrix6d DeltaDotAd(const SE3Pose &t_pose,
+                    const Vector6d &t_Delta_zeta,
+                    const Vector6d &t_eta,
+                    const Vector6d &t_Delta_eta);
+
+
+
+Matrix6d DeltaDotAd(const Kinematics &t_kinematics,
+                    const Vector6d &t_Delta_zeta,
+                    const Vector6d &t_Delta_eta);
+
+
+
+Matrix6d DeltaDotAd(const Kinematics &t_kinematics,
+                    const TangentKinematics &t_tangent_kinematics);
 
 
 

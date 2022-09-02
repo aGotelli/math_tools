@@ -1,4 +1,4 @@
- #include "math_tools/LieAlgebra/lie_algebra_utilities.hpp"
+#include "math_tools/LieAlgebra/lie_algebra_utilities.hpp"
 
 
 
@@ -119,13 +119,13 @@ Eigen::Matrix3d skew(const Eigen::Vector3d &t_v)
 
 
 
-Eigen::MatrixXd ad(const Vector6d &t_twist)
+Matrix6d ad(const Vector6d &t_twist)
 {
     //  Decompose the strain
     const Eigen::Vector3d angular = t_twist.block<3,1>(0,0);
     const Eigen::Vector3d linear = t_twist.block<3,1>(3,0);
 
-    Eigen::MatrixXd ad(6,6);
+    Matrix6d ad(6,6);
     ad << skew(angular),     Eigen::Matrix3d::Zero(),
           skew(linear) ,         skew(angular) ;
 
@@ -135,8 +135,8 @@ Eigen::MatrixXd ad(const Vector6d &t_twist)
 
 
 
-Eigen::MatrixXd Ad(const Eigen::Matrix3d &t_R,
-                   const Eigen::Vector3d &t_r)
+Matrix6d Ad(const Eigen::Matrix3d &t_R,
+            const Eigen::Vector3d &t_r)
 {
     //  Decompose the strain
 
@@ -148,7 +148,7 @@ Eigen::MatrixXd Ad(const Eigen::Matrix3d &t_R,
 }
 
 
-Eigen::MatrixXd Ad(const SE3Pose &t_pose)
+Matrix6d Ad(const SE3Pose &t_pose)
 {
     return Ad(t_pose.getRotationMatrix(),
               t_pose.m_position);
@@ -156,31 +156,98 @@ Eigen::MatrixXd Ad(const SE3Pose &t_pose)
 
 
 
-Eigen::MatrixXd DotAd(const Eigen::Matrix3d &t_R,
-                      const Eigen::Vector3d &t_r,
-                      const Vector6d &t_twist)
+Matrix6d DotAd(const Eigen::Matrix3d &t_R,
+               const Eigen::Vector3d &t_r,
+               const Vector6d &t_twist)
 {
     return Ad(t_R, t_r) * ad(t_twist);
 }
 
 
 
-Eigen::MatrixXd DeltaAd(const Eigen::Matrix3d &t_R,
-                        const Eigen::Vector3d &t_r,
-                        const Vector6d &t_Delta_zeta)
+Matrix6d DotAd(const SE3Pose &t_pose,
+               const Vector6d &t_twist)
+{
+    return DotAd(t_pose.m_quaternion.toRotationMatrix(),
+                 t_pose.m_position,
+                 t_twist);
+}
+
+
+
+Matrix6d DotAd(const Kinematics &t_kinematics)
+{
+    const auto [pose, twist, _] = t_kinematics;
+
+    return DotAd(pose, twist);
+}
+
+
+
+Matrix6d DeltaAd(const Eigen::Matrix3d &t_R,
+                 const Eigen::Vector3d &t_r,
+                 const Vector6d &t_Delta_zeta)
 {
     return Ad(t_R, t_r)*ad(t_Delta_zeta);
 }
 
 
 
-Eigen::MatrixXd DeltaDotAd(const Eigen::Matrix3d &t_R,
-                           const Eigen::Vector3d &t_r,
-                           const Vector6d &t_Delta_zeta,
-                           const Vector6d &t_eta,
-                           const Vector6d &t_Delta_eta)
+Matrix6d DeltaAd(const SE3Pose &t_pose,
+                 const Vector6d &t_Delta_zeta)
+{
+    return DeltaAd(t_pose.m_quaternion.toRotationMatrix(),
+                   t_pose.m_position,
+                   t_Delta_zeta);
+}
+
+
+
+Matrix6d DeltaDotAd(const Eigen::Matrix3d &t_R,
+                    const Eigen::Vector3d &t_r,
+                    const Vector6d &t_Delta_zeta,
+                    const Vector6d &t_eta,
+                    const Vector6d &t_Delta_eta)
 {
     return Ad(t_R, t_r) * ( ad(t_Delta_zeta)*ad(t_eta) + ad(t_Delta_eta) );
+}
+
+
+
+Matrix6d DeltaDotAd(const SE3Pose &t_pose,
+                    const Vector6d &t_Delta_zeta,
+                    const Vector6d &t_eta,
+                    const Vector6d &t_Delta_eta)
+{
+    return DeltaDotAd(t_pose.m_quaternion.toRotationMatrix(),
+                      t_pose.m_position,
+                      t_Delta_zeta,
+                      t_eta,
+                      t_Delta_eta);
+}
+
+
+
+Matrix6d DeltaDotAd(const Kinematics &t_kinematics,
+                    const Vector6d &t_Delta_zeta,
+                    const Vector6d &t_Delta_eta)
+{
+    const auto [pose, twist, _] = t_kinematics;
+
+    return DeltaDotAd(pose,
+                      t_Delta_zeta,
+                      twist,
+                      t_Delta_eta);
+}
+
+
+
+Matrix6d DeltaDotAd(const Kinematics &t_kinematics,
+                    const TangentKinematics &t_tangent_kinematics)
+{
+    return DeltaDotAd(t_kinematics,
+                      t_tangent_kinematics.m_Delta_zeta,
+                      t_tangent_kinematics.m_Delta_twist);
 }
 
 
