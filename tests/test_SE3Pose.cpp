@@ -13,9 +13,9 @@ TEST(test_SE3Pose, translation)
 
     const SE3Pose pose_result = pose1 * pose2;
 
-    EXPECT_EQ(pose_result.m_position.x(), 2.0);
-    EXPECT_EQ(pose_result.m_position.y(), 2.5);
-    EXPECT_EQ(pose_result.m_position.z(), -0.8);
+    EXPECT_NEAR(pose_result.m_position.x(), 2.0, 1e-14);
+    EXPECT_NEAR(pose_result.m_position.y(), 2.5, 1e-14);
+    EXPECT_NEAR(pose_result.m_position.z(), -0.8, 1e-14);
 }
 
 
@@ -193,6 +193,36 @@ TEST(test_SE3Pose, full)
     EXPECT_EQ(pose_result.m_position.x(), r_result.x());
     EXPECT_EQ(pose_result.m_position.y(), r_result.y());
     EXPECT_EQ(pose_result.m_position.z(), r_result.z());
+}
+
+
+TEST(test_SE3Pose, inverse)
+{
+    //  Initialise the transformation
+    const Eigen::Vector3d r = Eigen::Vector3d::Ones();
+    const Eigen::Quaterniond q = rotateAlongAxis(M_PI/3, Eigen::Vector3d::UnitZ());
+    SE3Pose pose(q, r);
+
+    //  Compute the inverse internally
+    const auto inverse_pose = pose.inverse();
+
+    //  Compute the inverse analytically
+    const Eigen::Matrix3d analytic_R_inv = q.toRotationMatrix().transpose();
+    const auto analytic_r_inv = -analytic_R_inv*r;
+
+    //  Compare results in rotation
+    const auto so3_error = differenceInSO3(inverse_pose.getRotationMatrix(),analytic_R_inv);
+    EXPECT_NEAR(so3_error.x(), 0.0, 1e-14);
+    EXPECT_NEAR(so3_error.y(), 0.0, 1e-14);
+    EXPECT_NEAR(so3_error.z(), 0.0, 1e-14);
+
+
+    //  Compare result in position
+    EXPECT_EQ(inverse_pose.m_position.x(), analytic_r_inv.x());
+    EXPECT_EQ(inverse_pose.m_position.y(), analytic_r_inv.y());
+    EXPECT_EQ(inverse_pose.m_position.z(), analytic_r_inv.z());
+
+
 }
 
 
