@@ -199,8 +199,8 @@ TEST(test_SE3Pose, full)
 TEST(test_SE3Pose, inverse)
 {
     //  Initialise the transformation
-    const Eigen::Vector3d r = Eigen::Vector3d::Ones();
-    const Eigen::Quaterniond q = rotateAlongAxis(M_PI/3, Eigen::Vector3d::UnitZ());
+    const Eigen::Vector3d r = Eigen::Vector3d::Random();
+    const Eigen::Quaterniond q = Eigen::Quaterniond::UnitRandom();
     SE3Pose pose(q, r);
 
     //  Compute the inverse internally
