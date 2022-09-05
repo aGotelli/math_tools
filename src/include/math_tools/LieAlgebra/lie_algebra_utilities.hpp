@@ -19,6 +19,10 @@ namespace LieAlgebra {
 
 
 /// Define a scalar which is compatible with Eigen::VectorXd
+typedef Eigen::Matrix<double, 0, 1> Vector0d ;
+
+
+/// Define a scalar which is compatible with Eigen::VectorXd
 typedef Eigen::Matrix<double, 1, 1> Vector1d ;
 
 
@@ -47,6 +51,16 @@ struct SE3Pose {
     SE3Pose(const Eigen::Vector4d &t_quaternion,
             const Eigen::Vector3d &t_position);
 
+
+    SE3Pose(const Eigen::Vector3d &t_position,
+            const double &t_roll,
+            const double &t_pitch,
+            const double &t_yaw);
+
+    SE3Pose(const Eigen::Vector3d &t_position,
+            const double &t_theta,
+            const Eigen::Vector3d &t_axis=Eigen::Vector3d::UnitZ());
+
     /*!
      * \brief operator * defines the multiplication of a pose with another one
      * \param t_other The other pose to be bultiplied
@@ -66,7 +80,7 @@ struct SE3Pose {
      * \brief toString creates a string containing all the information about the pose
      * \return the string containing all the information about the pose
      */
-    std::string toString()const;
+    std::string toString(const std::string &t_indentation="")const;
 
     /*!
      * \brief getRotationMatrix gives the rotation matrix associated to the SE(3) pose
@@ -107,7 +121,7 @@ struct Kinematics {
      * \brief toString gives a string containing all the information about the body kinematics
      * \return the string containing all the information about the body kinematics
      */
-    std::string toString()const;
+    std::string toString(const std::string &t_indentation="")const;
 
     SE3Pose m_pose;
 
@@ -167,6 +181,34 @@ struct Screw {
  * \return the skew simmetric matrix associated to a vector in R^3
  */
 Eigen::Matrix3d skew(const Eigen::Vector3d &t_v);
+
+
+/*!
+ * \brief antiSkew gives the inverse of the skew operator
+ * \param t_skew_simmetric_matrix the skew simmetrix matrix to convert into a vector
+ * \return the inverse of the skew operator
+ *
+ * This function takes a skew simmetric matrix and returns the corresponding vector.
+ * The vector is extracted directly from the skew simmetric matrix
+ */
+Eigen::Vector3d antiSkew(const Eigen::Matrix3d &t_skew_simmetric_matrix);
+
+
+/*!
+ * \brief differenceInSO3 computes the difference in SO(3) between two orientation matrices
+ * \param t_Ra the orientation matrix of frame $\mathcal{F}_a$ with respect to the reference frame
+ * \param t_Rb the orientation matrix of frame $\mathcal{F}_b$ with respect to the reference frame
+ * \return the vector in R^3 containing the difference in SO(3) between two orientation matrices
+ *
+ * This function takes two orientation, or rotation, matrices and computes the corresponding difference in SO(3).
+ * These two rotation matrices are expressed with respect to the same reference frame.
+ * The function computes the difference in the form of a vector, as solution of the following equation
+ *
+ * $\left[R_a^T R_b - R_a R_b^T \right]^\Vee$
+ *
+ */
+Eigen::Vector3d differenceInSO3(const Eigen::Matrix3d &t_Ra,
+                                const Eigen::Matrix3d &t_Rb);
 
 
 /*!

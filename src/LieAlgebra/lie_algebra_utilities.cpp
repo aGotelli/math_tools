@@ -29,6 +29,29 @@ SE3Pose::SE3Pose(const Eigen::Vector4d &t_quaternion,
 {}
 
 
+SE3Pose::SE3Pose(const Eigen::Vector3d &t_position,
+                 const double &t_roll,
+                 const double &t_pitch,
+                 const double &t_yaw)
+    : m_quaternion( [&](){
+            Eigen::Quaterniond q;
+            q = Eigen::AngleAxisd(t_roll, Eigen::Vector3d::UnitX())
+                    * Eigen::AngleAxisd(t_pitch, Eigen::Vector3d::UnitY())
+                    * Eigen::AngleAxisd(t_yaw, Eigen::Vector3d::UnitZ());
+            return q;
+        }() ),
+      m_position(t_position)
+{}
+
+SE3Pose::SE3Pose(const Eigen::Vector3d &t_position,
+                 const double &t_theta,
+                 const Eigen::Vector3d &t_axis)
+    : m_quaternion( rotateAlongAxis(t_theta, t_axis) ),
+      m_position(t_position)
+{}
+
+
+
 SE3Pose SE3Pose::operator*(const SE3Pose &t_other) const
 {
 
@@ -51,21 +74,20 @@ SE3Pose SE3Pose::inverse() const
 
 
 
-std::string SE3Pose::toString()const
+std::string SE3Pose::toString(const std::string &t_indentation)const
 {
     std::stringstream message;
 
-    message << "Pose :\n";
-    message << "    - position [x, y, z] : [ " << m_position.x() << ", " << m_position.y() << ", " << m_position.z() << "]\n";
-    message << "    - orientation : \n";
-    message << "        - quaternion [w, x, y, z] : [ " << m_quaternion.w() << ", "  << m_quaternion.x() << ", "  << m_quaternion.y() << ", "  << m_quaternion.z() << "]\n";
+    message << t_indentation << "Pose :\n";
+    message << t_indentation << "    - position [x, y, z] : [ " << m_position.x() << ", " << m_position.y() << ", " << m_position.z() << "]\n";
+    message << t_indentation << "    - orientation : \n";
+    message << t_indentation << "        - quaternion [w, x, y, z] : [ " << m_quaternion.w() << ", "  << m_quaternion.x() << ", "  << m_quaternion.y() << ", "  << m_quaternion.z() << "]\n";
 
     const auto R = getRotationMatrix();
-    message << "                            | " << R.row(0) << " |\n";
-    message << "        - rotation matrix : | " << R.row(1) << " |\n";
-    message << "                            | " << R.row(2) << " |\n";
-//    message << "            " << getRotationMatrix();
-    message << "\n\n";
+    message << t_indentation << "                            | " << R.row(0) << " |\n";
+    message << t_indentation << "        - rotation matrix : | " << R.row(1) << " |\n";
+    message << t_indentation << "                            | " << R.row(2) << " |\n";
+    message << t_indentation << "\n\n";
 
 
     return message.str();
@@ -98,18 +120,18 @@ Kinematics::Kinematics(const SE3Pose &t_pose)
 {}
 
 
-std::string Kinematics::toString()const
+std::string Kinematics::toString(const std::string &t_indentation)const
 {
     std::stringstream message;
 
-    message << m_pose.toString();
-    message << "Twist :\n";
-    message << "    - angular [x, y, z] : [ " << m_twist(0) << ", " << m_twist(1) << ", " << m_twist(2) << "]\n";
-    message << "    - linear  [x, y, z] : [ " << m_twist(3) << ", " << m_twist(4) << ", " << m_twist(5) << "]\n";
-    message << "Acceleration :\n";
-    message << "    - angular [x, y, z] : [ " << m_accelerations(0) << ", " << m_accelerations(1) << ", " << m_accelerations(2) << "]\n";
-    message << "    - linear  [x, y, z] : [ " << m_accelerations(3) << ", " << m_accelerations(4) << ", " << m_accelerations(5) << "]\n";
-    message << "\n\n";
+    message << t_indentation << m_pose.toString(t_indentation);
+    message << t_indentation << "Twist :\n";
+    message << t_indentation << "    - angular [x, y, z] : [ " << m_twist(0) << ", " << m_twist(1) << ", " << m_twist(2) << "]\n";
+    message << t_indentation << "    - linear  [x, y, z] : [ " << m_twist(3) << ", " << m_twist(4) << ", " << m_twist(5) << "]\n";
+    message << t_indentation << "Acceleration :\n";
+    message << t_indentation << "    - angular [x, y, z] : [ " << m_accelerations(0) << ", " << m_accelerations(1) << ", " << m_accelerations(2) << "]\n";
+    message << t_indentation << "    - linear  [x, y, z] : [ " << m_accelerations(3) << ", " << m_accelerations(4) << ", " << m_accelerations(5) << "]\n";
+    message << t_indentation << "\n\n";
 
 
     return message.str();
@@ -125,6 +147,22 @@ Eigen::Matrix3d skew(const Eigen::Vector3d &t_v)
            -t_v(1),   t_v(0),     0   ;
 
     return v_hat;
+}
+
+
+Eigen::Vector3d antiSkew(const Eigen::Matrix3d &t_skew_simmetric_matrix)
+{
+    return (Eigen::Vector3d() << -t_skew_simmetric_matrix(1, 2),
+                                  t_skew_simmetric_matrix(0, 2),
+                                  t_skew_simmetric_matrix(0, 1)
+            ).finished();
+}
+
+
+Eigen::Vector3d differenceInSO3(const Eigen::Matrix3d &t_Ra,
+                                const Eigen::Matrix3d &t_Rb)
+{
+    return antiSkew(t_Ra.transpose()*t_Rb - t_Ra*t_Rb.transpose());
 }
 
 
