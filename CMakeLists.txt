@@ -11,9 +11,9 @@ message(STATUS "${PROJECT_NAME} version ${PROJECT_VERSION}")
 
 #   Find required packages
 find_package(Eigen3 3.4 NO_MODULE REQUIRED)
-find_package(benchmark REQUIRED)
 
-find_package(GTest)
+find_package(benchmark QUIET)
+find_package(GTest QUIET)
 
 
 #   External utilities to configure the package
@@ -40,6 +40,16 @@ if(GTest_FOUND)
   add_subdirectory(tests)
 
 endif(GTest_FOUND)
+
+
+# benchmark
+if(benchmark_FOUND)
+  message(STATUS "Building benchmark")
+  enable_testing()
+
+  add_subdirectory(benchmarks)
+
+endif(benchmark_FOUND)
 
 #   Install the library using the default routine
 include(cmake/installation_module.cmake)
