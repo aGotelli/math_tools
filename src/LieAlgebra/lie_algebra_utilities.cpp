@@ -159,13 +159,6 @@ Eigen::Vector3d antiSkew(const Eigen::Matrix3d &t_skew_simmetric_matrix)
 }
 
 
-Eigen::Vector3d differenceInSO3(const Eigen::Matrix3d &t_Ra,
-                                const Eigen::Matrix3d &t_Rb)
-{
-    return antiSkew(t_Ra.transpose()*t_Rb - t_Ra*t_Rb.transpose());
-}
-
-
 
 Matrix6d ad(const Vector6d &t_twist)
 {
@@ -304,6 +297,83 @@ Eigen::Quaterniond rotateAlongAxis(const double &t_angle, const Eigen::Vector3d 
 {
     const auto axis_projection = sin(t_angle/2)*t_axis;
     return Eigen::Quaterniond(cos(t_angle/2), axis_projection[0], axis_projection[1], axis_projection[2]);
+}
+
+
+
+Eigen::Matrix3d getRx(const double &t_alpha)
+{
+    const auto c = cos(t_alpha);
+    const auto s = sin(t_alpha);
+
+    Eigen::Matrix3d R;
+    R << 1,  0,  0,
+         0,  c, -s,
+         0,  s,  c;
+
+    return R;
+}
+
+
+
+Eigen::Matrix3d getRy(const double &t_beta)
+{
+    const auto c = cos(t_beta);
+    const auto s = sin(t_beta);
+
+    Eigen::Matrix3d R;
+    R << c,  0,  s,
+         0,  1,  0,
+        -s,  0,  c;
+
+    return R;
+}
+
+
+
+Eigen::Matrix3d getRz(const double &t_theta)
+{
+    const auto c = cos(t_theta);
+    const auto s = sin(t_theta);
+
+    Eigen::Matrix3d R;
+    R << c, -s,  0,
+         s,  c,  0,
+         0,  0,  1;
+
+    return R;
+}
+
+
+
+Eigen::Vector3d differenceInSO3(const Eigen::Matrix3d &t_Ra,
+                                const Eigen::Matrix3d &t_Rb)
+{
+    return antiSkew(t_Ra.transpose()*t_Rb - t_Rb.transpose()*t_Ra);
+}
+
+
+
+Eigen::Vector3d logSO3(const Eigen::Matrix3d &t_Ra,
+                       const Eigen::Matrix3d &t_Rb)
+{
+    static_assert( std::numeric_limits<double>::has_quiet_NaN ) ;
+
+    //  Compute reulting rotation matrix
+    const Eigen::Matrix3d R = t_Ra.transpose() * t_Rb;
+
+    //  Compute the angle
+    const double theta = acos( 0.5*(R.trace() - 1) );
+
+    //  Compute the gain
+    const double gain = [&](){
+        const auto res = theta/(2*sin(theta));
+        if(std::isnan(res))
+            return 0.0;
+        return res;
+    }();
+
+    return gain * antiSkew( R - R.transpose() );
 }
 
 

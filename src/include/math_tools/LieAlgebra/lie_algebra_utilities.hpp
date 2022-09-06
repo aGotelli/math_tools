@@ -194,21 +194,7 @@ Eigen::Matrix3d skew(const Eigen::Vector3d &t_v);
 Eigen::Vector3d antiSkew(const Eigen::Matrix3d &t_skew_simmetric_matrix);
 
 
-/*!
- * \brief differenceInSO3 computes the difference in SO(3) between two orientation matrices
- * \param t_Ra the orientation matrix of frame $\mathcal{F}_a$ with respect to the reference frame
- * \param t_Rb the orientation matrix of frame $\mathcal{F}_b$ with respect to the reference frame
- * \return the vector in R^3 containing the difference in SO(3) between two orientation matrices
- *
- * This function takes two orientation, or rotation, matrices and computes the corresponding difference in SO(3).
- * These two rotation matrices are expressed with respect to the same reference frame.
- * The function computes the difference in the form of a vector, as solution of the following equation
- *
- * $\left[R_a^T R_b - R_a R_b^T \right]^\Vee$
- *
- */
-Eigen::Vector3d differenceInSO3(const Eigen::Matrix3d &t_Ra,
-                                const Eigen::Matrix3d &t_Rb);
+
 
 
 /*!
@@ -405,6 +391,39 @@ Eigen::Quaterniond rotateAlongAxis(const double &t_angle,
                                    const Eigen::Vector3d &t_axis);
 
 
+
+Eigen::Matrix3d getRx(const double &t_alpha);
+
+
+
+Eigen::Matrix3d getRy(const double &t_beta);
+
+
+
+Eigen::Matrix3d getRz(const double &t_theta);
+
+
+
+/*!
+ * \brief differenceInSO3 computes the difference in SO(3) between two orientation matrices
+ * \param t_Ra the orientation matrix of frame $\mathcal{F}_a$ with respect to the reference frame
+ * \param t_Rb the orientation matrix of frame $\mathcal{F}_b$ with respect to the reference frame
+ * \return the vector in R^3 containing the difference in SO(3) between two orientation matrices
+ *
+ * This function takes two orientation, or rotation, matrices and computes the corresponding difference in SO(3).
+ * These two rotation matrices are expressed with respect to the same reference frame.
+ * The function computes the difference in the form of a vector, as solution of the following equation
+ *
+ * $\left[R_a^T R_b - R_a R_b^T \right]^\Vee$
+ *
+ */
+Eigen::Vector3d differenceInSO3(const Eigen::Matrix3d &t_Ra,
+                                const Eigen::Matrix3d &t_Rb);
+
+
+
+Eigen::Vector3d logSO3(const Eigen::Matrix3d &t_Ra,
+                       const Eigen::Matrix3d &t_Rb);
 
 }   //  namespace LieAlgebra
 
