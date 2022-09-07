@@ -125,8 +125,8 @@ struct Kinematics {
 
     SE3Pose m_pose;
 
-    Vector6d m_twist;
-    Vector6d m_accelerations;
+    Vector6d m_twist { Vector6d::Zero() };
+    Vector6d m_accelerations { Vector6d::Zero() };
 };
 
 
@@ -208,7 +208,7 @@ Matrix6d ad(const Vector6d &t_twist);
 /*!
  * \brief Ad computes the Adjoint transformation associated to a homogeneous transformation
  * \param t_aR_b the orientation of frame b with respect of frame a
- * \param t_ar_b the position of frame b with respect of frame a
+ * \param t_r_ab the position of frame b with respect of frame a
  * \return the adjoint transformation associated to a homogeneous transformation
  *
  * This function computes the Adjoint transformation $Ad({^a\textbf{g}_b} )$.
@@ -217,7 +217,7 @@ Matrix6d ad(const Vector6d &t_twist);
  * frame $\mathcal{F}_b$ with respect to the frame $\mathcal{F}_a$.
  */
 Matrix6d Ad(const Eigen::Matrix3d &t_aR_b,
-            const Eigen::Vector3d &t_ar_b);
+            const Eigen::Vector3d &t_r_ab);
 
 
 /*!
@@ -233,7 +233,7 @@ Matrix6d Ad(const SE3Pose &t_ag_b);
 /*!
  * \brief dotAd computes the derivative with respect to time of the Adjoint transformation associated to the homogeneous transformation
  * \param t_aR_b the orientation of frame b with respect of frame a
- * \param t_ar_b the position of frame b with respect of frame a
+ * \param t_r_ab the position of frame b with respect of frame a
  * \param t_eta_ab the twist of the frame b with respect to the frame a
  * \return the derivative with respect to time of the Adjoint transformation associated to the homogeneous transformation
  *
@@ -246,7 +246,7 @@ Matrix6d Ad(const SE3Pose &t_ag_b);
  * In other words: the twist of the frame $\mathcal{F}_b$ with respect to the frame $\mathcal{F}_a$.
  */
 Matrix6d dotAd(const Eigen::Matrix3d &t_aR_b,
-               const Eigen::Vector3d &t_ar_b,
+               const Eigen::Vector3d &t_r_ab,
                const Vector6d &t_eta_ab);
 
 
@@ -277,7 +277,7 @@ Matrix6d dotAd(const Kinematics &t_relative_kinematics_ab);
 /*!
  * \brief DeltaAd computes the increment of the Adjoint transformation associated to the homogeneous transformation
  * \param t_aR_b the orientation of frame b with respect of frame a
- * \param t_ar_b the position of frame b with respect of frame a
+ * \param t_r_ab the position of frame b with respect of frame a
  * \param t_Delta_zeta_ab the increment in the SE(3) pose associated to the homogeneous transformation
  * \return the increment of the Adjoint transformation associated to the homogeneous transformation
  *
@@ -291,7 +291,7 @@ Matrix6d dotAd(const Kinematics &t_relative_kinematics_ab);
  * In other words: it expresses the variation of the pose of frame $\mathcal{F}_b$ with respect to frame $\mathcal{F}_a$.
  */
 Matrix6d DeltaAd(const Eigen::Matrix3d &t_aR_b,
-                 const Eigen::Vector3d &t_ar_b,
+                 const Eigen::Vector3d &t_r_ab,
                  const Vector6d &t_Delta_zeta_ab);
 
 
@@ -312,7 +312,7 @@ Matrix6d DeltaAd(const SE3Pose &t_ag_b,
 /*!
  * \brief DeltaDotAd computes the derivative, with respect to time, of the increment of the Adjoint transformation associated to the homogeneous transformation
  * \param t_aR_b the orientation of frame b with respect of frame a
- * \param t_ar_b the position of frame b with respect of frame a
+ * \param t_r_ab the position of frame b with respect of frame a
  * \param t_Delta_zeta_ab the increment in the SE(3) pose associated to the homogeneous transformation
  * \param t_eta_ab the twist of the frame b with respect to the frame a
  * \param t_Delta_eta_ab the increment in se(3) for the twist of the frame b with respect to the frame a
@@ -333,7 +333,7 @@ Matrix6d DeltaAd(const SE3Pose &t_ag_b,
  * In other words: it expresses the variation of the twist of the frame $\mathcal{F}_b$ with respect to the frame $\mathcal{F}_a$.
  */
 Matrix6d DeltaDotAd(const Eigen::Matrix3d &t_aR_b,
-                    const Eigen::Vector3d &t_ar_b,
+                    const Eigen::Vector3d &t_r_ab,
                     const Vector6d &t_Delta_zeta_ab,
                     const Vector6d &t_eta_ab,
                     const Vector6d &t_Delta_eta_ab);
