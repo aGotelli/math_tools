@@ -177,13 +177,13 @@ Matrix6d ad(const Vector6d &t_twist)
 
 
 Matrix6d Ad(const Eigen::Matrix3d &t_aR_b,
-            const Eigen::Vector3d &t_ar_b)
+            const Eigen::Vector3d &t_r_ab)
 {
     //  Decompose the strain
 
     Eigen::Matrix<double, 6, 6> Ad;
     Ad <<       t_aR_b       , Eigen::Matrix3d::Zero(),
-          skew(t_ar_b)*t_aR_b,         t_aR_b         ;
+          skew(t_r_ab)*t_aR_b,         t_aR_b         ;
 
     return Ad;
 }
@@ -198,10 +198,10 @@ Matrix6d Ad(const SE3Pose &t_ag_b)
 
 
 Matrix6d dotAd(const Eigen::Matrix3d &t_aR_b,
-               const Eigen::Vector3d &t_ar_b,
+               const Eigen::Vector3d &t_r_ab,
                const Vector6d &t_eta_ab)
 {
-    return Ad(t_aR_b, t_ar_b) * ad(t_eta_ab);
+    return Ad(t_aR_b, t_r_ab) * ad(t_eta_ab);
 }
 
 
@@ -226,10 +226,10 @@ Matrix6d dotAd(const Kinematics &t_relative_kinematics_ab)
 
 
 Matrix6d DeltaAd(const Eigen::Matrix3d &t_aR_b,
-                 const Eigen::Vector3d &t_ar_b,
+                 const Eigen::Vector3d &t_r_ab,
                  const Vector6d &t_Delta_zeta_ab)
 {
-    return Ad(t_aR_b, t_ar_b)*ad(t_Delta_zeta_ab);
+    return Ad(t_aR_b, t_r_ab)*ad(t_Delta_zeta_ab);
 }
 
 
@@ -245,12 +245,12 @@ Matrix6d DeltaAd(const SE3Pose &t_ag_b,
 
 
 Matrix6d DeltaDotAd(const Eigen::Matrix3d &t_aR_b,
-                    const Eigen::Vector3d &t_ar_b,
+                    const Eigen::Vector3d &t_r_ab,
                     const Vector6d &t_Delta_zeta_ab,
                     const Vector6d &t_eta_ab,
                     const Vector6d &t_Delta_eta_ab)
 {
-    return Ad(t_aR_b, t_ar_b) * ( ad(t_Delta_zeta_ab)*ad(t_eta_ab) + ad(t_Delta_eta_ab) );
+    return Ad(t_aR_b, t_r_ab) * ( ad(t_Delta_zeta_ab)*ad(t_eta_ab) + ad(t_Delta_eta_ab) );
 }
 
 
