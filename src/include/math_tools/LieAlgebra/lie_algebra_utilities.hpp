@@ -137,11 +137,12 @@ struct Kinematics {
  * in terms of its variation of pose, the tangent velocities and tangent accelerations
  */
 struct TangentKinematics {
-    Vector6d m_Delta_zeta;
 
-    Vector6d m_Delta_twist;
+    Vector6d m_Delta_zeta { Vector6d::Zero() };
 
-    Vector6d m_Delta_acceleration;
+    Vector6d m_Delta_twist { Vector6d::Zero() };
+
+    Vector6d m_Delta_acceleration { Vector6d::Zero() };
 };
 
 
