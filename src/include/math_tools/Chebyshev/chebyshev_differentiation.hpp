@@ -18,7 +18,7 @@
 
 namespace Chebyshev {
 
-
+constexpr unsigned int default_number_of_Chebyshev_points = 17;
 
 enum class INTEGRATION_DIRECTION {
     FORWARD,
@@ -99,6 +99,69 @@ std::vector<unsigned int> defineIntegrationPoints(unsigned int t_number_of_cheby
  */
 unsigned int getintialConditionAddress(unsigned int t_number_of_chebyshev_nodes,
                                        INTEGRATION_DIRECTION t_integration_direction);
+
+
+
+
+
+class ChebyshevReconstructor {
+public:
+    ChebyshevReconstructor()=default;
+
+    ChebyshevReconstructor(const unsigned int t_number_of_Chebyshev_points);
+
+
+    ChebyshevReconstructor(const unsigned int t_number_of_Chebyshev_points,
+                         const unsigned int t_number_of_reconstruction_points);
+
+
+    Eigen::MatrixXd ReconstructRodShape(const Eigen::Matrix<double, 3, Eigen::Dynamic> &t_centerline_points);
+
+
+    inline unsigned int getNumberOfReconstructionPoints()const{return m_number_of_Chebyshev_points;}
+
+    private:
+
+    //  Number of Chebyshev points
+    const unsigned int m_number_of_Chebyshev_points { ::Chebyshev::default_number_of_Chebyshev_points };
+
+    //  Number of points describing the rod centerline
+    const unsigned int m_number_of_reconstruction_points { 101 };
+
+    //  Discretize the rod in several points of observations
+    const double m_step { 1.0/(m_number_of_reconstruction_points -1) };
+
+    //  Direct Discrete Cosine Transform
+    const Eigen::MatrixXd m_DDCT { [&](){
+            //  Initialize the matrix
+            Eigen::MatrixXd DDCT(m_number_of_Chebyshev_points, m_number_of_Chebyshev_points);
+
+            const auto k = [](const unsigned int h){ return h==0 ? 1/sqrt(2) : pow((-1), h);};
+
+            for(unsigned int h=0; h<=m_number_of_Chebyshev_points-1;h++) {
+                for(unsigned int j=0; j<=m_number_of_Chebyshev_points-1;j++){
+                    DDCT(h, j) = (2.0/m_number_of_Chebyshev_points)
+                                * k(h)*cos( (2.0*j + 1.0)*h*M_PI/(2.0*m_number_of_Chebyshev_points) );
+                }
+            }
+
+            //  Return the matrix
+            return DDCT;
+
+          }()};
+
+
+
+
+    //  Cosine transform of the fucntion
+    Eigen::MatrixXd m_CN { Eigen::MatrixXd(m_number_of_Chebyshev_points, 3) };
+
+
+    //  Matrix of reconstructed points
+    Eigen::MatrixXd m_reconstructed_points { Eigen::MatrixXd(m_number_of_reconstruction_points, 3) };
+
+
+};
 
 }   //  namespace Chebyshev
 

@@ -12,6 +12,8 @@
 #include <unsupported/Eigen/KroneckerProduct>
 #include <numeric>
 #include <vector>
+
+#include <boost/math/special_functions/chebyshev.hpp>
 namespace Chebyshev {
 
 std::vector<double> ComputeChebyshevPoints(const unsigned int t_number_of_chebyshev_nodes,
@@ -210,6 +212,60 @@ unsigned int getintialConditionAddress(unsigned int t_number_of_chebyshev_nodes,
 {
      return t_integration_direction == INTEGRATION_DIRECTION::FORWARD ? t_number_of_chebyshev_nodes-1 : 0;
 }
+
+
+
+
+
+ChebyshevReconstructor::ChebyshevReconstructor(const unsigned int t_number_of_Chebyshev_points)
+      : m_number_of_Chebyshev_points(t_number_of_Chebyshev_points)
+  {}
+
+
+ChebyshevReconstructor::ChebyshevReconstructor(const unsigned int t_number_of_Chebyshev_points,
+                         const unsigned int t_number_of_reconstruction_points)
+      : m_number_of_Chebyshev_points(t_number_of_Chebyshev_points),
+        m_number_of_reconstruction_points(t_number_of_reconstruction_points)
+  {}
+
+
+Eigen::MatrixXd ChebyshevReconstructor::ReconstructRodShape(const Eigen::Matrix<double, 3, Eigen::Dynamic> &t_centerline_points)
+{
+    //  Perform the cosine transform
+    m_CN = m_DDCT * t_centerline_points.transpose();
+
+    double s;                   //  Rod centerline coordinate
+    double T0 = 1.0/sqrt(2.0);  //  First Chebyshev polynomial (Normalized)
+    double Th;                  //  Other Chebyshev polynomial (Normalized)
+    double circ_coord;          //  Coordinate on the unit circle
+    Eigen::Vector3d reconstructed_point;
+    for(unsigned int i=0; i<m_number_of_reconstruction_points; i++) {
+
+        s = static_cast<double>(i*m_step);
+
+        //  Compute for the first point
+        const Eigen::VectorXd res = m_CN.row(0) * T0;
+        reconstructed_point = m_CN.row(0) * T0;
+
+        //  Obtain the others Chebyshev points
+        for(unsigned int h=1; h<=m_number_of_Chebyshev_points-1;h++) {
+
+            //  Define the corresponding point on the unit circle
+            circ_coord = 2*s - 1;
+            Th = boost::math::chebyshev_t(h, circ_coord);
+
+            reconstructed_point += m_CN.row(h) * Th;
+
+        }
+
+        m_reconstructed_points.row(i) = reconstructed_point;
+
+    }
+
+    return m_reconstructed_points;
+}
+
+
 
 
 }   //  namespace Chebyshev
