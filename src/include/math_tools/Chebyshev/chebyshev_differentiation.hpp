@@ -118,7 +118,7 @@ public:
     Eigen::MatrixXd ReconstructRodShape(const Eigen::Matrix<double, 3, Eigen::Dynamic> &t_centerline_points);
 
 
-    inline unsigned int getNumberOfReconstructionPoints()const{return m_number_of_Chebyshev_points;}
+    inline unsigned int getNumberOfReconstructionPoints()const{return m_number_of_reconstruction_points;}
 
     private:
 
