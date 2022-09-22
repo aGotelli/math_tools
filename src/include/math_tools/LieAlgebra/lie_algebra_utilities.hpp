@@ -196,6 +196,13 @@ Eigen::Vector3d antiSkew(const Eigen::Matrix3d &t_skew_simmetric_matrix);
 
 
 
+/*!
+ * \brief Rcal creates a block-diagonal matrix that projects a screw from one frame to another
+ * \param t_aR_b the rotation matrix from the frame a to the frame b
+ * \return a block-diagonal matrix that projects a screw from one frame to another
+ */
+Matrix6d Rcal(const Eigen::Matrix3d &t_aR_b);
+
 
 
 /*!
@@ -204,6 +211,16 @@ Eigen::Vector3d antiSkew(const Eigen::Matrix3d &t_skew_simmetric_matrix);
  * \return the adjoint transformation associated to a twist
  */
 Matrix6d ad(const Vector6d &t_twist);
+
+
+/*!
+ * \brief ad computes the adjoint transformation associated to a twist
+ * \param t_angular_component is the angular component of the twist
+ * \param t_linear_component is the linear component of the twist
+ * \return  the adjoint transformation associated to a twist
+ */
+Matrix6d ad(const Eigen::Vector3d t_angular_component,
+            const Eigen::Vector3d t_linear_component);
 
 
 /*!

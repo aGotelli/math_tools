@@ -1,6 +1,6 @@
 #include "math_tools/LieAlgebra/lie_algebra_utilities.hpp"
 
-
+#include <eigen3/unsupported/Eigen/KroneckerProduct>
 
 
 
@@ -160,6 +160,13 @@ Eigen::Vector3d antiSkew(const Eigen::Matrix3d &t_skew_simmetric_matrix)
 
 
 
+Matrix6d Rcal(const Eigen::Matrix3d &t_aR_b)
+{
+    return Eigen::KroneckerProduct(Eigen::Matrix2d::Identity(), t_aR_b);
+}
+
+
+
 Matrix6d ad(const Vector6d &t_twist)
 {
     //  Decompose the strain
@@ -169,6 +176,19 @@ Matrix6d ad(const Vector6d &t_twist)
     Matrix6d ad(6,6);
     ad << skew(angular),     Eigen::Matrix3d::Zero(),
           skew(linear) ,         skew(angular) ;
+
+    return ad;
+}
+
+
+
+
+Matrix6d ad(const Eigen::Vector3d t_angular_component,
+            const Eigen::Vector3d t_linear_component)
+{
+    Matrix6d ad(6,6);
+    ad << skew(t_angular_component),     Eigen::Matrix3d::Zero(),
+          skew(t_linear_component) ,    skew(t_angular_component) ;
 
     return ad;
 }
