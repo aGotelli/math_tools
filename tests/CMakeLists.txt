@@ -30,3 +30,9 @@ target_link_libraries(test_SO3_difference
 add_test(test_SO3_difference  test_SO3_difference)
 
 
+add_executable(test_Adg test_Adg.cpp)
+target_link_libraries(test_Adg
+    PRIVATE
+        Eigen3::Eigen
+        ${PROJECT_NAME}
+)
