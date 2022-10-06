@@ -2,3 +2,5 @@
 build/
 
 *.user
+
+docs/api/
