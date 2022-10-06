@@ -55,4 +55,4 @@ endif(benchmark_FOUND)
 include(cmake/installation_module.cmake)
 
 
-#include(cmake/documentation_module.cmake)
+include(cmake/documentation_module.cmake)

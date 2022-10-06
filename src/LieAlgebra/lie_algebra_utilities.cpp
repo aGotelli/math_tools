@@ -107,10 +107,10 @@ Eigen::Matrix4d SE3Pose::getSE3PoseAsMatrix() const
 
 
 
-Screw::Screw(const Eigen::Vector3d &t_angular,
-             const Eigen::Vector3d &t_linear) : m_angular(t_angular),
-                                                m_linear(t_linear)
-{}
+//Screw::Screw(const Eigen::Vector3d &t_angular,
+//             const Eigen::Vector3d &t_linear) : m_angular(t_angular),
+//                                                m_linear(t_linear)
+//{}
 
 
 

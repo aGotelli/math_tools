@@ -16,10 +16,17 @@
 #include <eigen3/Eigen/Dense>
 #include <iostream>
 
+
+/// \namespace Chebyshev contains all the function related to the Chebyshev discretisation theory
 namespace Chebyshev {
 
+/// \brief Defines a default value for the Chebyshev to be used in the depending packages
 constexpr unsigned int default_number_of_Chebyshev_points = 17;
 
+
+/*!
+ * \brief The INTEGRATION_DIRECTION enum defines the two possible direction of integration: FORWARD and BACKWARD
+ */
 enum class INTEGRATION_DIRECTION {
     FORWARD,
     BACKWARD
@@ -86,6 +93,16 @@ Eigen::MatrixXd getD_IN(const unsigned int t_number_of_chebyshev_nodes,
                         const INTEGRATION_DIRECTION &t_integration_direction);
 
 
+/*!
+ * \brief defineIntegrationPoints gives the sequence of integration points coherent with the direction
+ * \param t_number_of_chebyshev_nodes is the number of Chebyshev nodes
+ * \param t_integration_direction is the direction of integration
+ * \return the sequence of integration points as a vector
+ *
+ * This function gives the sequence of Chebyshev points coherent with the direction.
+ * If the intgration if forward then we integrate from the first point up to the second last point in the grid.
+ * On the other end, if backward we integrate from the second point up to the last point in the grid.
+ */
 std::vector<unsigned int> defineIntegrationPoints(unsigned int t_number_of_chebyshev_nodes,
                                                   INTEGRATION_DIRECTION t_integration_direction);
 
@@ -103,21 +120,43 @@ unsigned int getintialConditionAddress(unsigned int t_number_of_chebyshev_nodes,
 
 
 
-
+/*!
+ * \brief The ChebyshevReconstructor class an handle for the reconstruction of a shape observed with Chebyshev points
+ */
 class ChebyshevReconstructor {
 public:
+
+    /*!
+     * \brief ChebyshevReconstructor Initialises the object ChebyshevReconstructor
+     */
     ChebyshevReconstructor()=default;
 
+    /*!
+     * \brief ChebyshevReconstructor Initialises the object ChebyshevReconstructor
+     * \param t_number_of_Chebyshev_points the number of Chebyshev point used in the observation
+     */
     ChebyshevReconstructor(const unsigned int t_number_of_Chebyshev_points);
 
-
+    /*!
+     * \brief ChebyshevReconstructor Initialises the object ChebyshevReconstructor
+     * \param t_number_of_Chebyshev_points the number of Chebyshev point used in the observation
+     * \param t_number_of_reconstruction_points the number of points to use in the reconstruction
+     */
     ChebyshevReconstructor(const unsigned int t_number_of_Chebyshev_points,
-                         const unsigned int t_number_of_reconstruction_points);
+                          const unsigned int t_number_of_reconstruction_points);
+
+    /*!
+     * \brief reconstructRodShape reconstruct the shape of the rod from the observed centerline positions at the Chebyshev points
+     * \param t_centerline_points the observed centerline positions at the Chebyshev points
+     * \return the shape of the rod from the observed centerline positions at the Chebyshev points
+     */
+    Eigen::MatrixXd reconstructRodShape(const Eigen::Matrix<double, 3, Eigen::Dynamic> &t_centerline_points)const;
 
 
-    Eigen::MatrixXd ReconstructRodShape(const Eigen::Matrix<double, 3, Eigen::Dynamic> &t_centerline_points);
-
-
+    /*!
+     * \brief getNumberOfReconstructionPoints gives the number of reconstruction points used to reconstruct the shape of the rod
+     * \return the number of reconstruction points used to reconstruct the shape of the rod
+     */
     inline unsigned int getNumberOfReconstructionPoints()const{return m_number_of_reconstruction_points;}
 
     private:
@@ -153,12 +192,12 @@ public:
 
 
 
-    //  Cosine transform of the fucntion
-    Eigen::MatrixXd m_CN { Eigen::MatrixXd(m_number_of_Chebyshev_points, 3) };
+    //  Cosine transform of the fucntion (marked mutable, here we want just to allocate the memory)
+    mutable Eigen::MatrixXd m_CN { Eigen::MatrixXd(m_number_of_Chebyshev_points, 3) };
 
 
-    //  Matrix of reconstructed points
-    Eigen::MatrixXd m_reconstructed_points { Eigen::MatrixXd(m_number_of_reconstruction_points, 3) };
+    //  Matrix of reconstructed points (marked mutable, here we want just to allocate the memory)
+    mutable Eigen::MatrixXd m_reconstructed_points { Eigen::MatrixXd(m_number_of_reconstruction_points, 3) };
 
 
 };

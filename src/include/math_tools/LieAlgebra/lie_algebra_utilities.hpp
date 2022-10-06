@@ -15,6 +15,7 @@
 
 #include <Eigen/Dense>
 
+/// \namespace LieAlgebra contains all the function related to the Lie Algebra theory
 namespace LieAlgebra {
 
 
@@ -94,10 +95,10 @@ struct SE3Pose {
      */
     Eigen::Matrix4d getSE3PoseAsMatrix()const;
 
-    //  The quaternion representing SO(3)
+    ///  The quaternion representing SO(3)
     Eigen::Quaterniond m_quaternion { Eigen::Quaterniond(1, 0, 0, 0) };
 
-    //  The vector of position belonging to R^3
+    ///  The vector of position belonging to R^3
     Eigen::Vector3d m_position { Eigen::Vector3d::Zero() };
 };
 
@@ -114,7 +115,10 @@ struct SE3Pose {
 struct Kinematics {
     Kinematics()=default;
 
-
+    /*!
+     * \brief Kinematics defines the Kinematics object
+     * \param t_pose the pose in SE(3) of the body
+     */
     Kinematics(const SE3Pose &t_pose);
 
     /*!
@@ -123,9 +127,14 @@ struct Kinematics {
      */
     std::string toString(const std::string &t_indentation="")const;
 
+
+    /// The pose in SE(3) of the body
     SE3Pose m_pose;
 
+    /// The twist vector in se(3)
     Vector6d m_twist { Vector6d::Zero() };
+
+    /// The accelerations vector in se(3)
     Vector6d m_accelerations { Vector6d::Zero() };
 };
 
@@ -146,34 +155,34 @@ struct TangentKinematics {
 };
 
 
-/*!
- * \brief The GeneralizedCoordinates struct utility class to declare generalised coordinates with a template data type
- */
-template<class DataType>
-struct GeneralizedCoordinates {
+///*!
+// * \brief The GeneralizedCoordinates struct utility class to declare generalised coordinates with a template data type
+// */
+//template<class DataType>
+//struct GeneralizedCoordinates {
 
-    DataType m_q;
-    DataType m_dot_q;
-    DataType m_ddot_q;
-};
-
-
-
-struct Screw {
-    Screw()=default;
-
-    Screw(const Eigen::Vector3d &t_angular,
-          const Eigen::Vector3d &t_linear);
-
-    Vector6d operator=(Eigen::VectorXd)
-    {
-        return ( Vector6d() << m_angular, m_linear ).finished();
-    }
+//    DataType m_q;
+//    DataType m_dot_q;
+//    DataType m_ddot_q;
+//};
 
 
-    Eigen::Vector3d m_angular { Eigen::Vector3d::Zero() };
-    Eigen::Vector3d m_linear { Eigen::Vector3d::Zero() };
-};
+
+//struct Screw {
+//    Screw()=default;
+
+//    Screw(const Eigen::Vector3d &t_angular,
+//          const Eigen::Vector3d &t_linear);
+
+//    Vector6d operator=(Eigen::VectorXd)
+//    {
+//        return ( Vector6d() << m_angular, m_linear ).finished();
+//    }
+
+
+//    Eigen::Vector3d m_angular { Eigen::Vector3d::Zero() };
+//    Eigen::Vector3d m_linear { Eigen::Vector3d::Zero() };
+//};
 
 
 /*!
@@ -229,10 +238,10 @@ Matrix6d ad(const Eigen::Vector3d t_angular_component,
  * \param t_r_ab the position of frame b with respect of frame a
  * \return the adjoint transformation associated to a homogeneous transformation
  *
- * This function computes the Adjoint transformation $Ad({^a\textbf{g}_b} )$.
- * With this function, aR_b expresses the orientation of a frame $\mathcal{F}_b$
- * with respect of a frame $\mathcal{F}_a$, while ar_b expresses the position of the
- * frame $\mathcal{F}_b$ with respect to the frame $\mathcal{F}_a$.
+ * This function computes the Adjoint transformation \f$Ad({^a\textbf{g}_b} )\f$.
+ * With this function, aR_b expresses the orientation of a frame \f$\mathcal{F}_b\f$
+ * with respect of a frame \f$\mathcal{F}_a\f$, while ar_b expresses the position of the
+ * frame \f$\mathcal{F}_b\f$ with respect to the frame \f$\mathcal{F}_a\f$.
  */
 Matrix6d Ad(const Eigen::Matrix3d &t_aR_b,
             const Eigen::Vector3d &t_r_ab);
@@ -255,13 +264,13 @@ Matrix6d Ad(const SE3Pose &t_ag_b);
  * \param t_eta_ab the twist of the frame b with respect to the frame a
  * \return the derivative with respect to time of the Adjoint transformation associated to the homogeneous transformation
  *
- * This function computes the derivative with respect to time of the Adjoint transformation $Ad({^a\textbf{g}_b} )$.
- * We thus compute the map $\dot{Ad}({^a\textbf{g}_b} ) = Ad({^a\textbf{g}_b} ) ad(\eta_{a/b})$.
- * With this function, aR_b expresses the orientation of a frame $\mathcal{F}_b$
- * with respect of a frame $\mathcal{F}_a$, while ar_b expresses the position of the
+ * This function computes the derivative with respect to time of the Adjoint transformation \f$Ad({^a\textbf{g}_b} )\f$.
+ * We thus compute the map \f$\dot{Ad}({^a\textbf{g}_b} ) = Ad({^a\textbf{g}_b} ) ad(\eta_{a/b})\f$.
+ * With this function, aR_b expresses the orientation of a frame \f$\mathcal{F}_b\f$
+ * with respect of a frame \f$\mathcal{F}_a\f$, while ar_b expresses the position of the
  * frame b with respect to the frame a.
- * The parameter t_eta_ab expresses the relative twist between the frame $\mathcal{F}_b$ and the frame $\mathcal{F}_a$.
- * In other words: the twist of the frame $\mathcal{F}_b$ with respect to the frame $\mathcal{F}_a$.
+ * The parameter t_eta_ab expresses the relative twist between the frame \f$\mathcal{F}_b\f$ and the frame \f$\mathcal{F}_a\f$.
+ * In other words: the twist of the frame \f$\mathcal{F}_b\f$ with respect to the frame \f$\mathcal{F}_a\f$.
  */
 Matrix6d dotAd(const Eigen::Matrix3d &t_aR_b,
                const Eigen::Vector3d &t_r_ab,
@@ -410,14 +419,27 @@ Eigen::Quaterniond rotateAlongAxis(const double &t_angle,
 
 
 
+/*!
+ * \brief getRx compute the rotation matrix associated to a rotation along the x axis
+ * \param t_alpha the angle of rotation along the x axis
+ * \return the rotation matrix associated to a rotation along the x axis
+ */
 Eigen::Matrix3d getRx(const double &t_alpha);
 
 
-
+/*!
+ * \brief getRy compute the rotation matrix associated to a rotation along the y axis
+ * \param t_beta the angle of rotation along the y axis
+ * \return the rotation matrix associated to a rotation along the y axis
+ */
 Eigen::Matrix3d getRy(const double &t_beta);
 
 
-
+/*!
+ * \brief getRz compute the rotation matrix associated to a rotation along the z axis
+ * \param t_theta the angle of rotation along the z axis
+ * \return the rotation matrix associated to a rotation along the z axis
+ */
 Eigen::Matrix3d getRz(const double &t_theta);
 
 
@@ -439,7 +461,12 @@ Eigen::Vector3d differenceInSO3(const Eigen::Matrix3d &t_Ra,
                                 const Eigen::Matrix3d &t_Rb);
 
 
-
+/*!
+ * \brief logSO3 compute the log in SO(3) between two rotation matrices
+ * \param t_Ra the rotation matrix expressing the orientation of a frame a with respect to a reference frame
+ * \param t_Rb the rotation matrix expressing the orientation of a frame b with respect to a reference frame
+ * \return the log in SO(3) between two rotation matrices
+ */
 Eigen::Vector3d logSO3(const Eigen::Matrix3d &t_Ra,
                        const Eigen::Matrix3d &t_Rb);
 
