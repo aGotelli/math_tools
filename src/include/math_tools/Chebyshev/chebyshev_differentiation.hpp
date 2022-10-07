@@ -58,7 +58,7 @@ Eigen::MatrixXd getDn(const unsigned int t_number_of_chebyshev_nodes);
  * \return The Dn_NN matrix giving the influeces of the unknown points onto themself
  */
 Eigen::MatrixXd getDn_NN(const unsigned int t_number_of_chebyshev_nodes,
-                        const INTEGRATION_DIRECTION &t_integration_direction);
+                         const INTEGRATION_DIRECTION &t_integration_direction);
 
 
 /*!
@@ -68,7 +68,7 @@ Eigen::MatrixXd getDn_NN(const unsigned int t_number_of_chebyshev_nodes,
  * \return The Dn_IN matrix giving the influeces of the initial conditions onto the unknown points
  */
 Eigen::MatrixXd getDn_IN(const unsigned int t_number_of_chebyshev_nodes,
-                        const INTEGRATION_DIRECTION &t_integration_direction);
+                         const INTEGRATION_DIRECTION &t_integration_direction);
 
 
 
@@ -76,6 +76,7 @@ Eigen::MatrixXd getDn_IN(const unsigned int t_number_of_chebyshev_nodes,
  * \brief getD_NN computes the block-diagonal matrix corresponding to the influence of the unknown values onto themselfs
  * \param t_number_of_chebyshev_nodes the number of Chebyshev point to be used in the numerical integration
  * \param t_state_dimension the dimension of the system that is integrated
+ * \param t_integration_direction the direction of integration, specified by the INTEGRATION_DIRECTION enum
  * \return The block-diagonal matrix corresponding to the influence of the unknown values onto themselfs
  */
 Eigen::MatrixXd getD_NN(const unsigned int t_number_of_chebyshev_nodes,
@@ -86,6 +87,7 @@ Eigen::MatrixXd getD_NN(const unsigned int t_number_of_chebyshev_nodes,
  * \brief getD_IN computes the block-diagonal matrix corresponding to the influence of the initial condition ontt the unknown values
  * \param t_number_of_chebyshev_nodes
  * \param t_state_dimension
+ * \param t_integration_direction the direction of integration, specified by the INTEGRATION_DIRECTION enum
  * \return The block-diagonal matrix corresponding to the influence of the initial condition ontt the unknown values
  */
 Eigen::MatrixXd getD_IN(const unsigned int t_number_of_chebyshev_nodes,

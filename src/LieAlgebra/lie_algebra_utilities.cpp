@@ -1,3 +1,14 @@
+/**
+ * \file lie_algebra_utilities.cpp
+ * \author Andrea Gotelli (Andrea.Gotelli@ls2n.fr)
+ * \brief This files contains the formulas for the lie algebra
+ * \version 0.1
+ * \date 06-07-2022
+ *
+ * \copyright Copyright (c) 2022
+ *
+ */
+
 #include "math_tools/LieAlgebra/lie_algebra_utilities.hpp"
 
 #include <eigen3/unsupported/Eigen/KroneckerProduct>

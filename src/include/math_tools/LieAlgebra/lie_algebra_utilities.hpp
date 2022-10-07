@@ -38,26 +38,68 @@ typedef Eigen::Matrix<double, 6, 6> Matrix6d ;
 
 /*!
  * \brief The SE3Pose struct embeds all the functionalities describing a configuration, or pose, in SE(3)
+ *
+ * This class is basically a warper around a quaternion and a position vector.
+ * It provides all the conversions to rotation matrix and rigid body transformation that we need, as
+ * well as the inverse of the transformation matrix.
  */
 struct SE3Pose {
     SE3Pose()=default;
 
+    /*!
+     * \brief SE3Pose constructs the object using
+     * \param t_position the user defined position of the SE(3) pose
+     *
+     * This constructor assign the position to the pose leaving the orientation as identity
+     */
     SE3Pose(const Eigen::Vector3d &t_position);
 
 
+    /*!
+     * \brief SE3Pose constructs the object using
+     * \param t_quaternion the user defined orientation of the SE(3) pose, using Eigen::Quaterniond
+     * \param t_position the user defined position of the SE(3) pose
+     */
     SE3Pose(const Eigen::Quaterniond &t_quaternion,
             const Eigen::Vector3d &t_position);
 
-
+    /*!
+     * \brief SE3Pose constructs the object using
+     * \param t_quaternion the user defined orientation of the SE(3) pose, using Eigen::Vector4d
+     * \param t_position the user defined position of the SE(3) pose
+     *
+     * In this constructor, the quaternion is given as a vector of 4.
+     * Given the quaternion with the definition \f$ q = w + x \textbf{i} + y \textbf{j} + z \textbf{k} \f$,
+     * the vector should then be filled as \f$ t\_quaternion = \begin{bmatrix} w    &   x   &   y   &   z \end{bmatrix} \f$
+     */
     SE3Pose(const Eigen::Vector4d &t_quaternion,
             const Eigen::Vector3d &t_position);
 
 
+    /*!
+     * \brief SE3Pose constructs the object using
+     * \param t_position the user defined position of the SE(3) pose
+     * \param t_roll the roll angle of rotation along the x asis
+     * \param t_pitch the pitch angle of rotation along the y asis
+     * \param t_yaw the yaw angle of rotation along the z asis
+     *
+     * This constructor defines an SE(3) pose from the given position and the given agles of rotations.
+     * In this constructor we use the Euler angles with the convention XYZ
+     */
     SE3Pose(const Eigen::Vector3d &t_position,
             const double &t_roll,
             const double &t_pitch,
             const double &t_yaw);
 
+    /*!
+     * \brief SE3Pose constructs the object using
+     * \param t_position the user defined position of the SE(3) pose
+     * \param t_theta the angle of rotation
+     * \param t_axis the axis of rotation
+     *
+     * This constructor uses the angle and the given axis to define the orientation in SO(3)
+     * for the pose.
+     */
     SE3Pose(const Eigen::Vector3d &t_position,
             const double &t_theta,
             const Eigen::Vector3d &t_axis=Eigen::Vector3d::UnitZ());
@@ -147,42 +189,16 @@ struct Kinematics {
  */
 struct TangentKinematics {
 
+    /// The vector for \f$ \Delta \zeta \f$
     Vector6d m_Delta_zeta { Vector6d::Zero() };
 
+    /// The vector for \f$ \Delta \eta \f$
     Vector6d m_Delta_twist { Vector6d::Zero() };
 
+    /// The vector for \f$ \Delta \dot{\eta} \f$
     Vector6d m_Delta_acceleration { Vector6d::Zero() };
 };
 
-
-///*!
-// * \brief The GeneralizedCoordinates struct utility class to declare generalised coordinates with a template data type
-// */
-//template<class DataType>
-//struct GeneralizedCoordinates {
-
-//    DataType m_q;
-//    DataType m_dot_q;
-//    DataType m_ddot_q;
-//};
-
-
-
-//struct Screw {
-//    Screw()=default;
-
-//    Screw(const Eigen::Vector3d &t_angular,
-//          const Eigen::Vector3d &t_linear);
-
-//    Vector6d operator=(Eigen::VectorXd)
-//    {
-//        return ( Vector6d() << m_angular, m_linear ).finished();
-//    }
-
-
-//    Eigen::Vector3d m_angular { Eigen::Vector3d::Zero() };
-//    Eigen::Vector3d m_linear { Eigen::Vector3d::Zero() };
-//};
 
 
 /*!
@@ -308,14 +324,14 @@ Matrix6d dotAd(const Kinematics &t_relative_kinematics_ab);
  * \param t_Delta_zeta_ab the increment in the SE(3) pose associated to the homogeneous transformation
  * \return the increment of the Adjoint transformation associated to the homogeneous transformation
  *
- * This function computes the increment of the Adjoint transformation $Ad({^a\textbf{g}_b} )$.
- * We thus compute the map $\Delta Ad({^a\textbf{g}_b} ) = Ad({^a\textbf{g}_b} ) ad(\Delta \zeta_{a/b})$.
- * With this function, aR_b expresses the orientation of a frame $\mathcal{F}_b$
- * with respect of a frame $\mathcal{F}_a$, while ar_b expresses the position of the
+ * This function computes the increment of the Adjoint transformation \f$Ad({^a\textbf{g}_b} )\f$.
+ * We thus compute the map \f$\Delta Ad({^a\textbf{g}_b} ) = Ad({^a\textbf{g}_b} ) ad(\Delta \zeta_{a/b})\f$.
+ * With this function, aR_b expresses the orientation of a frame \f$\mathcal{F}_b\f$
+ * with respect of a frame \f$\mathcal{F}_a\f$, while ar_b expresses the position of the
  * frame b with respect to the frame a.
  * The parameter t_Delta_zeta_ab expresses the increment in the SE(3) pose associated to the homogeneous transformation
  * of frame b with respect to frame a.
- * In other words: it expresses the variation of the pose of frame $\mathcal{F}_b$ with respect to frame $\mathcal{F}_a$.
+ * In other words: it expresses the variation of the pose of frame \f$\mathcal{F}_b\f$ with respect to frame \f$\mathcal{F}_a\f$.
  */
 Matrix6d DeltaAd(const Eigen::Matrix3d &t_aR_b,
                  const Eigen::Vector3d &t_r_ab,
@@ -345,19 +361,19 @@ Matrix6d DeltaAd(const SE3Pose &t_ag_b,
  * \param t_Delta_eta_ab the increment in se(3) for the twist of the frame b with respect to the frame a
  * \return the derivative, with respect to time, of the increment of the Adjoint transformation associated to the homogeneous transformation
  *
- * This function computes the derivative, with respect to time, of the increment of the Adjoint transformation $Ad({^a\textbf{g}_b} )$.
- * We thus compute the map $\Delta \dot{Ad}({^a\textbf{g}_b} ) = Ad({^a\textbf{g}_b} )
- * \left( ad(\Delta \zeta_{a/b})ad(\eta_{a/b}) + ad(\Delta \eta_{a/b}) \right)$.
- * With this function, aR_b expresses the orientation of a frame $\mathcal{F}_b$
- * with respect of a frame $\mathcal{F}_a$, while ar_b expresses the position of the
+ * This function computes the derivative, with respect to time, of the increment of the Adjoint transformation \f$Ad({^a\textbf{g}_b} )\f$.
+ * We thus compute the map \f$\Delta \dot{Ad}({^a\textbf{g}_b} ) = Ad({^a\textbf{g}_b} )
+ * \left( ad(\Delta \zeta_{a/b})ad(\eta_{a/b}) + ad(\Delta \eta_{a/b}) \right)\f$.
+ * With this function, aR_b expresses the orientation of a frame \f$\mathcal{F}_b\f$
+ * with respect of a frame \f$\mathcal{F}_a\f$, while ar_b expresses the position of the
  * frame b with respect to the frame a.
  * The parameter t_Delta_zeta_ab expresses the increment in the SE(3) pose associated to the homogeneous transformation
  * of frame b with respect to frame a.
- * In other words: it expresses the variation of the pose of frame $\mathcal{F}_b$ with respect to frame $\mathcal{F}_a$.
- * The parameter t_eta_ab expresses the relative twist between the frame $\mathcal{F}_b$ and the frame $\mathcal{F}_a$.
- * In other words: the twist of the frame $\mathcal{F}_b$ with respect to the frame $\mathcal{F}_a$.
- * The parameter t_Delta_eta_ab expresses the increment in the relative twist between the frame $\mathcal{F}_b$ and the frame $\mathcal{F}_a$.
- * In other words: it expresses the variation of the twist of the frame $\mathcal{F}_b$ with respect to the frame $\mathcal{F}_a$.
+ * In other words: it expresses the variation of the pose of frame \f$\mathcal{F}_b\f$ with respect to frame \f$\mathcal{F}_a\f$.
+ * The parameter t_eta_ab expresses the relative twist between the frame \f$\mathcal{F}_b\f$ and the frame \f$\mathcal{F}_a\f$.
+ * In other words: the twist of the frame \f$\mathcal{F}_b\f$ with respect to the frame \f$\mathcal{F}_a\f$.
+ * The parameter t_Delta_eta_ab expresses the increment in the relative twist between the frame \f$\mathcal{F}_b\f$ and the frame \f$\mathcal{F}_a\f$.
+ * In other words: it expresses the variation of the twist of the frame \f$\mathcal{F}_b\f$ with respect to the frame \f$\mathcal{F}_a\f$.
  */
 Matrix6d DeltaDotAd(const Eigen::Matrix3d &t_aR_b,
                     const Eigen::Vector3d &t_r_ab,
@@ -446,15 +462,15 @@ Eigen::Matrix3d getRz(const double &t_theta);
 
 /*!
  * \brief differenceInSO3 computes the difference in SO(3) between two orientation matrices
- * \param t_Ra the orientation matrix of frame $\mathcal{F}_a$ with respect to the reference frame
- * \param t_Rb the orientation matrix of frame $\mathcal{F}_b$ with respect to the reference frame
+ * \param t_Ra the orientation matrix of frame a with respect to the reference frame
+ * \param t_Rb the orientation matrix of frame b with respect to the reference frame
  * \return the vector in R^3 containing the difference in SO(3) between two orientation matrices
  *
  * This function takes two orientation, or rotation, matrices and computes the corresponding difference in SO(3).
  * These two rotation matrices are expressed with respect to the same reference frame.
  * The function computes the difference in the form of a vector, as solution of the following equation
  *
- * $\left[R_a^T R_b - R_a R_b^T \right]^\Vee$
+ * \f$\left[R_a^T R_b - R_a R_b^T \right]^\Vee\f$
  *
  */
 Eigen::Vector3d differenceInSO3(const Eigen::Matrix3d &t_Ra,

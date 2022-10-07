@@ -31,7 +31,11 @@ std::vector<double> ComputeChebyshevPoints(const unsigned int t_number_of_chebys
 
 
 
-
+/*!
+ * \brief GetCoefficients_c computes the c coefficients of the Chebyshev matrix as an std::vector<double>
+ * \param t_number_of_chebyshev_nodes the number of Chebyshev nodes used in the discretisation
+ * \return the c coefficients of the Chebyshev matrix as an std::vector<double>
+ */
 std::vector<double> GetCoefficients_c(const unsigned int t_number_of_chebyshev_nodes)
 {
     std::vector<double> c(t_number_of_chebyshev_nodes);
