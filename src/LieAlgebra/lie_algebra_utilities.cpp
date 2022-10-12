@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * \file lie_algebra_utilities.cpp
  * \author Andrea Gotelli (Andrea.Gotelli@ls2n.fr)
@@ -8,6 +9,9 @@
  * \copyright Copyright (c) 2022
  *
  */
+=======
+#include "include/lie_algebra_utilities.hpp"
+>>>>>>> temp
 
 #include "math_tools/LieAlgebra/lie_algebra_utilities.hpp"
 
@@ -114,6 +118,15 @@ Eigen::Matrix4d SE3Pose::getSE3PoseAsMatrix() const
 {
     return (Eigen::Matrix4d() << getRotationMatrix(), m_position.transpose(),
                                  Eigen::RowVector3d::Zero(), 1).finished();
+}
+
+
+Eigen::Vector4d SE3Pose::getQuaternionAsVector4d()const
+{
+    return Eigen::Vector4d(m_quaternion.w(),
+                           m_quaternion.x(),
+                           m_quaternion.y(),
+                           m_quaternion.z());
 }
 
 
