@@ -94,6 +94,12 @@ struct SE3Pose {
      */
     Eigen::Matrix4d getSE3PoseAsMatrix()const;
 
+    /*!
+     * \brief getQuaternionAsVector4d returns the quaternion as a vector with components [w, x, y, z]
+     * \return the quaternion as a vector with components [w, x, y, z]
+     */
+    Eigen::Vector4d getQuaternionAsVector4d()const;
+
     //  The quaternion representing SO(3)
     Eigen::Quaterniond m_quaternion { Eigen::Quaterniond(1, 0, 0, 0) };
 

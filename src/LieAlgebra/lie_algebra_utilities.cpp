@@ -106,6 +106,15 @@ Eigen::Matrix4d SE3Pose::getSE3PoseAsMatrix() const
 }
 
 
+Eigen::Vector4d SE3Pose::getQuaternionAsVector4d()const
+{
+    return Eigen::Vector4d(m_quaternion.w(),
+                           m_quaternion.x(),
+                           m_quaternion.y(),
+                           m_quaternion.z());
+}
+
+
 
 Screw::Screw(const Eigen::Vector3d &t_angular,
              const Eigen::Vector3d &t_linear) : m_angular(t_angular),
