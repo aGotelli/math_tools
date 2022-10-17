@@ -8,7 +8,7 @@
  *
  */
 
-#include "math_tools/Chebyshev/chebyshev_differentiation.hpp"
+#include "Chebyshev/chebyshev_differentiation.hpp"
 #include <unsupported/Eigen/KroneckerProduct>
 #include <numeric>
 #include <vector>

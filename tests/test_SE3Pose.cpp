@@ -1,4 +1,3 @@
-
 #include "math_tools/LieAlgebra/lie_algebra_utilities.hpp"
 
 #include <gtest/gtest.h>

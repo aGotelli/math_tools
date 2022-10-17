@@ -32,14 +32,14 @@ set(CMAKE_DEBUG_POSTFIX "-debug")
 #   Process the content of src, ie, the actual code
 add_subdirectory(src)
 
-## testing
-#if(GTest_FOUND)
-#  message(STATUS "Building tests")
-#  enable_testing()
+# testing
+if(GTest_FOUND)
+  message(STATUS "Building tests")
+  enable_testing()
 
-#  add_subdirectory(tests)
+  add_subdirectory(tests)
 
-#endif(GTest_FOUND)
+endif(GTest_FOUND)
 
 
 ## benchmark
