@@ -1,14 +1,4 @@
-/**
- * \file chebyshev_differentiation.cpp
- * \author Andrea Gotelli (Andrea.Gotelli@ls2n.fr)
- * \brief This files contains the base class for integrating a linear ode with the spectral numerical integration
- * \date 06-07-2022
- *
- * \copyright Copyright (c) 2022
- *
- */
-
-#include "Chebyshev/chebyshev_differentiation.hpp"
+#include "math_tools/Chebyshev/chebyshev_differentiation.hpp"
 #include <unsupported/Eigen/KroneckerProduct>
 #include <numeric>
 #include <vector>

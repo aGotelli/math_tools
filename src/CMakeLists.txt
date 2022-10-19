@@ -1,18 +1,31 @@
 include_directories(include)
 
 
-add_subdirectory(Chebyshev)
 
-add_subdirectory(LieAlgebra)
-
-
-
-add_library(${PROJECT_NAME} INTERFACE)
-add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+add_library(${PROJECT_NAME}
+    SHARED
+        Chebyshev/chebyshev_differentiation.cpp
+        include/math_tools/Chebyshev/chebyshev_differentiation.hpp
+        LieAlgebra/lie_algebra_utilities.cpp
+        include/math_tools/LieAlgebra/lie_algebra_utilities.hpp
+)
 target_link_libraries(${PROJECT_NAME}
-  INTERFACE
-    ${PROJECT_NAME}::Chebyshev
-    ${PROJECT_NAME}::LieAlgebra
+    PRIVATE
+        Eigen3::Eigen
+)
+target_compile_options(${PROJECT_NAME}
+    PRIVATE
+        #-Werror
+        -Wall
+        -Wextra
 )
 
+
+
+install(TARGETS ${PROJECT_NAME}
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+install(DIRECTORY include/${PROJECT_NAME}
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
 

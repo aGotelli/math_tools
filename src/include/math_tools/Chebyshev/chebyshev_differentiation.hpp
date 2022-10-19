@@ -13,7 +13,7 @@
 #define CHEBYSHEV_DIFFERENTIATION_HPP
 
 
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 #include <iostream>
 
 

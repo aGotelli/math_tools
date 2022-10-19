@@ -137,17 +137,7 @@ struct SE3Pose {
      */
     Eigen::Matrix4d getSE3PoseAsMatrix()const;
 
-<<<<<<< HEAD:src/include/math_tools/LieAlgebra/lie_algebra_utilities.hpp
     ///  The quaternion representing SO(3)
-=======
-    /*!
-     * \brief getQuaternionAsVector4d returns the quaternion as a vector with components [w, x, y, z]
-     * \return the quaternion as a vector with components [w, x, y, z]
-     */
-    Eigen::Vector4d getQuaternionAsVector4d()const;
-
-    //  The quaternion representing SO(3)
->>>>>>> temp:src/LieAlgebra/include/lie_algebra_utilities.hpp
     Eigen::Quaterniond m_quaternion { Eigen::Quaterniond(1, 0, 0, 0) };
 
     ///  The vector of position belonging to R^3
