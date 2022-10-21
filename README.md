@@ -26,6 +26,9 @@ The installation procedure for Google Test can be found at <a href="https://gith
 
 The installation procedure for Google Benchmak can be found at <a href="https://github.com/google/benchmark.git">Google Benchmak Main Page</a>.
 
+
+In order to generate documentation we use Doxygen; Doxygen can be installed following the procedure at the <a href="https://www.doxygen.nl/manual/install.html">Doxygen Installetion Page</a>
+
 You can download this repository in the preferred way. Once inside the downloaded folder it is suffient to run the script init_package.sh running the following in the project folder.
 
     ./init_package.sh
