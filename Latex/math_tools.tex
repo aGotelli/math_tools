@@ -1,0 +1,330 @@
+\documentclass[12pt,a4paper]{book}
+
+\include{packages}
+
+\include{definitions}
+
+
+\newcommand{\Fa}{\ensuremath{\mathcal{F}_a}}
+\newcommand{\Fb}{\ensuremath{\mathcal{F}_b}}
+\newcommand{\Fe}{\ensuremath{\mathcal{F}_e}}
+
+\newcommand{\Ba}{\ensuremath{\mathcal{B}_a}}
+\newcommand{\Bb}{\ensuremath{\mathcal{B}_b}}
+
+\newcommand{\agb}{\ensuremath{{^a g _b}}}
+\newcommand{\aRb}{\ensuremath{{^a R _b}}}
+\newcommand{\rba}{\ensuremath{{r_{b/a}}}}
+\newcommand{\hatrba}{\ensuremath{{\hat{r}_{b/a}}}}
+
+\newcommand{\etaa}{\ensuremath{{\eta_{a}}}}
+\newcommand{\etab}{\ensuremath{{\eta_{b}}}}
+\newcommand{\etaba}{\ensuremath{{\eta_{b/a}}}}
+
+\newcommand{\dotetaa}{\ensuremath{{\dot{\eta}_{a}}}}
+\newcommand{\dotetab}{\ensuremath{{\dot{\eta}_{b}}}}
+\newcommand{\dotetaba}{\ensuremath{{\dot{\eta}_{b/a}}}}
+
+\newcommand{\Adagb}{\ensuremath{Ad_{\agb}}}
+\newcommand{\dotAdagb}{\ensuremath{\dot{Ad}_{\agb}}}
+
+
+\newcommand{\adetaba}{\ensuremath{ad_{\etaba}}}
+
+
+\newcommand{\Dzetaba}{\ensuremath{{\Delta \zeta_{b/a}}}}
+
+\newcommand{\adDzetaba}{\ensuremath{ad_{\Dzetaba}}}
+
+\tikzset{
+    axis/.style={-stealth,line width=2pt, line cap=round},
+    xaxis/.style={axis,red},
+    yaxis/.style={axis,green},
+    zaxis/.style={axis,blue},
+}
+
+\begin{document}
+
+
+\begin{titlepage}
+   \begin{center}
+       \vspace*{1cm}
+
+		\textbf{Package Report}		
+		
+		\vspace{1.5cm}
+		
+        \Large{\textbf{math\_tools}}
+
+        %\vspace{0.5cm}
+        %Thesis Subtitle
+            
+        \vspace{1.5cm}
+
+        \textbf{Andrea Gotelli}
+
+        \vfill
+            
+%       A thesis presented for the degree of\\
+%       Doctor of Philosophy
+            
+        \vspace{0.8cm}
+     
+        %\includegraphics[width=0.4\textwidth]{university}
+            
+		\begin{flushleft}
+			Laboratoire des Sciences du Numérique de Nantes LS2N
+		\end{flushleft}
+        École centrale de Nantes, Nantes\\
+        France\\
+       %Date
+       
+       
+            
+   \end{center}
+  
+\end{titlepage}
+
+
+\tableofcontents
+
+\listoffigures
+
+
+
+
+
+
+\chapter{Lie Algebra Operations}
+
+\tdplotsetmaincoords{70}{115}
+\begin{figure}
+	\centering
+	\begin{tikzpicture}[tdplot_main_coords]
+	
+		\coordinate (Fe) at (0, 0, 0);
+		
+		
+		\draw[xaxis] (Fe) -- (1,0,0) node[pos=1.3]{\( x \)};
+    	\draw[yaxis] (Fe) -- (0,1,0) node[pos=1.3]{\( y \)};
+      	\draw[zaxis] (Fe) -- (0,0,1) node[pos=1.3]{\( z \)};
+      	\shade [ball color=black] (Fe) circle [radius=1.5pt];
+      	\node[anchor=south east] at (Fe) {\Fe};	
+      	
+      	
+      	
+      	
+      	\pgfmathsetmacro{\rvec}{3}
+		\pgfmathsetmacro{\thetavec}{30}
+		\pgfmathsetmacro{\phivec}{60}
+		\pgfmathsetmacro{\alphavec}{-30}
+		
+		\tdplotsetcoord{P1}{\rvec}{\thetavec}{\phivec}
+		\tdplotsetrotatedcoords{\phivec}{\thetavec}{\alphavec}
+		\tdplotsetrotatedcoordsorigin{(P1)}
+		\draw[xaxis,tdplot_rotated_coords] (0,0,0) -- (1,0,0) node[pos=1.3]{\( x \)};
+		\draw[yaxis,tdplot_rotated_coords] (0,0,0) -- (0,1,0) node[pos=1.3]{\( y \)};
+		\draw[zaxis,tdplot_rotated_coords] (0,0,0) -- (0,0,1) node[pos=1.3]{\( z \)};
+		\shade [ball color=black] (P1) circle [radius=1.5pt];	
+		\node[anchor=east] at (P1) {\Fa};
+		
+		
+		\pgfmathsetmacro{\rvec}{3}
+		\pgfmathsetmacro{\thetavec}{30}
+		\pgfmathsetmacro{\phivec}{-60}
+		\pgfmathsetmacro{\alphavec}{-30}
+		
+		\tdplotsetcoord{P2}{\rvec}{\thetavec}{\phivec}
+		\tdplotsetrotatedcoords{\phivec}{\thetavec}{\alphavec}
+		\tdplotsetrotatedcoordsorigin{(P2)}
+		\draw[xaxis,tdplot_rotated_coords] (0,0,0) -- (1,0,0) node[pos=1.3]{\( x \)};
+		\draw[yaxis,tdplot_rotated_coords] (0,0,0) -- (0,1,0) node[pos=1.3]{\( y \)};
+		\draw[zaxis,tdplot_rotated_coords] (0,0,0) -- (0,0,1) node[pos=1.3]{\( z \)};
+		\shade [ball color=black] (P2) circle [radius=1.5pt];
+		\node[anchor=west] at (P2) {\Fb};
+      	
+      	
+      	
+      		
+		
+		
+	
+%		\draw[-stealth, line width=2pt,red,line cap=round] (Fa) -- (1,0,0) node[pos=1.3]{\( x \)};
+%    	\draw[-stealth, line width=2pt,green,line cap=round] (Fa) -- (0,1,0) node[pos=1.3]{\( y \)};
+%      	\draw[-stealth, line width=2pt,blue,line cap=round] (Fa) -- (0,0,1) node[pos=1.3]{\( z \)};
+%      	\shade [ball color=black] (Fa) circle [radius=1.5pt];
+%      	
+%      	
+%      	\coordinate (Fb) at (5, 4, 3);
+%	
+%		\draw[-stealth, line width=2pt,red,line cap=round] (Fb) -- (1,0,0) node[pos=1.3]{\( x \)};
+%    	\draw[-stealth, line width=2pt,green,line cap=round] (Fb) -- (0,1,0) node[pos=1.3]{\( y \)};
+%      	\draw[-stealth, line width=2pt,blue,line cap=round] (Fb) -- (0,0,1) node[pos=1.3]{\( z \)};
+%      	\shade [ball color=black] (Fa) circle [radius=1.5pt];
+	\end{tikzpicture}
+	\caption{Representation of two generic frames : \Fa and \Fb in space, with the reference or Euclidean frame \Fe.}
+\end{figure}
+
+
+Note that we use \aRb to express the orientation of the frame \Fb with respect to the frame \Fa and \rba as the position of frame \Fb with respect to the frame \Fa.
+
+Given the homogeneous tranformation from frame \Fa to frame \Fb, namely \agb, defined as $\agb = \langle \aRb,\; \rba \rangle$. This create a $4 \times 4$ matrix acting as a map in the Lie group.
+
+
+
+\begin{equation}
+	\agb = 
+	\begin{bmatrix}
+		\aRb			&	\rba	\\
+		0_{[3\times1]}	&	1
+	\end{bmatrix}
+\end{equation}
+
+This operator uniquely defines the pose of a frame with respect to a reference or euclidean frame, namely \Fw or \Fe.
+From this definition we can define the derivatives of this operator with respect to time expressed with respect to the reference frame for the two frames.
+
+\begin{equation}
+\begin{aligned}
+	\frac{d}{dt}\left( g_a \right) &= H_{a} \\
+	\frac{d}{dt}\left( g_b \right) &= H_{b}
+\end{aligned}
+\end{equation}
+
+These two derivatives can be expressed in local coordinates for every frame, by reprojecting the derivative into the local coordinates frame.
+
+\begin{equation}
+\begin{aligned}
+	g_a \inv \frac{d}{dt}\left( g_a \right) &= \eta_{a} \\
+	g_b \inv \frac{d}{dt}\left( g_b \right) &= \eta_{b}
+\end{aligned}
+\end{equation}
+
+The twist $\eta_{a}$ and $\eta_{b}$ expresses the velocities of the frame \Fa{}, respectively \Fb{}, in the local coordinate frame or, "in their point of view".
+
+If we consider the relative pose \agb{}, the derivative with respect to time gives 
+
+\begin{equation}
+	\agb \inv \frac{d}{dt}\left( \agb \right) = \eta	_{b/a}
+\end{equation}
+
+Which the twist of \Fb{} with respect to the twist of \Fa{} seen from this last one.
+
+When we have a series of connected bodies, we will need to propagate the kinematics along the chain. When we have a twist in a body \Bb{}, namely \etab{}, expressed in the local coordinates of frame \Fb{} we then might need to propagate this twist to the body \Ba{} with relative pose from \Fb{} to \Fa{} given by \agb{}. In this case we use the adjoint operator \Adagb{} defined as follows :
+
+
+\begin{equation}
+	\Adagb = 
+	\begin{bmatrix}
+		\aRb	&	0_{[3\times 3]}	\\
+		\hatrba \aRb	&	\aRb
+	\end{bmatrix}
+\end{equation}
+
+We thus have 
+
+\begin{equation}
+\begin{aligned}
+	\etaa 	&= \Adagb \etab
+			&=
+			\begin{bmatrix}
+				\aRb	&	0_{[3\times 3]}	\\
+				\hatrba \aRb	&	\aRb
+			\end{bmatrix}
+			\begin{bmatrix}
+				\Omega_b	\\
+				V_b
+			\end{bmatrix}
+\end{aligned}
+\end{equation}
+
+
+If we need to compute the acceleration than we need to derivate this relation. We thus have that 
+
+\begin{equation}
+\begin{aligned}
+	\dotetaa 	&= \frac{d}{dt}\left( \Adagb \etab \right) \\
+				&= \dotAdagb \etab + \Adagb \dotetab
+\end{aligned}
+\end{equation}
+
+The derivative of the adjoint operator, namely \dotAdagb{}, is defined as follows
+
+\begin{equation}
+	\dotAdagb = \Adagb \adetaba
+\end{equation}
+
+Where the \adetaba operator accounts for the contribution of the twist in the derivative with respect to time; This operator is defined as :
+
+\begin{equation}
+	\adetaba = 
+	\begin{bmatrix}
+		\hat{\Omega}_{b/a}	&	0 \\
+		\hat{V}_{b/a}			&	\hat{\Omega}_{b/a}
+	\end{bmatrix}
+\end{equation}
+
+
+If we now want to determine the tangent kinematics we first need to introduce 
+
+\begin{equation}
+	\Delta \zeta_{a} = g_a \inv \Delta g_a
+\end{equation}
+
+
+We can compute the tangent of the twist as follows
+
+\begin{equation}
+	\Delta \etaa = g_a \inv \Delta \frac{d}{dt}\left(g_a \right)
+\end{equation}
+
+We can now project this twist as usual and as we described before
+
+\begin{equation}
+\begin{aligned}
+	\Delta \etaa 	&= \Delta  \left( \Adagb \etab \right)
+					&= \Delta \Adagb \etab  + \Adagb \Delta \etab 
+\end{aligned}
+\end{equation}
+
+Similarly to what we introduced before, we can define the operator $\Delta \Adagb$.
+
+\begin{equation}
+	\Delta \Adagb = \Adagb \adDzetaba
+\end{equation}
+
+
+
+We now have that, given a relative pose \agb{} we can compute \Dzetaba{} as 
+
+\begin{equation}
+	\Dzetaba = \Delta \zeta _b - \Delta \zeta _a 
+\end{equation}
+
+
+if we now consider the accelerations, we derivate the equation to obtain 
+
+\begin{equation}
+\begin{aligned}
+	\Delta \dotetaa 	&= \Delta  \left( \dotAdagb \etab + \Adagb \dotetab \right) \\
+					&= 
+\Delta \dotAdagb \etab+
+\dotAdagb \Delta \etab
++
+\Delta \Adagb \dotetab+
+\Adagb \Delta \dotetab							
+\end{aligned}
+\end{equation}
+
+And we can define the operator $\Delta \dotAdagb$  as follows
+
+\begin{equation}
+\begin{aligned}
+	\Delta \dotAdagb 	&= \Delta  \left( \Adagb \adetaba \right)  \\
+		&=  \Delta \Adagb \adetaba +  \Adagb \Delta \adetaba \\
+		&= \Adagb \adDzetaba \adetaba + \Adagb ad_{\Delta \etaba} \\
+		&= \Adagb \left[ \adDzetaba \adetaba + \Adagb ad_{\Delta \etaba} \right]
+\end{aligned}
+\end{equation}
+
+\bibliography{bibliography}
+\end{document}

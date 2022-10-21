@@ -1,0 +1,70 @@
+\usepackage{amsmath}
+\usepackage{amsfonts, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage[makeroom]{cancel} % use this to cross out things
+
+
+\usepackage{algorithm2e}%Use this to create nice algorithms
+\DontPrintSemicolon
+
+%	Use this to create subfigures
+\usepackage{subcaption}
+
+%	This is used to create number in mathbb
+\usepackage{bbm}
+
+%	This is to create multirows sections in tables
+\usepackage{multirow}
+
+%	You need this for \mathds{...˚}
+\usepackage{dsfont}
+
+
+%	Set graphics path to the subforlders files
+\graphicspath{{PCC/}{CosseratRodTheory/}{Introduction/}{ShootingMethod/}{ICA/}{ColMag/}}
+
+%	Make it possible to have multiple and indipendent files
+\usepackage{subfiles}
+
+%	Make it possible to reference labels across files
+\usepackage{xr}
+
+%	For doing cool images, better to use tikz
+\usepackage{tikz}
+\usepackage{tikz-3dplot} % For 3D part, using the transformations
+\usetikzlibrary{arrows}
+\usetikzlibrary{quotes}
+\usetikzlibrary{calc}
+\usetikzlibrary{intersections}
+\usetikzlibrary{positioning}%above of 
+
+
+
+%	Set the bibliography once and for all
+\bibliographystyle{ieeetr}
+
+
+%	This is to make latex compile the bibliography one time either in the main or in the sub file
+\newcommand{\dobib}{ % Define the command
+    \bibliography{../../bibliography} % Place the path relative to the subfile here
+} % Solution from : https://tex.stackexchange.com/questions/107064/bibliographies-when-using-subfiles
+
+
+%	This is to make latex compile the bibliography one time either in the main or in the sub file
+\newcommand{\concludeFile}[1]{ % Define the command
+	
+	\appendix	
+	\subfile{#1}
+	
+    \dobib
+}
+
+%	This is to make latex compile the bibliography one time either in the main or in the sub file
+\newcommand{\dobibAppendix}{ % Define the command
+
+    \dobib
+}
+
+
+

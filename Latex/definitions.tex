@@ -1,0 +1,650 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%		COMMAND TO DECLARE FUNTION OF AND FUNCTION PARAMETERS
+
+%	Parameters of functions
+\newcommand{\s}{$s$} 							%	Just s
+\newcommand{\ti}{$t$} 							%	Just t
+\newcommand{\fs}{_{(s)} }						%	Function of arc length
+\newcommand{\ifs}{_{i\fs}}						%	i th function of arc length
+\newcommand{\fx}{_{(x)} }						%	Function of x
+\newcommand{\fX}{_{(X)} }						%	Function of normalized arc length
+\newcommand{\ifX}{_{i\fX}}						%	i th function of normalized arc length
+\newcommand{\ft}{_{(t)} }						%	Function of time
+\newcommand{\ift}{_{i\ft}}						%	i th function of time
+\newcommand{\fdot}{_{(\cdot)} }				%	Fucntion of dot (to leave it void)
+\newcommand{\fst}{_{\left(s, t \right)} } 	%	Function of arc length and time
+\newcommand{\ifst}{_{i \fst}} 					%	i th function of arc length and time
+\newcommand{\fXt}{_{\left(X, t \right)} } 	%	Function of normalized arc length and time
+\newcommand{\ifXt}{_{i\left(X, t \right)} } 	%	i th function of normalized arc length and time
+\newcommand{\fxi}{_{\left(\xi \right)} } 		%	Function of ξ
+\newcommand{\fhau}{_{h(\tau _i)}}				%	function of τ with pedix h (ICA)
+\newcommand{\f}[1]{_{(#1)}}					%	function of something passed by argument
+
+%	Some Function needed in Hamilton principle 
+\newcommand{\fvoid}{\ensuremath{\textbf{f}_{(\cdot)}}} 								%	Function of dot
+\newcommand{\deps}{\ensuremath{\left.\frac{d}{d\epsilon}\right|_{\epsilon = 0}}} 	%	Derivative wrt epsilon, with epsilon=0
+\newcommand{\fepsdot}{\ensuremath{\textbf{f}_{\epsilon(\cdot)}}}						%	Function of dot with pedix epsilon
+\newcommand{\dotfepsdot}{\ensuremath{\dot{\textbf{f}}_{\epsilon(\cdot)}}}			%	Derivative of function of dot with pedix epsilon
+\newcommand{\epsdot}{\ensuremath{\epsilon(\cdot)}}									%	Dot with pedix epsilon
+
+\newcommand{\fq}{_{(\q)} }					%	Function of q 
+\newcommand{\fqdq}{(\q, \dq)}				%	Function of q and dot q
+\newcommand{\fqdqddq}{(\q, \dq, \ddq)}	%	Function of q, dot q and ddot q
+\newcommand{\fdqddq}{(\dq, \ddq)}			%	Function of dot q and ddot q
+
+
+\newcommand{\tn}{\ensuremath{t_n}}			%	tn
+\newcommand{\tnp}{\ensuremath{t_{n+1}}}	%	tn+1
+\newcommand{\tnh}{\ensuremath{t_n + h}}	%	tn + h
+
+\newcommand{\ftn}{_{\left(t_n  \right)}}		%	function of tn
+\newcommand{\ftnp}{_{\left(t_{n+1}  \right)}}	%	function of tn+1
+\newcommand{\ftnh}{_{\left(t_n +h  \right)}}	%	function of tn + h
+
+
+\newcommand{\fchi}{\ensuremath{_{\left(\boldchi \right)}}}				%	function of bold χ
+\newcommand{\fchibar}{\ensuremath{_{\left( \bar{\boldchi} \right)}}}		%	function of bold bar χ 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%		GREEK LETTERS ALREADY IN BOLD AND MATHCAL
+
+%	Commonly used greek letter
+\newcommand{\boldxi}{\ensuremath{\boldsymbol{\xi}}}						%	ξ in bold
+\newcommand{\boldxiX}{\ensuremath{\boldsymbol{\xi} \fX}}					%	ξ(X) in bold
+\newcommand{\boldxis}{\ensuremath{\boldsymbol{\xi} \fs}}					%	ξ(s) in bold
+\newcommand{\boldxist}{\ensuremath{\boldsymbol{\xi} \fst}}				%	ξ(s, t) in bold
+\newcommand{\boldxiXt}{\ensuremath{\boldsymbol{\xi} \fXt}}				%	ξ(X, t) in bold
+\newcommand{\boldeta}{\ensuremath{\boldsymbol{\eta}}}						%	η in bold
+\newcommand{\boldetas}{\ensuremath{\boldsymbol{\eta} \fs}}				%	η(s) in bold
+\newcommand{\boldetast}{\ensuremath{\boldsymbol{\eta} \fst}}				%	η(s, t) in bold
+\newcommand{\boldetaXt}{\ensuremath{\boldsymbol{\eta} \fXt}}				%	η(X, t) in bold
+\newcommand{\boldLambda}{\ensuremath{\boldsymbol{\Lambda}}}				%	Λ in bold
+\newcommand{\boldLambdas}{\ensuremath{\boldsymbol{\Lambda} \fs}}			%	Λ(s) in bold
+\newcommand{\boldLambdast}{\ensuremath{\boldsymbol{\Lambda} \fst}}		%	Λ(s, t) in bold
+\newcommand{\boldLambdaXt}{\ensuremath{\boldsymbol{\Lambda} \fXt}}		%	Λ(X, t) in bold
+\newcommand{\boldLambdaa}{\ensuremath{{\boldsymbol{\Lambda}_a}}}			%	Λa in bold
+\newcommand{\boldLambdaaX}{\ensuremath{{\boldsymbol{\Lambda}_a} \fX}}	%	Λa(X) in bold
+\newcommand{\boldLambdaaXt}{\ensuremath{{\boldsymbol{\Lambda}_a} \fXt}}	%	Λa(X, t) in bold
+\newcommand{\boldLambdaadX}{\ensuremath{{\boldLambda_{ad}} \fX}}			%	Λad(X) in bold
+\newcommand{\boldLambdaadXt}{\ensuremath{{\boldLambda_{ad}} \fXt}}		%	Λad(X, t) in bold
+\newcommand{\boldSigma}{\ensuremath{\boldsymbol{\Sigma}}}				%	Σ in bold
+\newcommand{\boldSigmas}{\ensuremath{\boldsymbol{\Sigma} \fs}}			%	Σ(s) in bold
+\newcommand{\boldSigmast}{\ensuremath{\boldsymbol{\Sigma} \fst}}			%	Σ(s, t) in bold
+
+\newcommand{\boldepsilon}{\ensuremath{\boldsymbol{\varepsilon}}}		%	ε in bold
+\newcommand{\boldkappa}{\ensuremath{\boldsymbol{\kappa}}}			%	κ in bold
+\newcommand{\boldsigma}{\ensuremath{\boldsymbol{\sigma}}}			%	σ in bold
+\newcommand{\boldchi}{\ensuremath{\boldsymbol{\chi}}}					%	χ in bold
+
+%	With their derivatives
+\newcommand{\dboldxi}{\ensuremath{\dot{\boldsymbol{\xi}}}}				%	dot ξ in bold
+\newcommand{\dboldxis}{\ensuremath{\dot{\boldsymbol{\xi}} \fs}}			%	dot ξ(s) in bold
+\newcommand{\dboldxist}{\ensuremath{\dot{\boldsymbol{\xi}} \fst}}		%	dot ξ(s, t) in bold
+\newcommand{\dboldxiXt}{\ensuremath{\dot{\boldsymbol{\xi}} \fXt}}		%	dot ξ(X, t) in bold
+\newcommand{\dboldeta}{\ensuremath{\dot{\boldsymbol{\eta}}}}				%	dot η in bold
+\newcommand{\dboldetas}{\ensuremath{\dot{\boldsymbol{\eta}} \fs}}		%	dot η(s) in bold
+\newcommand{\dboldetast}{\ensuremath{\dot{\boldsymbol{\eta}} \fst}}		%	dot η(s, t) in bold
+\newcommand{\dboldetaXt}{\ensuremath{\dot{\boldsymbol{\eta}} \fXt}}		%	dot η(X, t) in bold
+\newcommand{\dboldSigma}{\ensuremath{\dot{\boldsymbol{\Sigma}}}}			%	dot Σ in bold
+\newcommand{\dboldSigmas}{\ensuremath{\dot{\boldsymbol{\Sigma}} \fs}}	%	dot Σ(s) in bold
+\newcommand{\dboldSigmast}{\ensuremath{\dot{\boldsymbol{\Sigma}} \fst}}	%	dot Σ(s, t) in bold
+
+
+\newcommand{\dboldepsilon}{\ensuremath{\dot{\boldsymbol{\varepsilon}}}}	%	dot ε in bold
+\newcommand{\dboldkappa}{\ensuremath{\dot{\boldsymbol{\kappa}}}}			%	dot κ in bold
+\newcommand{\dboldsigma}{\ensuremath{\dot{\boldsymbol{\sigma}}}}			%	dot σ in bold
+\newcommand{\dboldchi}{\ensuremath{\dot{\boldsymbol{\chi}}}}				%	dot χ in bold
+
+%	And double derivatives
+\newcommand{\ddboldxi}{\ensuremath{\ddot{\boldsymbol{\xi}}}}				%	ddot ξ in bold
+\newcommand{\ddboldxis}{\ensuremath{\ddot{\boldsymbol{\xi}} \fs}}		%	ddot ξ(s) in bold
+\newcommand{\ddboldxist}{\ensuremath{\ddot{\boldsymbol{\xi}} \fst}}		%	ddot ξ(s, t) in bold
+\newcommand{\ddboldxiXt}{\ensuremath{\ddot{\boldsymbol{\xi}} \fXt}}		%	ddot ξ(s, t) in bold
+\newcommand{\ddboldeta}{\ensuremath{\ddot{\boldsymbol{\eta}}}}			%	ddot η in bold
+\newcommand{\ddboldetas}{\ensuremath{\ddot{\boldsymbol{\eta}} \fs}}		%	ddot η(s) in bold
+\newcommand{\ddboldetast}{\ensuremath{\ddot{\boldsymbol{\eta}} \fst}}	%	ddot η(s, t) in bold
+\newcommand{\ddboldetaXt}{\ensuremath{\ddot{\boldsymbol{\eta}} \fXt}}	%	ddot η(s, t) in bold
+
+%	In our work we use the constrained, allowed and zero strains
+\newcommand{\boldxia}{\ensuremath{\boldsymbol{\xi}_a}}				%	ξa in bold
+\newcommand{\boldxiaz}{\ensuremath{\boldsymbol{\xi}_{a_0}}}			%	ξa in bold
+\newcommand{\boldxiz}{\ensuremath{\boldsymbol{\xi}_0}}				%	ξ0 in bold
+\newcommand{\boldxic}{\ensuremath{\boldsymbol{\xi}_c}}				%	ξc in bold
+\newcommand{\boldxias}{\ensuremath{{\boldsymbol{\xi}_a} \fs}}		%	ξa(s) in bold
+\newcommand{\boldxiaX}{\ensuremath{{\boldsymbol{\xi}_a} \fX}}		%	ξa(X) in bold
+\newcommand{\boldxizs}{\ensuremath{{\boldsymbol{\xi}}^0 \fs}}		%	ξ0(s) in bold
+\newcommand{\boldxics}{\ensuremath{{\boldsymbol{\xi}_c} \fs}}		%	ξc(s) in bold
+\newcommand{\boldxicX}{\ensuremath{{\boldsymbol{\xi}_c} \fX}}		%	ξc(X) in bold
+\newcommand{\boldxiast}{\ensuremath{{\boldsymbol{\xi}_a} \fst}}		%	ξa(s, t) in bold
+\newcommand{\boldxizst}{\ensuremath{{\boldsymbol{\xi}}^0 \fst}}		%	ξ0(s, t) in bold
+\newcommand{\boldxicst}{\ensuremath{{\boldsymbol{\xi}_c} \fst}}		%	ξc(s, t) in bold
+\newcommand{\boldxiaXt}{\ensuremath{{\boldsymbol{\xi}_a} \fXt}}		%	ξa(X, t) in bold
+\newcommand{\boldxizXt}{\ensuremath{{\boldsymbol{\xi}}^0 \fXt}}		%	ξ0(X, t) in bold
+\newcommand{\boldxicXt}{\ensuremath{{\boldsymbol{\xi}_c} \fXt}}		%	ξc(X, t) in bold
+
+\newcommand{\dboldxiaX}{\ensuremath{{\dot{\boldsymbol{\xi}}}_{a\left(X \right)}}}		%	dot ξa(X) in bold
+\newcommand{\dboldxiaXt}{\ensuremath{{\dot{\boldsymbol{\xi}}}_{a\left(X, t \right)}}}	%	dot ξa(X, t) in bold
+
+%	Components of the strain in local coordinates
+\newcommand{\boldK}{\ensuremath{\textbf{K}}}			%	K in bold
+\newcommand{\boldKs}{\ensuremath{\textbf{K} \fs}}		%	K(s) in bold
+\newcommand{\boldKst}{\ensuremath{\textbf{K} \fst}}	%	K(s, t) in bold 
+\newcommand{\boldKXt}{\ensuremath{\textbf{K} \fXt}}	%	K(X, t) in bold 
+
+\newcommand{\boldGamma}{\ensuremath{\boldsymbol{\Gamma}}}			%	Γ in bold 
+\newcommand{\boldGammas}{\ensuremath{\boldsymbol{\Gamma} \fs}}		%	Γ(s) in bold 
+\newcommand{\boldGammast}{\ensuremath{\boldsymbol{\Gamma} \fst}}		%	Γ(s, t) in bold 
+\newcommand{\boldGammaXt}{\ensuremath{\boldsymbol{\Gamma} \fXt}}		%	Γ(X, t) in bold 
+
+%	Derivatives of components of the strain in local coordinates
+\newcommand{\dboldK}{\ensuremath{\dot{\textbf{K}}}}			%	dot K in bold
+\newcommand{\dboldKs}{\ensuremath{\dot{\textbf{K}} \fs}}		%	dot K(s) in bold
+\newcommand{\dboldKst}{\ensuremath{\dot{\textbf{K}} \fst}}	%	dot K(s, t) in bold 
+\newcommand{\dboldKXt}{\ensuremath{\dot{\textbf{K}} \fXt}}	%	dot K(X, t) in bold 
+
+\newcommand{\dboldGamma}{\ensuremath{\dot{\boldsymbol{\Gamma}}}}			%	dot Γ in bold 
+\newcommand{\dboldGammas}{\ensuremath{\dot{\boldsymbol{\Gamma}} \fs}}	%	dot Γ(s) in bold 
+\newcommand{\dboldGammast}{\ensuremath{\dot{\boldsymbol{\Gamma}} \fst}}	%	dot Γ(s, t) in bold 
+\newcommand{\dboldGammaXt}{\ensuremath{\dot{\boldsymbol{\Gamma}} \fXt}}	%	dot Γ(X, t) in bold
+
+%	Components of the strain in reference coordinates
+\newcommand{\boldk}{\ensuremath{\textbf{k}}}			%	k in bold
+\newcommand{\boldks}{\ensuremath{\textbf{k} \fs}}		%	k(s) in bold
+\newcommand{\boldkst}{\ensuremath{\textbf{k} \fst}}	%	k(s, t) in bold 
+
+\newcommand{\boldgamma}{\ensuremath{\boldsymbol{\gamma}}}			%	γ in bold 
+\newcommand{\boldgammas}{\ensuremath{\boldsymbol{\gamma} \fs}}		%	γ(s) in bold 
+\newcommand{\boldgammast}{\ensuremath{\boldsymbol{\gamma} \fst}}		%	γ(s, t) in bold 
+
+%	Derivatives of components of the strain in reference coordinates
+\newcommand{\dboldk}{\ensuremath{\dot{\textbf{k}}}}			%	dot k in bold
+\newcommand{\dboldks}{\ensuremath{\dot{\textbf{k}} \fs}}		%	dot k(s) in bold
+\newcommand{\dboldkst}{\ensuremath{\dot{\textbf{k}} \fst}}	%	dot k(s, t) in bold 
+
+\newcommand{\dboldgamma}{\ensuremath{\dot{\boldsymbol{\gamma}}}}			%	dot γ in bold 
+\newcommand{\dboldgammas}{\ensuremath{\dot{\boldsymbol{\gamma}} \fs}}	%	dot γ(s) in bold 
+\newcommand{\dboldgammast}{\ensuremath{\dot{\boldsymbol{\gamma}} \fst}}	%	dot γ(s, t) in bold 
+
+%	Components of the twist in local coordinates
+\newcommand{\boldOmega}{\ensuremath{\boldsymbol{\Omega}}}			%	Ω in bold
+\newcommand{\boldOmegas}{\ensuremath{\boldsymbol{\Omega} \fs}}		%	Ω(s) in bold
+\newcommand{\boldOmegast}{\ensuremath{\boldsymbol{\Omega} \fst}}		%	Ω(s, t) in bold 
+\newcommand{\boldOmegaXt}{\ensuremath{\boldsymbol{\Omega} \fXt}}		%	Ω(s, t) in bold
+
+\newcommand{\boldV}{\ensuremath{\textbf{V}}}				%	V in bold 
+\newcommand{\boldVs}{\ensuremath{\textbf{V} \fs}}			%	V(s) in bold 
+\newcommand{\boldVst}{\ensuremath{\textbf{V} \fst}}		%	V(s, t) in bold 
+\newcommand{\boldVXt}{\ensuremath{\textbf{V} \fXt}}		%	V(X, t) in bold 
+
+%	Derivatives of the twist in local coordinates
+\newcommand{\dboldOmega}{\ensuremath{\dot{\boldsymbol{\Omega}} }}		%	dot Ω in bold
+\newcommand{\dboldOmegas}{\ensuremath{\dot{\boldsymbol{\Omega}} \fs}}	%	dot Ω(s) in bold
+\newcommand{\dboldOmegast}{\ensuremath{\dot{\boldsymbol{\Omega}} \fst}}	%	dot Ω(s, t) in bold 
+
+\newcommand{\dboldV}{\ensuremath{\dot{\textbf{V}}}}			%	dot V in bold 
+\newcommand{\dboldVs}{\ensuremath{\dot{\textbf{V}} \fs}}		%	dot V(s) in bold 
+\newcommand{\dboldVst}{\ensuremath{\dot{\textbf{V}} \fst}}	%	dot V(s, t) in bold 
+
+%	Components of the twist in reference coordinates
+\newcommand{\boldomega}{\ensuremath{\boldsymbol{\omega}}}			%	ω in bold
+\newcommand{\boldomegas}{\ensuremath{\boldsymbol{\omega} \fs}}		%	ω(s) in bold
+\newcommand{\boldomegast}{\ensuremath{\boldsymbol{\omega} \fst}}		%	ω(s, t) in bold 
+
+\newcommand{\boldv}{\ensuremath{\textbf{v}}}				%	v in bold 
+\newcommand{\boldvs}{\ensuremath{\textbf{v} \fs}}			%	v(s) in bold 
+\newcommand{\boldvst}{\ensuremath{\textbf{v} \fst}}		%	v(s, t) in bold 
+
+%	Derivatives of the twist in reference coordinates
+\newcommand{\dboldomega}{\ensuremath{\dot{\boldsymbol{\omega}}}}			%	dot ω in bold
+\newcommand{\dboldomegas}{\ensuremath{\dot{\boldsymbol{\omega}} \fs}}	%	dot ω(s) in bold
+\newcommand{\dboldomegast}{\ensuremath{\dot{\boldsymbol{\omega}} \fst}}	%	dot ω(s, t) in bold 
+
+\newcommand{\dboldv}{\ensuremath{\dot{\textbf{v}}}}			%	dot v in bold 
+\newcommand{\dboldvs}{\ensuremath{\dot{\textbf{v}} \fs}}		%	dot v(s) in bold 
+\newcommand{\dboldvst}{\ensuremath{\dot{\textbf{v}} \fst}}	%	dot v(s, t) in bold 
+
+
+
+\newcommand{\boldzeta}{\ensuremath{\boldsymbol{\zeta}}}		%	ζ in bold
+
+
+\newcommand{\boldTheta}{\ensuremath{\boldsymbol{\Theta}}}
+\newcommand{\Thetaznp}{\ensuremath{\boldTheta \zn}}
+\newcommand{\Thetaznpk}{\ensuremath{\boldTheta \znp^{(k)}}}
+
+
+\newcommand{\Omegazn}{\ensuremath{\boldOmega \zn}}
+\newcommand{\Omegaznp}{\ensuremath{\boldOmega \znp}}
+\newcommand{\dOmegazn}{\ensuremath{\dot{\boldOmega} \zn}}
+\newcommand{\dOmegaznp}{\ensuremath{\dot{\boldOmega} \znp}}
+
+\newcommand{\Omegaznpk}{\ensuremath{\boldOmega \znp ^{(k)}}}
+\newcommand{\dOmegaznpk}{\ensuremath{\dot{\boldOmega} \znp ^{(k)}}}
+
+
+
+\newcommand{\boldlambda}{\ensuremath{\boldsymbol{\lambda}}}
+
+
+\newcommand{\barchinp}{\ensuremath{\bar{\boldchi}_{n+1}}}
+\newcommand{\fbarchinp}{\ensuremath{_{\left(\bar{\boldchi}_{n+1}\right)}}}
+\newcommand{\fbarchinptnp}{\ensuremath{_{\left(\bar{\boldchi}_{n+1}, \tnp\right)}}}
+
+
+\newcommand{\boldtau}{\ensuremath{\boldsymbol{\tau}}}
+\newcommand{\boldtaud}{\ensuremath{\boldtau_d}}
+\newcommand{\boldtaudnp}{\ensuremath{\boldtau_{d, n+1}}}
+
+
+\newcommand{\boldchibar}{\ensuremath{\bar{\boldchi}}}
+\newcommand{\boldchibarn}{\ensuremath{\boldchibar_n}}
+\newcommand{\boldchibarnp}{\ensuremath{\boldchibar_{n+1}}}
+
+
+\newcommand{\boldbeta}{\ensuremath{\boldsymbol{\beta}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%	COMMANDS TO BE USED TO DEFINE FRAMES, TRANSFORMATIONS AND GROUPS
+
+%	Pedices for the Newmark and Newton-Euler integrator
+\newcommand{\zn}{_{0_n}}
+\newcommand{\znp}{_{0_{n+1}}}
+
+%	Groups
+\newcommand{\SE}{\ensuremath{SE \left(3 \right)}}
+\newcommand{\SO}{\ensuremath{SO \left(3 \right)}}
+\newcommand{\se}{\ensuremath{se \left(3 \right)}}
+
+%	Transformations, vectors, directors and matrices of Lie group
+%	Trasformetions
+\newcommand{\Ts}{\ensuremath{\textbf{T}\fs}}		% T(s)
+\newcommand{\Tt}{\ensuremath{\textbf{T}\ft}}		% T(t)
+\newcommand{\Tst}{\ensuremath{\textbf{T}\fst}}	% T(s, t)
+\newcommand{\Rs}{\ensuremath{\textbf{R}\fs}}		% R(s)
+\newcommand{\Rst}{\ensuremath{\textbf{R}\fst}}  	% R(s, t)
+%	Quaternions
+\newcommand{\Qs}{\ensuremath{\textbf{Q}\fs}}		% Q(s)
+\newcommand{\QX}{\ensuremath{\textbf{Q}\fX}}		% Q(X)
+\newcommand{\Qst}{\ensuremath{\textbf{Q}\fst}}  % Q(s, t)
+\newcommand{\QXt}{\ensuremath{\textbf{Q}\fXt}}  % Q(X, t)
+%	Position
+\newcommand{\rs}{\ensuremath{\textbf{r}\fs}}		% r(s)
+\newcommand{\rX}{\ensuremath{\textbf{r}\fX}}		% r(X)
+\newcommand{\rst}{\ensuremath{\textbf{r}\fst}}  % r(s, t)
+\newcommand{\rXt}{\ensuremath{\textbf{r}\fXt}}  % r(X, t)
+%	Dircetors (Cosserat cross section)
+\newcommand{\ds}[1]{\ensuremath{{\textbf{d}_{#1}} \fs}}	 		%	Director (s)
+\newcommand{\dst}[1]{\ensuremath{{\textbf{d}_{#1}} \fst}}		% 	Director (s, t)
+\newcommand{\ddst}[1]{\ensuremath{\dot{\textbf{d}}_{#1\fst}}} 	%	dot Director (s)
+
+%	Same but with the subscript i
+\newcommand{\Tis}{\ensuremath{\textbf{T}\ifs}}	% Ti(s)
+\newcommand{\Tist}{\ensuremath{\textbf{T}\ifst}}	% Ti(s, t)
+\newcommand{\Ris}{\ensuremath{\textbf{R}\ifs}}	% Ri(s)
+\newcommand{\Rist}{\ensuremath{\textbf{R}\ifst}} 	% Ri(s, t)
+%	Quaternions
+\newcommand{\Qis}{\ensuremath{\textbf{Q}\ifs}}	% Qi(s)
+\newcommand{\Qist}{\ensuremath{\textbf{Q}\ifst}} 	% Qi(s, t)
+%	Position
+\newcommand{\ris}{\ensuremath{\textbf{r}\ifs}}	% ri(s)
+\newcommand{\rist}{\ensuremath{\textbf{r}\ifst}} 	% ri(s, t)
+
+%	Same but with the subscript i
+\newcommand{\TiX}{\ensuremath{\textbf{T}\ifX}}	% Ti(X)
+\newcommand{\TiXt}{\ensuremath{\textbf{T}\ifXt}}	% Ti(X, t)
+\newcommand{\RiX}{\ensuremath{\textbf{R}\ifX}}	% Ri(X)
+\newcommand{\RiXt}{\ensuremath{\textbf{R}\ifXt}} 	% Ri(X, t)
+%	Quaternions
+\newcommand{\QiX}{\ensuremath{\textbf{Q}\ifX}}	% Qi(X)
+\newcommand{\QiXt}{\ensuremath{\textbf{Q}\ifXt}} 	% Qi(X, t)
+%	Position
+\newcommand{\riX}{\ensuremath{\textbf{r}\ifX}}	% ri(X)
+\newcommand{\riXt}{\ensuremath{\textbf{r}\ifXt}} 	% ri(X, t)
+
+
+\newcommand{\rzn}{\ensuremath{\textbf{r} \zn }}
+\newcommand{\rznp}{\ensuremath{\textbf{r} \znp }}
+\newcommand{\drzn}{\ensuremath{\dot{\textbf{r}} \zn}}
+\newcommand{\drznp}{\ensuremath{\dot{\textbf{r}} \znp}}
+\newcommand{\ddrzn}{\ensuremath{\ddot{\textbf{r}} \zn}}
+\newcommand{\ddrznp}{\ensuremath{\ddot{\textbf{r}} \znp}}
+
+
+\newcommand{\dznp}{\ensuremath{\textbf{d} \znp}}
+\newcommand{\dznpk}{\ensuremath{\textbf{d} \znp^{(k)}}}
+
+\newcommand{\rznpk}{\ensuremath{\textbf{r}_{0_{n+1}}^{(k)}}}
+\newcommand{\drznpk}{\ensuremath{\dot{\textbf{r}}_{0_{n+1}}^{(k)}}}
+\newcommand{\ddrznpk}{\ensuremath{\ddot{\textbf{r}}_{0_{n+1}}^{(k)}}}
+
+\newcommand{\Rzn}{\ensuremath{\textbf{R} \zn}}
+\newcommand{\Rznp}{\ensuremath{\textbf{R} \znp}}
+\newcommand{\dRzn}{\ensuremath{\dot{\textbf{R}} \zn}}
+\newcommand{\dRznp}{\ensuremath{\dot{\textbf{R}} \znp}}
+\newcommand{\ddRzn}{\ensuremath{\ddot{\textbf{R}} \zn}}
+\newcommand{\ddRznp}{\ensuremath{\ddot{\textbf{R}} \znp}}
+
+
+%	Matrices for mapping ξa and ξc
+\newcommand{\B}{\ensuremath{\textbf{B}}}			%	B
+\newcommand{\Bbar}{\ensuremath{\bar{\textbf{B}}}}	%	Bbar
+
+%	Matrices of generalized stiffness and dumping
+\newcommand{\Kee}{\ensuremath{\textbf{K}_{\epsilon\epsilon}}}	%	Kee
+\newcommand{\Dee}{\ensuremath{\textbf{D}_{\epsilon\epsilon}}}	%	Dee
+
+\newcommand{\Qad}{\ensuremath{\textbf{Q}_{ad}}}			%	Qad
+\newcommand{\Qadt}{\ensuremath{{\textbf{Q}_{ad}}\ft}}		%	Qad(t)	
+\newcommand{\QadXt}{\ensuremath{{\textbf{Q}_{ad}}\fXt}}	%	Qad(X, t)
+
+%	Directors of world frame
+\newcommand{\eu}{\ensuremath{\textbf{e}_1} }
+\newcommand{\ed}{\ensuremath{\textbf{e}_2} }
+\newcommand{\et}{\ensuremath{\textbf{e}_3} }
+\newcommand{\e}[1]{\ensuremath{\textbf{e}_{#1}} }
+
+%	Derivatives
+\newcommand{\dTst}{\ensuremath{\dot{\textbf{T}}\fst} }	% function of time and arc length
+\newcommand{\dRst}{\ensuremath{\dot{\textbf{R}}\fst} } 	% dot function of time and arc length
+\newcommand{\dQst}{\ensuremath{\dot{\textbf{Q}}\fst} } 	% dot function of time and arc length
+\newcommand{\drst}{\ensuremath{\dot{\textbf{r}}\fst} } 	% dot function of time and arc length
+
+
+
+%	Some vector spaces already defined
+\newcommand{\Rthree}{\ensuremath{\mathbb{R}^3}}
+\newcommand{\Rfour}{\ensuremath{\mathbb{R}^4}}
+\newcommand{\Rsix}{\ensuremath{\mathbb{R}^6}}
+\newcommand{\Rsixsix}{\ensuremath{\mathbb{R}^{6 \times 6}}}
+\newcommand{\Rn}{\ensuremath{\mathbb{R}^n}}
+\newcommand{\Rna}{\ensuremath{\mathbb{R}^{n_a}}}
+\newcommand{\Rne}{\ensuremath{\mathbb{R}^{n_e}}}
+\newcommand{\Rnc}{\ensuremath{\mathbb{R}^{n_c}}}
+\newcommand{\Rm}{\ensuremath{\mathbb{R}^m}}
+\newcommand{\Rnm}{\ensuremath{\mathbb{R}^{n \times m}}}
+
+
+%	Some commonly used frames
+\newcommand{\Fs}{\ensuremath{\Fcal _s}}
+\newcommand{\Fw}{\ensuremath{\Fcal _w}}
+
+%	Wrenches
+\newcommand{\Ws}{\ensuremath{\textbf{W}\fs} }	%	Wrench of internal stresses for Cosserat rod
+
+%	Adjoint transformations
+\newcommand{\adeta}{\ensuremath{ad_{\boldeta}}}	%	adjoint of η in bold
+\newcommand{\adxi}{\ensuremath{ad_{\boldxi}}}		%	adjoint of ξ in bold
+
+\newcommand{\adetast}{\ensuremath{ad_{\boldetast}}}	%	adjoint of η(s, t) in bold
+\newcommand{\adxist}{\ensuremath{ad_{\boldxist}}}		%	adjoint of ξ(s, t) in bold
+
+%	Adjoint transformations derivatives
+\newcommand{\dadeta}{\ensuremath{ad_{\dboldeta}}}		%	adjoint of dot η in bold
+\newcommand{\dadxi}{\ensuremath{ad_{\dboldxi}}}		%	adjoint of dotξ in bold
+
+\newcommand{\dadetast}{\ensuremath{ad_{\dboldetast}}}	%	adjoint of dot η(s, t) in bold
+\newcommand{\dadxist}{\ensuremath{ad_{\dboldxist}}}	%	adjoint of dot ξ(s, t) in bold
+
+%	Forces and moments
+\newcommand{\n}{\ensuremath{\textbf{n}}}			%	n
+\newcommand{\ns}{\ensuremath{\textbf{n}\fs}}		%	n(s)
+\newcommand{\nst}{\ensuremath{\textbf{n}\fst}}	%	n(s, t)
+
+\newcommand{\m}{\ensuremath{\textbf{m}}}			%	m
+\newcommand{\ms}{\ensuremath{\textbf{m}\fs}}		%	m(s)
+\newcommand{\mst}{\ensuremath{\textbf{m}\fst}}	%	m(s, t)
+
+%	Forces and moments with pedix i 
+\newcommand{\nis}{\ensuremath{\textbf{n}\ifs}}	%	ni(s)
+\newcommand{\nist}{\ensuremath{\textbf{n}\ifst}}	%	ni(s, t)
+
+\newcommand{\mis}{\ensuremath{\textbf{m}\ifs}}	%	mi(s)
+\newcommand{\mist}{\ensuremath{\textbf{m}\ifst}}	%	mi(s, t)
+
+
+%	Forces and moments
+\newcommand{\nX}{\ensuremath{\textbf{n}\fX}}		%	n(X)
+\newcommand{\nXt}{\ensuremath{\textbf{n}\fXt}}	%	n(X, t)
+
+\newcommand{\mX}{\ensuremath{\textbf{m}\fX}}		%	m(X)
+\newcommand{\mXt}{\ensuremath{\textbf{m}\fXt}}	%	m(X, t)
+
+%	Forces and moments with pedix i 
+\newcommand{\niX}{\ensuremath{\textbf{n}\ifX}}	%	ni(X)
+\newcommand{\niXt}{\ensuremath{\textbf{n}\ifXt}}	%	ni(X, t)
+
+\newcommand{\miX}{\ensuremath{\textbf{m}\ifX}}	%	mi(X)
+\newcommand{\miXt}{\ensuremath{\textbf{m}\ifXt}}	%	mi(X, t)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%		ABBREVIATIONS TO USE IN THE TEXT
+
+
+\newcommand{\lm}{Levenberg-Marquardt}
+\newcommand{\sg}{Stewart-Gough}
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\al}{arc-length}
+\newcommand{\cs}{cross-section}
+\newcommand{\css}{cross-sections}
+\newcommand{\wrt}{with respect to}
+
+\newcommand{\geomst}{geometrico-static}
+
+
+\newcommand{\E}{Equation }
+\newcommand{\Es}{Equations }
+
+\newcommand{\Eq}[1]{Equation \eqref{#1}}
+
+%	Change text color
+\newcommand\red[1]{\ensuremath{\textcolor{red}{\textbf{#1}}}}
+\newcommand\blue[1]{\textcolor{blue}{\textbf{#1}}}
+\newcommand\green[1]{\textcolor{green}{\textbf{#1}}}
+\newcommand\brown[1]{\textcolor{brown}{\textbf{#1}}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%		COMMAND TO USE IN EQUATIONS TO KEEP IT COOL
+
+
+%	Commands fot the adjoints transformations
+\newcommand{\adxin}[1]{\ensuremath{ad_{\boldxi_#1}}}
+\newcommand{\addxin}[1]{\ensuremath{ad_{\dboldxi_#1}}}
+\newcommand{\Adjgk}[2]{\ensuremath{Ad_{^#1\textbf{g}_#2}}}
+
+
+%	Some notation in mathematical expressions
+\newcommand{\dist}[1]{\bar{\textbf{#1}}}								%	Vector that act distributed on the arc length
+\newcommand{\dists}[1]{\ensuremath{\bar{\textbf{#1}}\fs}}			%	Vector(s) that act distributed on the arc length
+\newcommand{\distst}[1]{\ensuremath{\bar{\textbf{#1}}\fst}}		 	%	Vector(s, t) that act distributed on the arc length
+\newcommand{\distX}[1]{\ensuremath{\bar{\textbf{#1}}\fX}}			%	Vector(X) that act distributed on the arc length
+\newcommand{\distXt}[1]{\ensuremath{\bar{\textbf{#1}}\fXt}}		 	%	Vector(X, t) that act distributed on the arc length
+
+
+%	Same but with pedix i
+\newcommand{\disti}[1]{\bar{\textbf{#1}}_i}							%	i th vector that act distributed on the arc length
+\newcommand{\distis}[1]{\ensuremath{\bar{\textbf{#1}}\ifs}}		    %	i th vector(s) that act distributed on the arc length
+\newcommand{\distist}[1]{\ensuremath{\bar{\textbf{#1}}\ifst}}		%	i th vector(s, t) that act distributed on the arc length
+\newcommand{\distiX}[1]{\ensuremath{\bar{\textbf{#1}}\ifX}}		    %	i th vector(X) that act distributed on the arc length
+\newcommand{\distiXt}[1]{\ensuremath{\bar{\textbf{#1}}\ifXt}}		%	i th vector(X, t) that act distributed on the arc length
+
+\newcommand{\zeno}{\ensuremath{\left[ 0, 1 \right]}}	%	Interval [0 1]
+
+
+\newcommand{\sinL}{\ensuremath{s \in \left[ 0, \ell \right]}}	%	Parameter s in interval 0 L 
+\newcommand{\Xzeno}{\ensuremath{X \in \zeno}}						%	Parameter s in interval 0 1
+
+%	Some integral operators
+\newcommand{\intzl}{\ensuremath{\int_0^\ell}}			%	Integral in arc length 0 L
+\newcommand{\intzeno}{\ensuremath{\int_0^1}}			%	Integral in  0 1
+\newcommand{\inttt}{\ensuremath{\int_{t_1}^{t_2}}}	%	Integral in time t1 t2
+\newcommand{\intttzl}{\ensuremath{\inttt \intzl}}		% 	Integral in both time and then arc length
+\newcommand{\dxdt}{\ensuremath{\; dX \;dt}}			%	dX dt to use in integrals, already spaced
+\newcommand{\dsdt}{\ensuremath{\; ds \;dt}}			%	ds dt to use in integrals, already spaced
+\newcommand{\inttntnp}{\int_{\tn}^{\tnp}}          	%	integral from tn to tn+1
+
+%	Partial derivatives of lagrangian
+\newcommand{\dLdeta}{\ensuremath{\frac{\partial \Lcal}{\partial \boldeta}}}	%	δL/δη
+\newcommand{\dLdxi}{\ensuremath{\frac{\partial \Lcal}{\partial \boldxi}}}	%	δL/δξ
+%	Partial derivatives of lagrangian in parentheses
+\newcommand{\pardLdeta}{\ensuremath{\left( \dLdeta \right)}}			%	(δL/δη)
+\newcommand{\pardLdxi}{\ensuremath{\left( \dLdxi \right)}}				%	(δL/δξ)
+%	Some fraction
+\newcommand{\derivt}{\frac{d}{dt}}
+\newcommand{\derivx}{\frac{d}{dX}}
+\newcommand{\derivs}{\frac{d}{ds}}
+%	Some partial derivatives
+\newcommand{\partit}{\ensuremath{\frac{\partial}{\partial t}} }
+\newcommand{\partis}{\ensuremath{\frac{\partial}{\partial s}} }
+
+%	Norm of a vector
+\newcommand{\norm}[1]{\ensuremath{\left\lVert#1\right\rVert} }
+
+%	Inverse operator 
+\newcommand{\inv}{^{-1}}
+
+%	Delta t for the Newmark integrator
+\newcommand{\vart}{\ensuremath{\triangle t}}		%	∆t
+\newcommand{\vartd}{\ensuremath{\triangle t ^2}}	%	∆t^2
+
+%	Vector of generalized coordinates
+\newcommand{\q}{\ensuremath{\textbf{q}}}				%	q in bold
+\newcommand{\qs}{\ensuremath{\textbf{q}}}				%	q(s) in bold
+\newcommand{\qst}{\ensuremath{\textbf{q}}}			%	q(s, t) in bold
+\newcommand{\dq}{\ensuremath{\dot{\textbf{q}}}}		%	dot q in bold
+\newcommand{\dqs}{\ensuremath{\dot{\textbf{q}}}}		%	dot q(s) in bold
+\newcommand{\dqst}{\ensuremath{\dot{\textbf{q}}}}		%	dot q(s, t) in bold
+\newcommand{\ddq}{\ensuremath{\ddot{\textbf{q}}}}		%	ddot q in bold
+\newcommand{\ddqs}{\ensuremath{\ddot{\textbf{q}}}}	%	ddot q(s) in bold
+\newcommand{\ddqst}{\ensuremath{\ddot{\textbf{q}}}}	%	ddot q(s, t) in bold
+
+\newcommand{\qe}{\ensuremath{\textbf{q}_e}}				%	qe in bold
+\newcommand{\dqe}{\ensuremath{\dot{\textbf{q}}_e}}		%	dot qe in bold
+\newcommand{\ddqe}{\ensuremath{\ddot{\textbf{q}}_e}}		%	ddot qe in bold
+
+\newcommand{\qet}{\ensuremath{{\textbf{q}_e}\ft}}				%	qe(X) in bold
+\newcommand{\dqet}{\ensuremath{\dot{\textbf{q}}_{e(t)}}}		%	dot qe(X) in bold
+\newcommand{\ddqet}{\ensuremath{\ddot{\textbf{q}}_{e(t)}}}	%	ddot qe(X) in bold
+
+\newcommand{\qn}{\ensuremath{\textbf{q}_n}}					%	q at n
+\newcommand{\qnp}{\ensuremath{\textbf{q}_{n+1}}}				%	dot q at n
+\newcommand{\dqn}{\ensuremath{\dot{\textbf{q}}_n}}			%	ddot q at n
+\newcommand{\dqnp}{\ensuremath{\dot{\textbf{q}}_{n+1}}}		%	q at n+1
+\newcommand{\ddqn}{\ensuremath{\ddot{\textbf{q}}_n}}			%	dot q at n+1
+\newcommand{\ddqnp}{\ensuremath{\ddot{\textbf{q}}_{n+1}}}	%	ddot q at n+1
+
+\newcommand{\qnpk}{\ensuremath{\textbf{q}_{n+1}^{(k)}}}			%	q at n+1 for iteration (k)
+\newcommand{\dqnpk}{\ensuremath{\dot{\textbf{q}}_{n+1}^{(k)}}}	%	dot q at n+1 for iteration (k)
+\newcommand{\ddqnpk}{\ensuremath{\ddot{\textbf{q}}_{n+1}^{(k)}}}	%	ddot q at n+1 for iteration (k)
+
+
+%	Some Jacobians
+\newcommand{\J}{\ensuremath{\textbf{J}}}			%	J in bold
+\newcommand{\Js}{\ensuremath{\textbf{J} \fs}}		%	J(s) in bold
+\newcommand{\Jst}{\ensuremath{\textbf{J} \fst}}	%	J(s, t) in bold
+\newcommand{\JX}{\ensuremath{\textbf{J} \fX}}		%	J(X) in bold
+\newcommand{\JXt}{\ensuremath{\textbf{J} \fXt}}	%	J(X, t) in bold
+
+\newcommand{\dJ}{\ensuremath{\dot{\textbf{J}}}}			%	J in bold
+\newcommand{\dJs}{\ensuremath{\dot{\textbf{J}} \fs}}		%	J(s) in bold
+\newcommand{\dJst}{\ensuremath{\dot{\textbf{J}} \fst}}	%	J(s, t) in bold
+\newcommand{\dJX}{\ensuremath{\dot{\textbf{J}} \fX}}		%	J(X) in bold
+\newcommand{\dJXt}{\ensuremath{\dot{\textbf{J}} \fXst}}	%	J(X, t) in bold
+
+%	The Psi matrix
+\newcommand{\boldPhi}{\ensuremath{\boldsymbol{\Phi}}}				%	Φ in bold
+\newcommand{\boldPhis}{\ensuremath{\boldsymbol{\Phi}\fs}}		%	Φ(s) in bold
+\newcommand{\boldPhiX}{\ensuremath{\boldsymbol{\Phi}\fX}}		%	Φ(X) in bold
+\newcommand{\boldPhist}{\ensuremath{\boldsymbol{\Phi}\fst}}		%	Φ(s, t) in bold
+\newcommand{\boldPhiXt}{\ensuremath{\boldsymbol{\Phi}\fXt}}		%	Φ(X, t) in bold
+
+
+%	Vectors for the coordinates of Newton-Euler
+\newcommand{\Qa}{\ensuremath{\textbf{Q}_a}}
+\newcommand{\Qar}{\ensuremath{\textbf{Q}_{a_r}}}
+\newcommand{\Qaeps}{\ensuremath{\textbf{Q}_{a_\epsilon}}}
+\newcommand{\Qadeps}{\ensuremath{\textbf{Q}_{a_{\epsilon d}}}}
+\newcommand{\Qadepsn}[1]{\ensuremath{\textbf{Q}_{a_{\epsilon d, #1}}}}
+\newcommand{\Qv}{\ensuremath{\textbf{Q}_v}}
+\newcommand{\Qg}{\ensuremath{\textbf{Q}_g}}
+\newcommand{\Qe}{\ensuremath{\textbf{Q}_e}}
+\newcommand{\Qeps}{\ensuremath{\textbf{Q}_\epsilon}}
+\newcommand{\Qenp}{\ensuremath{\textbf{Q}_{e, n+1}}}
+\newcommand{\Qadtnp}{\ensuremath{\textbf{Q}_{ad \left(t_{n+1} \right)}}}
+
+
+%	Some definitions for the residual
+\newcommand{\Rcaln}{\ensuremath{\boldRcal_{n}}}
+\newcommand{\Rcalqn}{\ensuremath{\boldRcal_{q, n}}}
+\newcommand{\Rcallambdan}{\ensuremath{\boldRcal_{\lambda, n}}}
+\newcommand{\Rcalnp}{\ensuremath{\boldRcal_{n+1}}}
+\newcommand{\Rcalqnp}{\ensuremath{\boldRcal_{q, n+1}}}
+\newcommand{\Rcallambdanp}{\ensuremath{\boldRcal_{\lambda, n+1}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%		SOME VARIABLES IN BOLD AND MATHCAL
+
+%	All in mathcal
+\newcommand{\Acal}{\ensuremath{\mathcal{A}} }
+\newcommand{\Ccal}{\ensuremath{\mathcal{C}} }
+\newcommand{\Dcal}{\ensuremath{\mathcal{D}} }
+\newcommand{\Fcal}{\ensuremath{\mathcal{F}} }
+\newcommand{\Hcal}{\ensuremath{\mathcal{H}} }
+\newcommand{\Jcal}{\ensuremath{\mathcal{J}} }
+\newcommand{\Kcal}{\ensuremath{\mathcal{K}} }
+\newcommand{\Lcal}{\ensuremath{\mathcal{L}} }
+\newcommand{\Mcal}{\ensuremath{\mathcal{M}} }
+\newcommand{\Rcal}{\ensuremath{\mathcal{R}} }
+\newcommand{\Tcal}{\ensuremath{\mathcal{T}} }
+\newcommand{\Ucal}{\ensuremath{\mathcal{U}} }
+\newcommand{\Wcal}{\ensuremath{\mathcal{W}} }
+
+
+%	Some with counterpart in bold
+\newcommand{\boldAcal}{\ensuremath{\boldsymbol{\Acal}} }
+\newcommand{\boldDcal}{\ensuremath{\boldsymbol{\Dcal}} }
+\newcommand{\boldFcal}{\ensuremath{\boldsymbol{\Fcal}} }
+\newcommand{\boldHcal}{\ensuremath{\boldsymbol{\Hcal}} }
+\newcommand{\boldMcal}{\ensuremath{\boldsymbol{\Mcal}} }
+\newcommand{\boldRcal}{\ensuremath{\boldsymbol{\Rcal}} }
+
+\newcommand{\boldDcala}{\ensuremath{\boldsymbol{\Dcal}_a} }
+\newcommand{\boldHcala}{\ensuremath{\boldsymbol{\Hcal}_a} }
+\newcommand{\boldKcal}{\ensuremath{\boldsymbol{\Kcal}} }
+\newcommand{\boldKcalee}{\ensuremath{\boldKcal_{\epsilon\epsilon}} }
+
+\newcommand{\boldJcal}{\ensuremath{\boldsymbol{\Jcal}}}
+
+
+%	Generalization
+\newcommand{\mcal}[1]{\ensuremath{\mathcal{#1}} }
+\newcommand{\bmcal}[1]{\ensuremath{\boldsymbol{\mcal{#1}}} }
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%		TEMP		TEMP		TEMP		TEMP		TEMP
+
+\newcommand{\Idof}{\ensuremath{\boldsymbol{\mathcal{I}}_{dof}}}  
+\newcommand{\rangelimbs}{\forall i \in \left[1, N \right]}
+\newcommand{\nlimb}{{N_{limbs}}}
+
+
+\newcommand{\pluseq}{\mathrel{+}=}
+\newcommand{\mineq}{\mathrel{-}=}
+
+
+
+
+
+
+ 
+
+
