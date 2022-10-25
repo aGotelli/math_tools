@@ -40,3 +40,7 @@ mkdir -p build && cd build
 make_install_build_of_type Debug
 cd ..
 make_install_build_of_type Release
+
+
+make doc
+

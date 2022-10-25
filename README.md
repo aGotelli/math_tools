@@ -73,5 +73,7 @@ Intallation will be executed by
 
     sudo make install
 
+You can now build the documentation
 
+    make doc
 
