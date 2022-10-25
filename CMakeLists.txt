@@ -32,24 +32,24 @@ set(CMAKE_DEBUG_POSTFIX "-debug")
 #   Process the content of src, ie, the actual code
 add_subdirectory(src)
 
-## testing
-#if(GTest_FOUND)
-#  message(STATUS "Building tests")
-#  enable_testing()
+# testing
+if(GTest_FOUND)
+  message(STATUS "Building tests")
+  enable_testing()
 
-#  add_subdirectory(tests)
+  add_subdirectory(tests)
 
-#endif(GTest_FOUND)
+endif(GTest_FOUND)
 
 
-## benchmark
-#if(benchmark_FOUND)
-#  message(STATUS "Building benchmark")
-#  enable_testing()
+# benchmark
+if(benchmark_FOUND)
+  message(STATUS "Building benchmark")
+  enable_testing()
 
-#  add_subdirectory(benchmarks)
+  add_subdirectory(benchmarks)
 
-#endif(benchmark_FOUND)
+endif(benchmark_FOUND)
 
 #   Install the library using the default routine
 include(cmake/installation_module.cmake)
