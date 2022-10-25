@@ -10,12 +10,11 @@ add_library(${PROJECT_NAME}
         include/math_tools/LieAlgebra/lie_algebra_utilities.hpp
 )
 target_link_libraries(${PROJECT_NAME}
-    PRIVATE
+    PUBLIC
         Eigen3::Eigen
 )
 target_compile_options(${PROJECT_NAME}
     PRIVATE
-        #-Werror
         -Wall
         -Wextra
 )
