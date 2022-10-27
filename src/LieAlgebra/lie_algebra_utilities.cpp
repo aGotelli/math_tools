@@ -100,9 +100,9 @@ Eigen::Matrix3d SE3Pose::getRotationMatrix() const
 }
 
 Eigen::Matrix4d SE3Pose::getSE3PoseAsMatrix() const
-{
-    return (Eigen::Matrix4d() << getRotationMatrix(), m_position.transpose(),
-                                 Eigen::RowVector3d::Zero(), 1).finished();
+{  
+    return (Eigen::Matrix4d() << getRotationMatrix(), m_position,
+                                 Eigen::RowVector3d::Zero(), 1.0).finished();
 }
 
 
