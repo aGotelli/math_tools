@@ -9,7 +9,12 @@ include_directories(include)
 
 
 
-
+add_executable(test_log test_log.cpp)
+target_link_libraries(test_log
+    PRIVATE
+        Eigen3::Eigen
+        ${PROJECT_NAME}
+)
 
 add_executable(test_SE3Pose test_SE3Pose.cpp)
 target_link_libraries(test_SE3Pose
