@@ -374,16 +374,12 @@ Eigen::Vector3d differenceInSO3(const Eigen::Matrix3d &t_Ra,
 
 
 
-Eigen::Vector3d logSO3(const Eigen::Matrix3d &t_Ra,
-                       const Eigen::Matrix3d &t_Rb)
+Eigen::Vector3d logSO3(const Eigen::Matrix3d &t_aR_b)
 {
-    static_assert( std::numeric_limits<double>::has_quiet_NaN ) ;
-
-    //  Compute reulting rotation matrix
-    const Eigen::Matrix3d R = t_Ra.transpose() * t_Rb;
+    static_assert( std::numeric_limits<double>::has_quiet_NaN );
 
     //  Compute the angle
-    const double theta = acos( 0.5*(R.trace() - 1) );
+    const double theta = acos( 0.5*(t_aR_b.trace() - 1) );
 
     //  Compute the gain
     const double gain = [&](){
@@ -393,8 +389,26 @@ Eigen::Vector3d logSO3(const Eigen::Matrix3d &t_Ra,
         return res;
     }();
 
-    return gain * antiSkew( R - R.transpose() );
+    return gain * antiSkew( t_aR_b - t_aR_b.transpose() );
 }
+
+
+
+Eigen::Vector3d logSO3(const Eigen::Matrix3d &t_Ra,
+                       const Eigen::Matrix3d &t_Rb)
+{
+    static_assert( std::numeric_limits<double>::has_quiet_NaN ) ;
+
+    //  Compute resulting rotation matrix
+    const Eigen::Matrix3d aR_b = t_Ra.transpose() * t_Rb;
+
+    //  Call the log funtion
+    return logSO3(aR_b);
+}
+
+
+
+
 
 
 }   //  namespace LieAlgebra

@@ -477,14 +477,44 @@ Eigen::Vector3d differenceInSO3(const Eigen::Matrix3d &t_Ra,
                                 const Eigen::Matrix3d &t_Rb);
 
 
+
+
 /*!
  * \brief logSO3 compute the log in SO(3) between two rotation matrices
- * \param t_Ra the rotation matrix expressing the orientation of a frame a with respect to a reference frame
- * \param t_Rb the rotation matrix expressing the orientation of a frame b with respect to a reference frame
+ * \param t_aR_b the rotation matrix expressing the orientation of frame b with respect to frame a
+ * \return the log in SO(3) of the rotation matrix
+ *
+ * This function takes a relative rotations matrix as parameter and returns the error in SO(3) computed with
+ * the log.
+ *
+ * It computes the error as :
+ *
+ * \f$ log_{SO(3)} \left( t\_{^aR_b} \right)  \f$
+ */
+Eigen::Vector3d logSO3(const Eigen::Matrix3d &t_aR_b);
+
+
+/*!
+ * \brief logSO3 compute the log in SO(3) between two rotation matrices
+ * \param t_Ra the rotation matrix expressing the orientation of a frame a with respect to the reference frame
+ * \param t_Rb the rotation matrix expressing the orientation of a frame b with respect to the reference frame
  * \return the log in SO(3) between two rotation matrices
+ *
+ * This function takes two rotations matrices as parameter and returns the error in SO(3) computed with
+ * the log.
+ *
+ * Starting from t_Ra and t_Rb it computes the error as :
+ *
+ * \f$ log_{SO(3)} \left( t\_R_a^T t\_R_b \right) = log_{SO(3)} \left( t\_{^aR_b} \right) \f$
+ *
+ * This function serves as warper to the function logSO3(const Eigen::Matrix3d&)
  */
 Eigen::Vector3d logSO3(const Eigen::Matrix3d &t_Ra,
                        const Eigen::Matrix3d &t_Rb);
+
+
+
+
 
 }   //  namespace LieAlgebra
 
