@@ -41,3 +41,11 @@ target_link_libraries(test_Adg
         Eigen3::Eigen
         ${PROJECT_NAME}
 )
+
+add_executable(test_T test_T.cpp)
+target_link_libraries(test_T
+    PRIVATE
+        Eigen3::Eigen
+        ${PROJECT_NAME}
+)
+

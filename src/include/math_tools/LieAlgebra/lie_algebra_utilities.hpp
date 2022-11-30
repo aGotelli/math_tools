@@ -515,6 +515,12 @@ Eigen::Vector3d logSO3(const Eigen::Matrix3d &t_Ra,
 
 
 
+std::pair<double, double> alpha_beta(const Eigen::Vector3d &t_Theta);
+
+Eigen::Matrix3d TSO3(const Eigen::Vector3d &t_Theta);
+
+Eigen::Matrix3d TSO3_inverse(const Eigen::Vector3d &t_Theta);
+
 
 }   //  namespace LieAlgebra
 

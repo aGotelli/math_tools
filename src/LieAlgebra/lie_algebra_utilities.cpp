@@ -152,9 +152,11 @@ Eigen::Matrix3d skew(const Eigen::Vector3d &t_v)
 
 Eigen::Vector3d antiSkew(const Eigen::Matrix3d &t_skew_simmetric_matrix)
 {
+
+
     return (Eigen::Vector3d() << -t_skew_simmetric_matrix(1, 2),
                                   t_skew_simmetric_matrix(0, 2),
-                                  t_skew_simmetric_matrix(0, 1)
+                                 -t_skew_simmetric_matrix(0, 1)
             ).finished();
 }
 
@@ -397,8 +399,6 @@ Eigen::Vector3d logSO3(const Eigen::Matrix3d &t_aR_b)
 Eigen::Vector3d logSO3(const Eigen::Matrix3d &t_Ra,
                        const Eigen::Matrix3d &t_Rb)
 {
-    static_assert( std::numeric_limits<double>::has_quiet_NaN ) ;
-
     //  Compute resulting rotation matrix
     const Eigen::Matrix3d aR_b = t_Ra.transpose() * t_Rb;
 
@@ -406,6 +406,66 @@ Eigen::Vector3d logSO3(const Eigen::Matrix3d &t_Ra,
     return logSO3(aR_b);
 }
 
+
+
+
+std::pair<double, double> alpha_beta(const Eigen::Vector3d &t_Theta)
+{
+    const double norm = t_Theta.norm();
+
+    double alpha = sin(norm)/norm;
+    double beta = (2 - 2*cos(norm))/(norm*norm);
+
+    if(std::isnan(alpha) || std::isnan(beta)){
+        alpha = 1 - ((norm*norm)/6.0);
+        beta =  1 - ((norm*norm)/12.0);
+    }
+
+    return {alpha, beta};
+}
+
+Eigen::Matrix3d TSO3(const Eigen::Vector3d &t_Theta)
+{
+    const auto [alpha,beta] = alpha_beta( t_Theta );
+
+    const Eigen::Matrix3d eye = Eigen::Matrix3d::Identity();
+
+    const double norm = t_Theta.norm();
+
+    const Eigen::Matrix3d hat_Theta = skew(t_Theta);
+
+    Eigen::Matrix3d T_SO3 = eye
+                            - ( beta/2.0 )*hat_Theta
+                            + ( (1.0-alpha)/(norm*norm) )*hat_Theta*hat_Theta;
+
+    if(T_SO3.hasNaN())
+        T_SO3 = eye - (1.0/2.0)*hat_Theta + (1.0/6.0)*hat_Theta*hat_Theta;
+
+    return T_SO3;
+}
+
+
+Eigen::Matrix3d TSO3_inverse(const Eigen::Vector3d &t_Theta)
+{
+    const auto [alpha,beta] = alpha_beta( t_Theta );
+
+    const Eigen::Matrix3d eye = Eigen::Matrix3d::Identity();
+
+    const double norm = t_Theta.norm();
+
+    const Eigen::Matrix3d hat_Theta = skew(t_Theta);
+
+
+    Eigen::Matrix3d T_SO3_inverse = eye
+                                    + ( 1.0/2.0 )*hat_Theta
+                                    + ( 1.0/(norm*norm) ) * (1.0 - (alpha/beta))*hat_Theta*hat_Theta;
+
+
+    if(T_SO3_inverse.hasNaN())
+        T_SO3_inverse = eye;
+
+    return T_SO3_inverse;
+}
 
 
 
