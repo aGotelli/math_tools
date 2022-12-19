@@ -104,6 +104,10 @@ struct SE3Pose {
             const double &t_theta,
             const Eigen::Vector3d &t_axis=Eigen::Vector3d::UnitZ());
 
+
+
+    static SE3Pose Identity();
+
     /*!
      * \brief operator * defines the multiplication of a pose with another one
      * \param t_other The other pose to be bultiplied
@@ -460,6 +464,10 @@ Eigen::Matrix3d getRz(const double &t_theta);
 
 
 
+Eigen::Matrix3d expRodigues(const Eigen::Matrix3d &t_Omega);
+
+
+
 /*!
  * \brief differenceInSO3 computes the difference in SO(3) between two orientation matrices
  * \param t_Ra the orientation matrix of frame a with respect to the reference frame
@@ -516,6 +524,8 @@ Eigen::Vector3d logSO3(const Eigen::Matrix3d &t_Ra,
 
 
 std::pair<double, double> alpha_beta(const Eigen::Vector3d &t_Theta);
+
+Eigen::Matrix3d expSO3(const Eigen::Vector3d &t_Theta);
 
 Eigen::Matrix3d TSO3(const Eigen::Vector3d &t_Theta);
 

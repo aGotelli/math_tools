@@ -64,7 +64,13 @@ SE3Pose SE3Pose::operator*(const SE3Pose &t_other) const
     return result_pose;
 }
 
+SE3Pose SE3Pose::Identity()
+{
+    const Eigen::Quaterniond q(1, 0, 0, 0);
+    const auto r = Eigen::Vector3d::Zero();
 
+    return SE3Pose(q, r);
+}
 
 SE3Pose SE3Pose::inverse() const
 {
@@ -367,6 +373,22 @@ Eigen::Matrix3d getRz(const double &t_theta)
 }
 
 
+Eigen::Matrix3d expRodigues(const Eigen::Matrix3d &t_Omega)
+{
+    const auto theta = antiSkew(t_Omega).norm();
+    const auto omega = t_Omega / theta;
+
+    const auto exp = Eigen::Matrix3d::Identity()
+                    + omega * sin( theta )
+                    + omega*omega * (1 - cos( theta ));
+
+    if(exp.hasNaN())
+        return Eigen::Matrix3d::Identity();
+
+    return exp;
+}
+
+
 
 Eigen::Vector3d differenceInSO3(const Eigen::Matrix3d &t_Ra,
                                 const Eigen::Matrix3d &t_Rb)
@@ -416,13 +438,32 @@ std::pair<double, double> alpha_beta(const Eigen::Vector3d &t_Theta)
     double alpha = sin(norm)/norm;
     double beta = (2 - 2*cos(norm))/(norm*norm);
 
-    if(std::isnan(alpha) || std::isnan(beta)){
+    if(std::isnan(alpha) || std::isnan(beta) ||
+       std::isinf(alpha) || std::isinf(beta)){
         alpha = 1 - ((norm*norm)/6.0);
         beta =  1 - ((norm*norm)/12.0);
     }
 
     return {alpha, beta};
 }
+
+
+Eigen::Matrix3d expSO3(const Eigen::Vector3d &t_Theta)
+{
+    const auto [alpha,beta] = alpha_beta( t_Theta );
+
+    const Eigen::Matrix3d eye = Eigen::Matrix3d::Identity();
+
+
+    const Eigen::Matrix3d hat_Theta = skew(t_Theta);
+
+    Eigen::Matrix3d exp_SO3 = eye + alpha*hat_Theta + (beta/2.0)*hat_Theta*hat_Theta;
+
+    return exp_SO3;
+
+}
+
+
 
 Eigen::Matrix3d TSO3(const Eigen::Vector3d &t_Theta)
 {

@@ -238,7 +238,6 @@ Eigen::MatrixXd ChebyshevReconstructor::reconstructRodShape(const Eigen::Matrix<
         s = static_cast<double>(i*m_step);
 
         //  Compute for the first point
-        const Eigen::VectorXd res = m_CN.row(0) * T0;
         reconstructed_point = m_CN.row(0) * T0;
 
         //  Obtain the others Chebyshev points
