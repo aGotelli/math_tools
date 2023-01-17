@@ -49,3 +49,10 @@ target_link_libraries(test_T
         ${PROJECT_NAME}
 )
 
+add_executable(test_log_SO3 test_log_SO3.cpp)
+target_link_libraries(test_log_SO3
+    PRIVATE
+        Eigen3::Eigen
+        ${PROJECT_NAME}
+)
+
