@@ -249,7 +249,7 @@ If we need to compute the acceleration than we need to derivate this relation. W
 
 The derivative of the adjoint operator, namely \dotAdagb{}, is defined as follows
 
-\begin{equation}
+\begin{equation}\label{eq:derivative Ad time}
 	\dotAdagb = \Adagb \adetaba
 \end{equation}
 
@@ -266,7 +266,7 @@ Where the \adetaba operator accounts for the contribution of the twist in the de
 
 If we now want to determine the tangent kinematics we first need to introduce 
 
-\begin{equation}
+\begin{equation}\label{eq: Delta zeta}
 	\Delta \zeta_{a} = g_a \inv \Delta g_a
 \end{equation}
 
@@ -324,6 +324,313 @@ And we can define the operator $\Delta \dotAdagb$  as follows
 		&= \Adagb \adDzetaba \adetaba + \Adagb ad_{\Delta \etaba} \\
 		&= \Adagb \left[ \adDzetaba \adetaba + \Adagb ad_{\Delta \etaba} \right]
 \end{aligned}
+\end{equation}
+
+
+
+\paragraph{We want to show that $\dot{Ad}_g^{-T} = - Ad_g^{-T} ad_\eta ^T = - ad^T _{Ad_g \eta} Ad_g ^{-T}$}
+
+We need to invoke the duality between twists and wrenches in order to find that, for every virtual twist $\delta \zeta$
+
+\begin{equation}\label{eq:duality twists wrenches}
+\begin{aligned}
+	\delta \zeta ^T \left( Ad_g^{-T} ad_\eta^T F  \right) &= \delta \zeta ^T \left( ad_{Ad_g \eta}^TAd_g^{-T} F  \right) \\
+	\left(  ad_\eta Ad_g^{-1} \delta \zeta  \right)^T F &= \left( Ad_g^{-1} ad_{Ad_g \eta}  \delta \zeta  \right)^T F \\
+	&= \left( Ad_g^{-1} ad_{Ad_g \eta}  Ad_g Ad_g ^{-1}\delta \zeta  \right)^T F
+\end{aligned}
+\end{equation}
+
+Now using the property that $ad_{Ad_g \eta}  Ad_g = Ad_g ad_{ \eta}$ \color{red} \textbf{proof required!}\color{black} we can simplify the right part of Equation \eqref{eq:duality twists wrenches} as follows
+
+\begin{equation}\label{eq:duality twists wrenches simplified}
+\begin{aligned}
+	\left(  ad_\eta Ad_g^{-1} \delta \zeta  \right)^T F &= \left( Ad_g^{-1} Ad_g ad_{ \eta} Ad_g ^{-1}\delta \zeta  \right)^T F \\
+	&= \left( ad_{ \eta} Ad_g ^{-1}\delta \zeta  \right)^T F
+\end{aligned}
+\end{equation}
+
+As Equations \eqref{eq:duality twists wrenches} and \eqref{eq:duality twists wrenches simplified} are valied for every wrench $F$ and twist $\delta \zeta$, we have proven the realation
+
+\begin{equation}
+	\dot{Ad}_g^{-T} = - Ad_g^{-T} ad_\eta ^T = - ad^T _{Ad_g \eta} Ad_g ^{-T}
+\end{equation}
+
+
+\subsection{Definition of relative acceleration}
+
+Having two bodies namely $\beta_k$ and $\beta_j$, with $j>k$, we can define the relative twist as $\eta_{j/k}$ where in the pedix $j/k$ the $/$ means with respect to; in this case it expressed the twist $\eta_j$ with respect to the frame attached to the body $\beta_k$.
+
+If we know the twist of the body $\beta_k$, expressed in its local coordinates, as $\eta_k$, then we can compute the twist of body $\beta_j$ expresses in the local coordinated frame attached to the body $\beta_j$ as 
+
+\begin{equation}\label{eq: twist definition}
+	\eta_j = Ad_{^j g_k} \eta_k + \eta_{j/k}
+\end{equation}
+
+We can differentiate this equation in order to obtain 
+\begin{equation}\label{eq:twist derivative raw}
+\begin{aligned}
+	\dot{\eta}_j 	&= Ad_{^jg_k} \dot{\eta}_k + \dot{Ad}_{^jg_k} \eta_k + \dot{\eta}_{j/k} \\
+					&= Ad_{^jg_k} \dot{\eta}_k + Ad_{^jg_k} ad_{\eta_{k/j}} \eta_k + \dot{\eta}_{j/k} 
+\end{aligned}
+\end{equation}
+
+Equation \eqref{eq:twist derivative raw} needs the knowledge of the relative twist $\eta_{k/j}$ expressing the twist of the body $k$ as seen in the coordinate frame attached to body $j$. In our Newton-Euler formalism, we have the opposite quantity $\eta_{j/k}$. We thus need to find an expression of Equation \eqref{eq:twist derivative raw} that uses $\eta_{j/k}$ instead of $\eta_{k/j}$.
+
+
+We start from the identity ${^jg_k}{^kg_j} = \mathbb{1}$. If we differentiate it with respect to time we obtain 
+
+\begin{equation}\label{eq: derivative equality poses}
+\begin{aligned}
+	{^j\dot{g}_k}{^kg_j} 	&= - {^jg_k}{^k\dot{g}_j} \\
+							&= - {^j} \hat{\eta}_{j/k}
+\end{aligned}
+\end{equation}
+
+
+By multiplying the left hand side of Equation \eqref{eq: derivative equality poses} by ${^jg_k}{^kg_j}$ we obtain
+
+
+\begin{equation}\label{eq: derivative equality poses 2}
+\begin{aligned}
+	{^jg_k}{^kg_j}{^j\dot{g}_k}{^kg_j} 	&= - {^j} \hat{\eta}_{j/k}\\
+	{^jg_k} \hat{\eta}_{k/j}{^kg_j}		&= 
+\end{aligned}
+\end{equation}
+
+Using the relation $\left[ g\eta g \inv \right]^\vee = Ad_g \eta $ \color{red}\textbf{proof required!}\color{black} in the left hand side of Equation \eqref{eq: derivative equality poses 2} we obtain the following expression.
+
+\begin{equation}\label{eq: derivative equality poses 3}
+\begin{aligned}
+	{^jg_k}{^kg_j}{^j\dot{g}_k}{^kg_j} 	&= - {^j \hat{\eta}}_{j/k}\\
+	Ad_{^jg_k} \eta_{k/j}					&= - {^j {\eta}}_{j/k} \\
+	\eta_{k/j} &= - Ad_{^jg_k} \inv {^j {\eta}}_{j/k}
+\end{aligned}
+\end{equation}
+
+From the right hand side of Equation \eqref{eq: derivative equality poses 3} we can apply the relation $Ad_g \inv = Ad_{} g\inv$ in order to obtain
+
+\begin{equation}\label{eq: derivative equality poses 4}
+\begin{aligned}
+	\eta_{k/j} 	&= - Ad_{^jg_k} \inv {^j {\eta}}_{j/k} \\
+				&= - Ad_{^jg_k\inv}  {^j {\eta}}_{j/k} \\
+				&= - Ad_{^kg_j}  {^j {\eta}}_{j/k} \\
+\end{aligned}
+\end{equation}
+
+Substituing Equation \eqref{eq: derivative equality poses 4} into Equation \eqref{eq:twist derivative raw} we obtain the following expression.
+
+\begin{equation}\label{eq:twist derivative 1}
+	\dot{\eta}_j = Ad_{^jg_k} \dot{\eta}_k + Ad_{^jg_k} ad_{- Ad_{^kg_j} {^j {\eta}}_{j/k}} \eta_k + \dot{\eta}_{j/k} 
+\end{equation}
+
+Introducing the relation $Ad_g Ad_g\inv = \mathbb{1}$ in Equation \eqref{eq:twist derivative 1} we obtain
+
+\begin{equation}\label{eq:twist derivative 2}
+\begin{aligned}
+	\dot{\eta}_j 	&= Ad_{^jg_k} \dot{\eta}_k - Ad_{^jg_k} ad_{Ad_{^kg_j} {^j {\eta}}_{j/k}} Ad_{^kg_j} Ad_{^kg_j} \inv \eta_k + \dot{\eta}_{j/k} \\ 
+					&= Ad_{^jg_k} \dot{\eta}_k - Ad_{^jg_k} ad_{Ad_{^kg_j} {^j {\eta}}_{j/k}} Ad_{^kg_j} Ad_{^jg_k} \eta_k + \dot{\eta}_{j/k} 
+\end{aligned}
+\end{equation}
+
+
+\paragraph{Lemma 1}
+We want to show that 
+\begin{equation}
+	ad_{Ad_g \eta_1} Ad_g \eta_2 = Ad_g ad_{\eta_1} \eta_2
+\end{equation}
+
+For this we use the definition of $ad_\eta$ with the Lie brackets
+
+\begin{equation}
+	ad_{\eta_1}\eta_2 = \left[\hat{\eta}_1, \hat{\eta}_2 \right]^\vee
+\end{equation}
+
+Now as $\left[Ad_g \hat{\eta}_1, Ad_g  \hat{\eta}_2 \right]^\vee = Ad_g  \left[\hat{\eta}_1, \hat{\eta}_2 \right]^\vee$
+we have that 
+
+\begin{equation}
+\begin{aligned}
+	\left[Ad_g \hat{\eta}_1, Ad_g  \hat{\eta}_2 \right]^\vee &= ad_{Ad_g\eta_1} Ad_g \eta_2 \\
+	Ad_g  \left[\hat{\eta}_1, \hat{\eta}_2 \right]^\vee		&= Ad_g ad_{\eta_1}\eta_2
+\end{aligned}
+\end{equation}
+
+Thus we have proven that $Ad_g ad_{\eta_1}\eta_2 = ad_{Ad_g\eta_1} Ad_g \eta_2$. $\therefore$
+
+
+We can use the previus Lemma 1 in order Equation \eqref{eq:twist derivative 2} having $Ad_{^jg_k} \eta_k$ as $\eta_2$ and $ad_{Ad_{^kg_j} {^j {\eta}}_{j/k}} Ad_{^kg_j} $ as $ad_{Ad_g\eta_1} Ad_g$ with $\eta_1 = {^j {\eta}}_{j/k} = {\eta}_{j/k}$. We thus have that $Ad_g ad_{\eta_1}\eta_2 = Ad_{^kg_j} ad_{{\eta}_{j/k}} Ad_{^jg_k} \eta_k$ and this can be used in the following expression
+
+\begin{equation}\label{eq:twist derivative 3}
+\begin{aligned}
+	\dot{\eta}_j 	&= Ad_{^jg_k} \dot{\eta}_k -  Ad_{^jg_k} \left[ ad_{Ad_{^kg_j} {^j {\eta}}_{j/k}} Ad_{^kg_j}  Ad_{^jg_k} \eta_k \right] + \dot{\eta}_{j/k} \\
+					&= Ad_{^jg_k} \dot{\eta}_k - Ad_{^jg_k} \left[ Ad_{^kg_j} ad_{{\eta}_{j/k}} Ad_{^jg_k} \eta_k \right] + \dot{\eta}_{j/k} \\
+					&= Ad_{^jg_k} \dot{\eta}_k - ad_{{\eta}_{j/k}} Ad_{^jg_k} \eta_k + \dot{\eta}_{j/k} 
+\end{aligned}
+\end{equation}
+
+Using the defintion of twist in Equation \eqref{eq: twist definition} we can obtain the relation $Ad_{^jg_k} \eta_k = \eta_j - \eta_{j/k}$. Using this last relation in Equation \eqref{eq:twist derivative 3} we obtain :
+
+\begin{equation}\label{eq:twist derivative 4}
+	\dot{\eta}_j 	= Ad_{^jg_k} \dot{\eta}_k - ad_{{\eta}_{j/k}} \left( \eta_j - \eta_{j/k} \right) + \dot{\eta}_{j/k} \\
+\end{equation}
+
+\paragraph{Lemma 2}
+We want to proove that $ad_{\eta_i} \eta_i = 0$. If we take the defintion with Lie brackets be obtain : $ad_{\eta_i} \eta_i = \left[ \eta_i, \eta_i\right] = \eta_i \eta_i - \eta_i \eta_i = 0$ $\therefore$
+
+
+
+We can use the lemma 2 to obtain the following : 
+
+\begin{equation}\label{eq:twist derivative 5}
+	\dot{\eta}_j 	= Ad_{^jg_k} \dot{\eta}_k - ad_{{\eta}_{j/k}}  \eta_j + \dot{\eta}_{j/k} \\
+\end{equation}
+
+
+knowing that $ad_{\eta_1} \eta_2 = - ad_{\eta_2} \eta_1$ We obtain the final formulation
+
+\begin{equation}\label{eq:twist derivative final}
+	\dot{\eta}_j 	= Ad_{^jg_k} \dot{\eta}_k + ad_{{\eta}_j}  \eta_{j/k} + \dot{\eta}_{j/k} \\
+\end{equation}
+
+
+
+
+
+\subsection{Delta dot Ad g}
+
+Starting from the realation 
+\begin{equation}
+	\dot{g} = g \hat{\eta}
+\end{equation}
+
+We can obtain the variational part 
+
+\begin{equation}
+	\Delta g = g \Delta \hat{\zeta}
+\end{equation}
+ And similary extend this to the Adjoint operator \color{red}\textbf{proof required!}\color{black}
+
+\begin{equation}\label{eq: Delta Ad g}
+	\Delta Ad_g = Ad_g ad_{\Delta \zeta}
+\end{equation}
+
+
+Time derivating this equation we obtain :
+
+\begin{equation}
+	\Delta \dot{Ad}_g = \dot{Ad}_g ad_{\Delta \zeta} + Ad_g  ad_{\Delta \dot{\zeta} }
+\end{equation}
+
+Where using the definition in Equation \eqref{eq:derivative Ad time} we obtain 
+
+\begin{equation}\label{eq: Delta dot Ad g}
+	\Delta \dot{Ad}_g = Ad_g ad_\eta ad_{\Delta \zeta} + Ad_g  ad_{\Delta \dot{\zeta} }
+\end{equation}
+
+We need now to investigate the term $ad_{\Delta \dot{\zeta} }$. Using the definition $\Delta \dot{\zeta} = \Delta \eta - ad_\eta \Delta \zeta$ \color{red}\textbf{proof required!}\color{black} we obtain the following formulation 
+
+\begin{equation}\label{eq: definition ad Delta dot zeta}
+	ad_{\Delta \dot{\zeta}} = ad_{(\Delta \eta - ad_\eta \Delta \zeta)}
+\end{equation}
+
+Substituing Equation \eqref{eq: definition ad Delta dot zeta} into Equation \eqref{eq: Delta dot Ad g} we obtain the following expression
+
+\begin{equation}\label{eq: Delta dot Ad g final}
+\begin{aligned}
+	\Delta Ad_g 	&= Ad_g ad_\eta ad_{\Delta \zeta} + Ad_g ad_{\Delta \eta} - Ad_g ad_{ad_\eta \Delta \zeta} \\
+					&= Ad_g \left( ad_\eta ad_{\Delta \zeta} +  ad_{\Delta \eta} -  ad_{ad_\eta \Delta \zeta} \right)
+\end{aligned}
+\end{equation}
+
+
+
+\subsection{Tangent Kinematics}
+
+Knowing, from the analogy with the twist (Equation \eqref{eq: twist definition}), that we can express the variation on the pose for a body $j$ knowing the one of a body $k$, with $j>k$, and their relative pose variation $\Delta \zeta_{j/k}$ as follows.
+\begin{equation}
+	\Delta \zeta _ j = Ad_{^j g _k} \Delta \zeta _k + \Delta \zeta _ {j/k}
+\end{equation}
+
+
+Now for what concerns the twist, taking the variation of Equation \eqref{eq: twist definition} we obtain.
+\begin{equation}
+\begin{aligned}
+	\Delta \eta_j 	&= \Delta \left( Ad_{^j g_k} \eta_k \right) + \Delta \eta_{j/k} \\
+					&= \Delta  Ad_{^j g_k} \eta_k + Ad_{^j g_k} \Delta \eta_k  + \Delta \eta_{j/k} \\
+\end{aligned}
+\end{equation}
+
+Using the expression in Equation \eqref{eq: Delta Ad g} we obtain 
+\begin{equation}\label{eq: delta eta 1}
+\begin{aligned}
+	\Delta \eta_j 	&= Ad_{^j g_k} ad_{\Delta \zeta_{k/j}} \eta_k + Ad_{^j g_k} \Delta \eta_k  + \Delta \eta_{j/k} \\
+\end{aligned}
+\end{equation}
+
+
+We now need to find a link between $\Delta \zeta_{k/j}$ and $\Delta \zeta_{j/k}$ as it is the latter to be available in the Newton-Euler algorithm.
+For this we process as we did before : taking the variation of the identity ${^j g _k } {^k g _j } = \mathbb{1}$ we obtain the following expression.
+
+\begin{equation}\label{eq: Delta equality poses}
+\begin{aligned}
+	\Delta {^j g _k } {^k g _j }	&= - {^j g _k } \Delta{^k g _j } \\
+									&= - \Delta \zeta _{j/k}
+\end{aligned}
+\end{equation}
+
+We can add the identity ${^j g _k } {^k g _j }$ on the left side of Equation \eqref{eq: Delta equality poses} to obtain 
+
+\begin{equation}\label{eq: Delta equality poses 2 }
+\begin{aligned}
+	{^j g _k } {^k g _j } \Delta {^j g _k } {^k g _j }	&= - \Delta \zeta _{j/k}
+\end{aligned}
+\end{equation}
+
+Now reminding the defintion of $\Delta \zeta $ from Equation \eqref{eq: Delta zeta} we obtain 
+
+\begin{equation}\label{eq: Delta equality poses 3 }
+\begin{aligned}
+	{^j g _k } \Delta \hat{\zeta} _ {k/j} {^k g _j }	&= - \Delta \zeta _{j/k}
+\end{aligned}
+\end{equation}
+
+We now have that $\left[ g \Delta \hat{\zeta} g \inv \right] = Ad_g \Delta \zeta$ so we obtain
+
+\begin{equation}\label{eq: Delta equality poses 4 }
+\begin{aligned}
+	Ad_{^j g _k } \Delta \hat{\zeta} _ {k/j}	&= - \Delta \zeta _{j/k} \\
+	\Delta \hat{\zeta} _ {k/j}	&= - Ad_{^j g _k }  \inv \Delta \zeta _{j/k} \\
+								&= - Ad_{^j g _k \inv}   \Delta \zeta _{j/k} \\
+								&= - Ad_{^k g _j}   \Delta \zeta _{j/k} \\
+\end{aligned}
+\end{equation}
+
+Using Equation \eqref{eq: Delta equality poses 4 } into Equation \eqref{eq: delta eta 1} we obtain the following expression.
+
+\begin{equation}\label{eq: delta eta 2}
+	\Delta \eta_j 	= Ad_{^j g_k} ad_{- Ad_{^k g _j}   \Delta \zeta _{j/k}} \eta_k + Ad_{^j g_k} \Delta \eta_k  + \Delta \eta_{j/k}
+\end{equation}
+
+We can now introduce the identity $Ad_{^k g _j}Ad_{^j g _k}$ to obtain
+
+\begin{equation}\label{eq: delta eta 3}
+	\Delta \eta_j 	= - Ad_{^j g_k} ad_{Ad_{^k g _j}   \Delta \zeta _{j/k}} Ad_{^k g _j}Ad_{^j g _k}  \eta_k + Ad_{^j g_k} \Delta \eta_k  + \Delta \eta_{j/k}
+\end{equation}
+
+using the Lemma 1 described before, we have that $ad_{Ad_{^k g _j}   \Delta \zeta _{j/k}} Ad_{^k g _j} Ad_{^j g _k}  \eta_k = Ad_{^k g _j} ad_{\Delta \zeta _{j/k}} Ad_{^j g _k}  \eta_k$ thus we obtain
+
+
+\begin{equation}\label{eq: delta eta 4}
+\begin{aligned}
+	\Delta \eta_j 	&= - Ad_{^j g_k} Ad_{^k g _j} ad_{\Delta \zeta _{j/k}} Ad_{^j g _k}  \eta_k + Ad_{^j g_k} \Delta \eta_k  + \Delta \eta_{j/k} \\
+					&= Ad_{^j g_k} \Delta \eta_k - ad_{\Delta \zeta _{j/k}} Ad_{^j g _k}  \eta_k +  \Delta \eta_{j/k} 
+\end{aligned}
+\end{equation}
+
+Now reminding that from Equation \eqref{eq: twist definition} $Ad_{^j g _k}  \eta_k = \eta_j - \eta_{j/k}$. using this equivalence in Equation \eqref{eq: delta eta 4} and applying directly the Lemma 2 we obtain the final formulation.
+
+\begin{equation}\label{eq: delta eta 4}
+	\Delta \eta_j 	= Ad_{^j g_k} \Delta \eta_k - ad_{Ad_{^j g _k}  \eta_k} \Delta \zeta _{j/k} +  \Delta \eta_{j/k} 
 \end{equation}
 
 \bibliography{bibliography}
