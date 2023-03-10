@@ -139,6 +139,16 @@ public:
      */
     ChebyshevReconstructor(const unsigned int t_number_of_Chebyshev_points);
 
+
+
+    ChebyshevReconstructor(const unsigned int t_number_of_Chebyshev_points,
+                           const unsigned int t_number_of_reconstruction_points,
+                           const int t_state_dimension)
+        : m_number_of_Chebyshev_points(t_number_of_Chebyshev_points),
+          m_state_dimension(t_state_dimension),
+          m_number_of_reconstruction_points(t_number_of_reconstruction_points)
+    {}
+
     /*!
      * \brief ChebyshevReconstructor Initialises the object ChebyshevReconstructor
      * \param t_number_of_Chebyshev_points the number of Chebyshev point used in the observation
@@ -152,7 +162,7 @@ public:
      * \param t_centerline_points the observed centerline positions at the Chebyshev points
      * \return the shape of the rod from the observed centerline positions at the Chebyshev points
      */
-    Eigen::MatrixXd reconstructRodShape(const Eigen::Matrix<double, 3, Eigen::Dynamic> &t_centerline_points)const;
+    Eigen::MatrixXd reconstructRodShape(const Eigen::MatrixXd &t_centerline_points)const;
 
 
     /*!
@@ -163,8 +173,14 @@ public:
 
     private:
 
+
+
+
     //  Number of Chebyshev points
     const unsigned int m_number_of_Chebyshev_points { ::Chebyshev::default_number_of_Chebyshev_points };
+
+
+    const unsigned int m_state_dimension { 3 };
 
     //  Number of points describing the rod centerline
     const unsigned int m_number_of_reconstruction_points { 101 };
@@ -195,11 +211,11 @@ public:
 
 
     //  Cosine transform of the fucntion (marked mutable, here we want just to allocate the memory)
-    mutable Eigen::MatrixXd m_CN { Eigen::MatrixXd(m_number_of_Chebyshev_points, 3) };
+    mutable Eigen::MatrixXd m_CN { Eigen::MatrixXd(m_number_of_Chebyshev_points, m_state_dimension) };
 
 
     //  Matrix of reconstructed points (marked mutable, here we want just to allocate the memory)
-    mutable Eigen::MatrixXd m_reconstructed_points { Eigen::MatrixXd(m_number_of_reconstruction_points, 3) };
+    mutable Eigen::MatrixXd m_reconstructed_points { Eigen::MatrixXd(m_number_of_reconstruction_points, m_state_dimension) };
 
 
 };

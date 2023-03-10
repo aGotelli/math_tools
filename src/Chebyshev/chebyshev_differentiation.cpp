@@ -223,7 +223,7 @@ ChebyshevReconstructor::ChebyshevReconstructor(const unsigned int t_number_of_Ch
   {}
 
 
-Eigen::MatrixXd ChebyshevReconstructor::reconstructRodShape(const Eigen::Matrix<double, 3, Eigen::Dynamic> &t_centerline_points)const
+Eigen::MatrixXd ChebyshevReconstructor::reconstructRodShape(const Eigen::MatrixXd &t_centerline_points)const
 {
     //  Perform the cosine transform
     m_CN = m_DDCT * t_centerline_points.transpose();
