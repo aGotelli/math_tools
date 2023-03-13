@@ -36,6 +36,23 @@
 
 \newcommand{\adDzetaba}{\ensuremath{ad_{\Dzetaba}}}
 
+
+
+\newcommand{\kgj}{\ensuremath{{^k g _j}}}
+\newcommand{\jgk}{\ensuremath{{^j g _k}}}
+
+\newcommand{\Adkgj}{\ensuremath{Ad_{\kgj}}}
+\renewcommand{\Adjgk}{\ensuremath{Ad_{\jgk}}}
+
+\newcommand{\doteta}{\ensuremath{\dot{\eta}}}
+
+\newcommand{\etaj}{\ensuremath{\eta_j}}
+\newcommand{\etak}{\ensuremath{\eta_k}}
+\newcommand{\etajk}{\ensuremath{\eta_{j/k}}}
+\newcommand{\etakj}{\ensuremath{\eta_{k/j}}}
+
+
+
 \tikzset{
     axis/.style={-stealth,line width=2pt, line cap=round},
     xaxis/.style={axis,red},
@@ -546,6 +563,10 @@ Substituing Equation \eqref{eq: definition ad Delta dot zeta} into Equation \eqr
 
 \subsection{Tangent Kinematics}
 
+Here we want to derivate the formulation for the tangent kinematics of a Cosserat rod.
+
+\subsubsection{Delta eta}
+
 Knowing, from the analogy with the twist (Equation \eqref{eq: twist definition}), that we can express the variation on the pose for a body $j$ knowing the one of a body $k$, with $j>k$, and their relative pose variation $\Delta \zeta_{j/k}$ as follows.
 \begin{equation}
 	\Delta \zeta _ j = Ad_{^j g _k} \Delta \zeta _k + \Delta \zeta _ {j/k}
@@ -632,6 +653,25 @@ Now reminding that from Equation \eqref{eq: twist definition} $Ad_{^j g _k}  \et
 \begin{equation}\label{eq: delta eta 4}
 	\Delta \eta_j 	= Ad_{^j g_k} \Delta \eta_k - ad_{Ad_{^j g _k}  \eta_k} \Delta \zeta _{j/k} +  \Delta \eta_{j/k} 
 \end{equation}
+
+
+\subsubsection{Delta dot eta}
+
+Starting from the definition of the derivative of the local twist 
+
+
+\begin{equation}
+	\dot{\eta} = \Adjgk \doteta_k + ad_{\eta_j} \etajk + \dot{\eta}_{j/k}
+\end{equation}
+
+If we take the variation of this equation we obtain
+
+\begin{equation}
+	\Delta \dot{\eta} = \Adjgk \Delta \doteta_k + \Delta \Adjgk \doteta_k +  ad_{\eta_j} \Delta \etajk    +    ad_{\Delta \eta_j} \etajk    + \Delta \dot{\eta}_{j/k}
+\end{equation}
+
+Now we remind that $\Delta \Adjgk \doteta_k = \Adjgk{} ad_{\Delta \zeta_{k/j}} \doteta _k$ \color{red}\textbf{proof required!}\color{black}
+
 
 \bibliography{bibliography}
 \end{document}
