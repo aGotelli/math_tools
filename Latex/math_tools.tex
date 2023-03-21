@@ -163,29 +163,19 @@
       	
       	
       		
-		
-		
-	
-%		\draw[-stealth, line width=2pt,red,line cap=round] (Fa) -- (1,0,0) node[pos=1.3]{\( x \)};
-%    	\draw[-stealth, line width=2pt,green,line cap=round] (Fa) -- (0,1,0) node[pos=1.3]{\( y \)};
-%      	\draw[-stealth, line width=2pt,blue,line cap=round] (Fa) -- (0,0,1) node[pos=1.3]{\( z \)};
-%      	\shade [ball color=black] (Fa) circle [radius=1.5pt];
-%      	
-%      	
-%      	\coordinate (Fb) at (5, 4, 3);
-%	
-%		\draw[-stealth, line width=2pt,red,line cap=round] (Fb) -- (1,0,0) node[pos=1.3]{\( x \)};
-%    	\draw[-stealth, line width=2pt,green,line cap=round] (Fb) -- (0,1,0) node[pos=1.3]{\( y \)};
-%      	\draw[-stealth, line width=2pt,blue,line cap=round] (Fb) -- (0,0,1) node[pos=1.3]{\( z \)};
-%      	\shade [ball color=black] (Fa) circle [radius=1.5pt];
+		\draw[-latex, line width=1pt, shorten <= 0.1cm, shorten >= 0.1cm] (Fe) to[in=-60, out=20, distance=1.2cm] node[pos=0.5, anchor=west]{$g_a$} (P1);
+		\draw[-latex, line width=1pt, shorten <= 0.1cm, shorten >= 0.1cm] (Fe) to[in=-90, out=180, distance=1.2cm] node[pos=0.5, anchor=west]{$g_b$} (P2);
+
 	\end{tikzpicture}
-	\caption{Representation of two generic frames : \Fa and \Fb in space, with the reference or Euclidean frame \Fe.}
+	\caption{Representation of two generic frames : \Fa{} and \Fb{} in space, with the reference or Euclidean frame \Fe{}.}
 \end{figure}
 
 
-Note that we use \aRb to express the orientation of the frame \Fb with respect to the frame \Fa and \rba as the position of frame \Fb with respect to the frame \Fa.
 
-Given the homogeneous tranformation from frame \Fa to frame \Fb, namely \agb, defined as $\agb = \langle \aRb,\; \rba \rangle$. This create a $4 \times 4$ matrix acting as a map in the Lie group.
+
+Note that we use \aRb{} to express the orientation of the frame \Fb{} with respect to the frame \Fa and \rba as the position of frame \Fb{} with respect to the frame \Fa{}.
+
+Given the homogeneous tranformation from frame \Fa{} to frame \Fb{}, namely \agb{}, defined as $\agb = \langle \aRb,\; \rba \rangle$. This create a $4 \times 4$ matrix acting as a map in the Lie group.
 
 
 
@@ -197,7 +187,12 @@ Given the homogeneous tranformation from frame \Fa to frame \Fb, namely \agb, de
 	\end{bmatrix}
 \end{equation}
 
-This operator uniquely defines the pose of a frame with respect to a reference or euclidean frame, namely \Fw or \Fe.
+This operator uniquely defines the pose of a frame with respect to a reference or euclidean frame, namely \Fw{} or \Fe{}.
+We can define $g$ as the homogeneous matrix acting on homogeneous vectors $v^T = \begin{bmatrix}v_x	&	v_y	&	v_z	&	1\end{bmatrix}$. Such that $v_{b/a} = {^ag_b} {^b v_b}$ where $v_{b/a}$ is the expression of $v_b$ with respect of \Fa{}. The action of $g$ on the group is to move and rotate homogeneous vector or matrices belonging to $\mathbb{R}^{[4 \times 1]}$ and $\mathbb{R}^{[4 \times 4]}$ respectively.
+
+
+
+
 From this definition we can define the derivatives of this operator with respect to time expressed with respect to the reference frame for the two frames.
 
 \begin{equation}
@@ -218,7 +213,7 @@ These two derivatives can be expressed in local coordinates for every frame, by 
 
 The twist $\eta_{a}$ and $\eta_{b}$ expresses the velocities of the frame \Fa{}, respectively \Fb{}, in the local coordinate frame or, "in their point of view".
 
-If we consider the relative pose \agb{}, the derivative with respect to time gives 
+If we consider the relative pose \agb{}, the derivative with respect to time, expressed in the loccal coordinates frame, is a twist in $se(3)$ defined as follows. 
 
 \begin{equation}
 	\agb \inv \frac{d}{dt}\left( \agb \right) = \eta	_{b/a}
@@ -237,7 +232,9 @@ When we have a series of connected bodies, we will need to propagate the kinemat
 	\end{bmatrix}
 \end{equation}
 
-We thus have 
+
+The adjoint operator $Ad_g$ is a representation. It represents the action of $g$, being an homogeneous matrix belonging to the group of homogeneous transformation $SE(3)$, to the Lie algebra $se(3)$. Reminding that $g$ operates on $SE(3)$ hemogeneous elemants like vector or matrices having dimensions of $\mathbb{R}^{[4 \times 1]}$ and $\mathbb{R}^{[4 \times 4]}$ respectively, the adjoint operator represents this action on Lie algabra vectors and matrices belonging to $se(3)$ with dimension of $\mathbb{R}^{[6 \times 1]}$ and $\mathbb{R}^{[6 \times 6]}$ respectively.
+Taking a generic frame \Fb{} with its twist in local coordinates $\etab$ we can give an example of the adjoint operator as follows.
 
 \begin{equation}
 \begin{aligned}
@@ -281,7 +278,7 @@ Where the \adetaba operator accounts for the contribution of the twist in the de
 \end{equation}
 
 
-If we now want to determine the tangent kinematics we first need to introduce 
+If we now want to determine the tangent kinematics we first need to introduce \color{red} define $\Delta \zeta$ by words \color{black}
 
 \begin{equation}\label{eq: Delta zeta}
 	\Delta \zeta_{a} = g_a \inv \Delta g_a
@@ -305,7 +302,7 @@ We can now project this twist as usual and as we described before
 
 Similarly to what we introduced before, we can define the operator $\Delta \Adagb$.
 
-\begin{equation}
+\begin{equation}\label{eq: definition of Delta Ad g}
 	\Delta \Adagb = \Adagb \adDzetaba
 \end{equation}
 
@@ -346,6 +343,10 @@ And we can define the operator $\Delta \dotAdagb$  as follows
 
 
 \paragraph{We want to show that $\dot{Ad}_g^{-T} = - Ad_g^{-T} ad_\eta ^T = - ad^T _{Ad_g \eta} Ad_g ^{-T}$}
+
+\color{red} Where we need this ? \color{black}
+
+
 
 We need to invoke the duality between twists and wrenches in order to find that, for every virtual twist $\delta \zeta$
 
@@ -414,7 +415,7 @@ By multiplying the left hand side of Equation \eqref{eq: derivative equality pos
 \end{aligned}
 \end{equation}
 
-Using the relation $\left[ g\eta g \inv \right]^\vee = Ad_g \eta $ \color{red}\textbf{proof required!}\color{black} in the left hand side of Equation \eqref{eq: derivative equality poses 2} we obtain the following expression.
+Using the relation $\left[ g \hat{\eta} g \inv \right]^\vee = Ad_g \eta $ \color{red}\textbf{proof required!}\color{black} in the left hand side of Equation \eqref{eq: derivative equality poses 2} we obtain the following expression.
 
 \begin{equation}\label{eq: derivative equality poses 3}
 \begin{aligned}
@@ -424,7 +425,7 @@ Using the relation $\left[ g\eta g \inv \right]^\vee = Ad_g \eta $ \color{red}\t
 \end{aligned}
 \end{equation}
 
-From the right hand side of Equation \eqref{eq: derivative equality poses 3} we can apply the relation $Ad_g \inv = Ad_{} g\inv$ in order to obtain
+From the right hand side of Equation \eqref{eq: derivative equality poses 3} we can apply the relation $Ad_g \inv = Ad_{g\inv} $ in order to obtain
 
 \begin{equation}\label{eq: derivative equality poses 4}
 \begin{aligned}
@@ -525,7 +526,7 @@ We can obtain the variational part
 \begin{equation}
 	\Delta g = g \Delta \hat{\zeta}
 \end{equation}
- And similary extend this to the Adjoint operator \color{red}\textbf{proof required!}\color{black}
+ And similary extend this to the Adjoint operator using Equation \eqref{eq: definition of Delta Ad g}.
 
 \begin{equation}\label{eq: Delta Ad g}
 	\Delta Ad_g = Ad_g ad_{\Delta \zeta}
@@ -554,7 +555,7 @@ Substituing Equation \eqref{eq: definition ad Delta dot zeta} into Equation \eqr
 
 \begin{equation}\label{eq: Delta dot Ad g final}
 \begin{aligned}
-	\Delta Ad_g 	&= Ad_g ad_\eta ad_{\Delta \zeta} + Ad_g ad_{\Delta \eta} - Ad_g ad_{ad_\eta \Delta \zeta} \\
+	\Delta \dot{Ad}_g 	&= Ad_g ad_\eta ad_{\Delta \zeta} + Ad_g ad_{\Delta \eta} - Ad_g ad_{ad_\eta \Delta \zeta} \\
 					&= Ad_g \left( ad_\eta ad_{\Delta \zeta} +  ad_{\Delta \eta} -  ad_{ad_\eta \Delta \zeta} \right)
 \end{aligned}
 \end{equation}
