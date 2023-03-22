@@ -17,6 +17,8 @@
 \newcommand{\rba}{\ensuremath{{r_{b/a}}}}
 \newcommand{\hatrba}{\ensuremath{{\hat{r}_{b/a}}}}
 
+\newcommand{\bga}{\ensuremath{{^b g _a}}}
+
 \newcommand{\etaa}{\ensuremath{{\eta_{a}}}}
 \newcommand{\etab}{\ensuremath{{\eta_{b}}}}
 \newcommand{\etaba}{\ensuremath{{\eta_{b/a}}}}
@@ -93,6 +95,7 @@
 			Laboratoire des Sciences du Numérique de Nantes LS2N
 		\end{flushleft}
         École centrale de Nantes, Nantes\\
+        IMT-Atlantique, Nantes\\
         France\\
        %Date
        
@@ -173,7 +176,7 @@
 
 
 
-Note that we use \aRb{} to express the orientation of the frame \Fb{} with respect to the frame \Fa and \rba as the position of frame \Fb{} with respect to the frame \Fa{}.
+Note that we use \aRb{} to express the orientation of the frame \Fb{} with respect to the frame \Fa and \rba as the position of frame \Fb{} with respect to the frame \Fa{}. Being \Fa{} a moving or a fixed frame, when expressing a relative pose $^a g _b$ we refer $a$ as the fixed frame and $b$ as the moving one, to express the dependence of $a$ for the relative pose of $b$.
 
 Given the homogeneous tranformation from frame \Fa{} to frame \Fb{}, namely \agb{}, defined as $\agb = \langle \aRb,\; \rba \rangle$. This create a $4 \times 4$ matrix acting as a map in the Lie group.
 
@@ -188,6 +191,10 @@ Given the homogeneous tranformation from frame \Fa{} to frame \Fb{}, namely \agb
 \end{equation}
 
 This operator uniquely defines the pose of a frame with respect to a reference or euclidean frame, namely \Fw{} or \Fe{}.
+
+\paragraph{Notation rules for homogeneous matrices} A generic homogeneous transformation is expressed as ${^a g _b}$. However, if the fixed frame is the euclidean one, thus having $a=e$, then we directly express the pose as $g_b$ omitting the suffix $e$.
+
+
 We can define $g$ as the homogeneous matrix acting on homogeneous vectors $v^T = \begin{bmatrix}v_x	&	v_y	&	v_z	&	1\end{bmatrix}$. Such that $v_{b/a} = {^ag_b} {^b v_b}$ where $v_{b/a}$ is the expression of $v_b$ with respect of \Fa{}. The action of $g$ on the group is to move and rotate homogeneous vector or matrices belonging to $\mathbb{R}^{[4 \times 1]}$ and $\mathbb{R}^{[4 \times 4]}$ respectively.
 
 
@@ -216,10 +223,25 @@ The twist $\eta_{a}$ and $\eta_{b}$ expresses the velocities of the frame \Fa{},
 If we consider the relative pose \agb{}, the derivative with respect to time, expressed in the loccal coordinates frame, is a twist in $se(3)$ defined as follows. 
 
 \begin{equation}
-	\agb \inv \frac{d}{dt}\left( \agb \right) = \eta	_{b/a}
+	  {^b \eta	_b} = \left[ \agb \inv \frac{d}{dt}\left( \agb \right) \right] ^\vee = \left[  \bga \frac{d}{dt}\left( \agb \right) \right] ^\vee
 \end{equation}
 
-Which the twist of \Fb{} with respect to the twist of \Fa{} seen from this last one.
+Where we can define ${^b \eta _b}$ as the twist of \Fb{} with respect to the twist of \Fa{} expressed in the coordinates of \Fb{}.
+
+
+
+
+Starting from the time derivative, we can extend the formulation for other derivatives using the poincarré commutation. we then define the derivative with respect of the material coordinates $\frac{\partial g }{\partial X} = g ^\prime$ while we define a variation of the pose as $\Delta g$
+
+\begin{equation}
+\begin{aligned}
+	{^b\eta_b} &= \left[  \bga {^a \dot{g}_b}  \right]^\vee \\
+	{^b\xi_b} &= \left[  \bga {^a {g}^\prime _b}  \right]^\vee \\
+	{^b\Delta \zeta_b} &= \left[  \bga \Delta  \agb  \right]^\vee\\
+\end{aligned}
+\end{equation}
+
+\paragraph{Notations rules for Lie algebra elements} For an element in the Lie algebra we express a twist $\eta$ \color{red}finish this part\color{black}
 
 When we have a series of connected bodies, we will need to propagate the kinematics along the chain. When we have a twist in a body \Bb{}, namely \etab{}, expressed in the local coordinates of frame \Fb{} we then might need to propagate this twist to the body \Ba{} with relative pose from \Fb{} to \Fa{} given by \agb{}. In this case we use the adjoint operator \Adagb{} defined as follows :
 
@@ -251,6 +273,23 @@ Taking a generic frame \Fb{} with its twist in local coordinates $\etab$ we can 
 \end{aligned}
 \end{equation}
 
+\subsection{Properties of Adg}
+
+\begin{equation}
+	Ad_g \left[\eta_1, \eta_2 \right] =  \left[Ad_g \eta_1, Ad_g \eta_2 \right]
+\end{equation}
+
+But also 
+\begin{equation}
+	\left[\eta_1, \eta_2 \right] = ad_{\eta_1} \eta_2
+\end{equation}
+
+We then have
+
+\begin{equation}\label{eq:property1}
+	Ad_g ad_{\eta_1} \eta_2 =  ad_{Ad_g \eta_1} Ad_g \eta_2
+\end{equation}
+
 
 If we need to compute the acceleration than we need to derivate this relation. We thus have that 
 
@@ -278,7 +317,7 @@ Where the \adetaba operator accounts for the contribution of the twist in the de
 \end{equation}
 
 
-If we now want to determine the tangent kinematics we first need to introduce \color{red} define $\Delta \zeta$ by words \color{black}
+If we now want to determine the tangent kinematics we first need to introduce a variation of the pose due to a change in the generalised coordinates as follows.
 
 \begin{equation}\label{eq: Delta zeta}
 	\Delta \zeta_{a} = g_a \inv \Delta g_a
@@ -315,33 +354,6 @@ We now have that, given a relative pose \agb{} we can compute \Dzetaba{} as
 \end{equation}
 
 
-if we now consider the accelerations, we derivate the equation to obtain 
-
-\begin{equation}
-\begin{aligned}
-	\Delta \dotetaa 	&= \Delta  \left( \dotAdagb \etab + \Adagb \dotetab \right) \\
-					&= 
-\Delta \dotAdagb \etab+
-\dotAdagb \Delta \etab
-+
-\Delta \Adagb \dotetab+
-\Adagb \Delta \dotetab							
-\end{aligned}
-\end{equation}
-
-And we can define the operator $\Delta \dotAdagb$  as follows
-
-\begin{equation}
-\begin{aligned}
-	\Delta \dotAdagb 	&= \Delta  \left( \Adagb \adetaba \right)  \\
-		&=  \Delta \Adagb \adetaba +  \Adagb \Delta \adetaba \\
-		&= \Adagb \adDzetaba \adetaba + \Adagb ad_{\Delta \etaba} \\
-		&= \Adagb \left[ \adDzetaba \adetaba + \Adagb ad_{\Delta \etaba} \right]
-\end{aligned}
-\end{equation}
-
-
-
 \paragraph{We want to show that $\dot{Ad}_g^{-T} = - Ad_g^{-T} ad_\eta ^T = - ad^T _{Ad_g \eta} Ad_g ^{-T}$}
 
 \color{red} Where we need this ? \color{black}
@@ -358,7 +370,7 @@ We need to invoke the duality between twists and wrenches in order to find that,
 \end{aligned}
 \end{equation}
 
-Now using the property that $ad_{Ad_g \eta}  Ad_g = Ad_g ad_{ \eta}$ \color{red} \textbf{proof required!}\color{black} we can simplify the right part of Equation \eqref{eq:duality twists wrenches} as follows
+Now using the property \eqref{eq:property1} we can simplify the right part of Equation \eqref{eq:duality twists wrenches} as follows
 
 \begin{equation}\label{eq:duality twists wrenches simplified}
 \begin{aligned}
@@ -545,7 +557,27 @@ Where using the definition in Equation \eqref{eq:derivative Ad time} we obtain
 	\Delta \dot{Ad}_g = Ad_g ad_\eta ad_{\Delta \zeta} + Ad_g  ad_{\Delta \dot{\zeta} }
 \end{equation}
 
-We need now to investigate the term $ad_{\Delta \dot{\zeta} }$. Using the definition $\Delta \dot{\zeta} = \Delta \eta - ad_\eta \Delta \zeta$ \color{red}\textbf{proof required!}\color{black} we obtain the following formulation 
+We need now to investigate the term $ad_{\Delta \dot{\zeta} }$. Using the the following eraltion starting from the definition of the material derivative of twist $\frac{d \eta}{dX} = \eta^\prime $.
+
+\begin{equation}
+\begin{aligned}
+	\eta^\prime	&= - ad_{\xi} \eta + \dot{\xi} \\
+				&= ad_{\eta} \xi + \dot{\xi}
+\end{aligned}
+\end{equation}
+
+Now using the commutation of Poincarré, we can change from a material derivative to a variation obtaining the followiing
+\begin{equation}
+	\Delta \eta	 = ad_{\eta} \Delta \zeta + \Delta \dot{\zeta}
+\end{equation}
+
+And thus 
+
+\begin{equation}\label{eq:Delta zeta dot}
+	\Delta \dot{\zeta}	 = \Delta \eta - ad_{\eta} \Delta \zeta 
+\end{equation}
+
+Using Equation \eqref{eq:Delta zeta dot} into Equation \eqref{eq: Delta dot Ad g} we obtain the following.
 
 \begin{equation}\label{eq: definition ad Delta dot zeta}
 	ad_{\Delta \dot{\zeta}} = ad_{(\Delta \eta - ad_\eta \Delta \zeta)}
@@ -652,7 +684,7 @@ using the Lemma 1 described before, we have that $ad_{Ad_{^k g _j}   \Delta \zet
 Now reminding that from Equation \eqref{eq: twist definition} $Ad_{^j g _k}  \eta_k = \eta_j - \eta_{j/k}$. using this equivalence in Equation \eqref{eq: delta eta 4} and applying directly the Lemma 2 we obtain the final formulation.
 
 \begin{equation}\label{eq: delta eta 4}
-	\Delta \eta_j 	= Ad_{^j g_k} \Delta \eta_k - ad_{Ad_{^j g _k}  \eta_k} \Delta \zeta _{j/k} +  \Delta \eta_{j/k} 
+	\Delta \eta_j 	= Ad_{^j g_k} \Delta \eta_k + ad_{Ad_{^j g _k}  \eta_k} \Delta \zeta _{j/k} +  \Delta \eta_{j/k} 
 \end{equation}
 
 
@@ -667,11 +699,57 @@ Starting from the definition of the derivative of the local twist
 
 If we take the variation of this equation we obtain
 
-\begin{equation}
-	\Delta \dot{\eta} = \Adjgk \Delta \doteta_k + \Delta \Adjgk \doteta_k +  ad_{\eta_j} \Delta \etajk    +    ad_{\Delta \eta_j} \etajk    + \Delta \dot{\eta}_{j/k}
+\begin{equation}\label{eq:Delta dot eta raw}
+	\Delta \dot{\eta} = \Adjgk \Delta \doteta_k + \Delta \Adjgk \doteta_k + ad_{\Delta \eta_j} \etajk +  ad_{\eta_j} \Delta \etajk        + \Delta \dot{\eta}_{j/k}
 \end{equation}
 
-Now we remind that $\Delta \Adjgk \doteta_k = \Adjgk{} ad_{\Delta \zeta_{k/j}} \doteta _k$ \color{red}\textbf{proof required!}\color{black}
+Now we remind that $\Delta \Adjgk \doteta_k = \Adjgk{} ad_{\Delta \zeta_{k/j}} \doteta _k$. In this cas we need to apply the formulation for changing from $\Delta \zeta_{k/j}$ to $\Delta \zeta_{j/k}$.
+
+We can directlu use Equation \eqref{eq: Delta equality poses 4 } to obtain that 
+
+\begin{equation}
+	\Adjgk{} ad_{\Delta \zeta_{k/j}} \doteta _k = - \Adjgk{} ad_{Ad_{^k g _j}   \Delta \zeta _{j/k}} \doteta _k
+\end{equation}
+
+Adding the identity $Ad_{^k g _j}Ad_{^j g _k}$ we obtain  
+
+\begin{equation}
+	- \Adjgk{} ad_{Ad_{^k g _j}   \Delta \zeta _{j/k}} \doteta _k = - \Adjgk{} ad_{Ad_{^k g _j}   \Delta \zeta _{j/k}} Ad_{^k g _j}Ad_{^j g _k} \doteta _k
+\end{equation}
+
+We can now call $\eta_1 = \Delta \zeta _{j/k}$ and $\eta_2 = Ad_{^j g _k} \doteta _k$ we thus have
+
+\begin{equation}
+	- \Adjgk{} \left[ ad_{Ad_{^k g _j}  \eta_1 } Ad_{^k g _j}\eta_2 \right] = - \Adjgk{} \left[ Ad_{^k g _j} ad_{  \eta_1 } \eta_2 \right]
+\end{equation}
+
+We can now simplify to
+
+\begin{equation}
+\begin{aligned}
+	 - \Adjgk{}  Ad_{^k g _j} ad_{  \eta_1 } \eta_2  	&=  -ad_{  \eta_1 } \eta_2	\\
+	 													&= ad_{  \eta_2 } \eta_1	\\
+	 													&= ad_{Ad_{^j g _k} \doteta _k} \Delta \zeta _{j/k}
+\end{aligned}
+\end{equation}
+
+We thus established once again that
+
+\begin{equation}\label{eq:equality Delta zeta jk}
+	\Adjgk{} ad_{\Delta \zeta_{k/j}} \doteta _k = ad_{Ad_{^j g _k} \doteta _k} \Delta \zeta _{j/k}
+\end{equation}
+
+Using now Equation \eqref{eq:equality Delta zeta jk} into Equation \eqref{eq:Delta dot eta raw} we obtain
+
+\begin{equation}\label{eq:Delta dot eta}
+	\Delta \dot{\eta} = \Adjgk \Delta \doteta_k + ad_{Ad_{^j g _k} \doteta _k} \Delta \zeta _{j/k} +    ad_{\Delta \eta_j} \etajk +  ad_{\eta_j} \Delta \etajk + \Delta \dot{\eta}_{j/k}
+\end{equation}
+
+Or, similarly
+
+\begin{equation}\label{eq:Delta dot eta}
+	\Delta \dot{\eta} = \Adjgk \Delta \doteta_k + ad_{Ad_{^j g _k} \doteta _k} \Delta \zeta _{j/k} - ad_{\etajk}  \Delta \eta_j +  ad_{\eta_j} \Delta \etajk + \Delta \dot{\eta}_{j/k}
+\end{equation}
 
 
 \bibliography{bibliography}
