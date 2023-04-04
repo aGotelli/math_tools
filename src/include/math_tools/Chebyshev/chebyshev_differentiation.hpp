@@ -223,7 +223,8 @@ public:
 /*!
  * \brief The ChebyshevInterpolator class is a functor to interpolate a given function observed on the Chebyshev grid
  *
- * In this class the reconstruction is assumed to be in a normalised domain \f$ X \in [0, 1]\f$
+ * In this class the reconstruction is assumed to be in a normalised domain \f$ X \in [0, 1]\f$.
+ * It uses the Chebyshev interpolation for vector spaces. Thus it is correct for vectors that does not lie in a group.
  */
 class ChebyshevInterpolator {
 
