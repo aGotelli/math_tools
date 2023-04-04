@@ -220,6 +220,59 @@ public:
 
 };
 
+/*!
+ * \brief The ChebyshevInterpolator class is a functor to interpolate a given function observed on the Chebyshev grid
+ *
+ * In this class the reconstruction is assumed to be in a normalised domain \f$ X \in [0, 1]\f$
+ */
+class ChebyshevInterpolator {
+
+    /*!
+     * \brief ChebyshevInterpolator construct the objects for a given number of Chebyshev points using equispaced interpolation points
+     * \param t_number_of_Chebyshev_points the number of Chebyshev points on which the function is observed
+     * \param t_number_of_interpolation_points the number of equispaced points in which the function will be interpolated
+     */
+    ChebyshevInterpolator(const unsigned int t_number_of_Chebyshev_points,
+                          const unsigned int t_number_of_interpolation_points);
+
+
+    /*!
+     * \brief ChebyshevInterpolator construct the object for a given number of Chebyshev using an albitrary set of interpolation points
+     * \param t_number_of_Chebyshev_points the number of Chebyshev points on which the function is observed
+     * \param t_interpolation_points the set of interpolation points in the normalised domain [0, 1]
+     */
+    ChebyshevInterpolator(const unsigned int t_number_of_Chebyshev_points,
+                          const Eigen::VectorXd t_interpolation_points);
+
+
+    /*!
+     * \brief operator () interpolates the given function on the defines grid of interpolation points
+     * \param t_function_to_interpolate is the function to interpolate of an albitrary state dimension
+     *
+     *
+     * \return a stack containing all the interpolated points
+     *
+     * The function to interpolate is a stack of column vector being the observed states. That is, the state of the system
+     * is observed at every Chebyshev pont. Starting from the begin of the integration domain, the observed states are stacked
+     * one after the other. As a result, being the observed state y, then \f$ y(X=0) \f$ will be the first column of the
+     * matrix while \f$ y(X=1)\f$ will be the last column of the matrix.
+     *
+     * As a result, the matrix has as many row as the dimension of the observed state and as many columns as the
+     * number of Chebyshev points on which it is observed.
+     */
+    Eigen::MatrixXd operator()(const Eigen::MatrixXd &t_function_to_interpolate)const;
+
+
+private:
+
+    //  The matrix used to interpolate the function on its domain
+    Eigen::MatrixXd m_interpolation_matrix;
+
+};
+
+
+
+
 }   //  namespace Chebyshev
 
 #endif // CHEBYSHEV_DIFFERENTIATION_HPP

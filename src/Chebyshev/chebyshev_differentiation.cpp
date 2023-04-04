@@ -261,4 +261,89 @@ Eigen::MatrixXd ChebyshevReconstructor::reconstructRodShape(const Eigen::MatrixX
 
 
 
+ChebyshevInterpolator::ChebyshevInterpolator(const unsigned int t_number_of_Chebyshev_points,
+                                             const unsigned int t_number_of_interpolation_points)
+    : ChebyshevInterpolator(t_number_of_Chebyshev_points,
+                            Eigen::VectorXd::LinSpaced(t_number_of_interpolation_points, 0.0, 1.0))
+{}
+
+ChebyshevInterpolator::ChebyshevInterpolator(const unsigned int t_number_of_Chebyshev_points,
+                                             const Eigen::VectorXd t_interpolation_points)
+{
+
+    //  translate into the same variable of book
+    const unsigned int N  = t_number_of_Chebyshev_points - 1;
+
+    //  Define the set of Chebyshev-Lobatto points -> formula 4.48
+    const Eigen::VectorXd x_k = [t_number_of_Chebyshev_points, N](){
+        Eigen::VectorXd x_k_(t_number_of_Chebyshev_points);
+        for(unsigned int k=0; k<=N; k++)
+            x_k_(k) = - cos(k*M_PI/N);
+        return x_k_;
+    }();
+
+
+    //  Handle to the Chebyshev polynomial to be coherent with formulas in book
+    auto T = [](const unsigned int n, const double x){
+                    return boost::math::chebyshev_t(n, x);
+            };
+
+    //  Define the stack of Chebyshev polynomials at the Chebyshev points
+    const Eigen::MatrixXd TN_cheb = [&](){
+        Eigen::MatrixXd TN_cheb_ =
+                Eigen::MatrixXd::Zero(t_number_of_Chebyshev_points, t_number_of_Chebyshev_points);
+
+        for(unsigned int i=0; i<=N; i++)
+            for(unsigned int j=0; j<=N; j++)
+                TN_cheb_(j, i) =  T(i, x_k[j]) ;
+
+        TN_cheb_.row(0) *= 0.5;
+        TN_cheb_.row(N) *= 0.5;
+
+        return TN_cheb_;
+    }();
+
+
+    const unsigned int number_of_interpolation_points = t_interpolation_points.size();
+
+    //  Define the stack of Chebyshev polynomials at the interpolation points
+    const Eigen::MatrixXd TN_equi = [&](){
+        Eigen::MatrixXd TN_equi_ =
+                Eigen::MatrixXd::Zero(t_number_of_Chebyshev_points, number_of_interpolation_points);
+
+        //  Fill the matrices
+        for(unsigned int i=0; i<=N; i++)
+            for(unsigned int j=0; j<=N; j++)
+                TN_equi_(i, j) = T(i, t_interpolation_points(j));
+
+        TN_equi_.row(0) *= 0.5;
+        TN_equi_.row(N) *= 0.5;
+
+        return TN_equi_;
+    }();
+
+    //  Finally compose the interpolation matrix
+    m_interpolation_matrix = 2.0/N * TN_cheb * TN_equi;
+}
+
+
+Eigen::MatrixXd ChebyshevInterpolator::operator()(const Eigen::MatrixXd &t_function_to_interpolate) const
+{
+    if(t_function_to_interpolate.cols() != m_interpolation_matrix.rows()){
+        std::stringstream information_message;
+        information_message << "You are trying to interpolate a function observed on a different Chebyshev grid!\n";
+        information_message << "The number of Chebyshev points used by this interpolator is : " << m_interpolation_matrix.rows() << "\n";
+        information_message << "You are trying to interpolate a function oberved on : " << t_function_to_interpolate.cols() << " Chebyshev points";
+
+       throw std::runtime_error( information_message.str() );
+    }
+
+    const Eigen::MatrixXd interpolated_function = t_function_to_interpolate * m_interpolation_matrix;
+
+    return interpolated_function;
+}
+
+
+
+
 }   //  namespace Chebyshev
