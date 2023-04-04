@@ -85,14 +85,15 @@ std::string SE3Pose::toString(const std::string &t_indentation)const
     std::stringstream message;
 
     message << t_indentation << "Pose :\n";
-    message << t_indentation << "    - position [x, y, z] : [ " << m_position.x() << ", " << m_position.y() << ", " << m_position.z() << "]\n";
+    message << t_indentation << "    - position [x, y, z] :\n";
+    message << t_indentation << "       [ " << m_position.x() << ", " << m_position.y() << ", " << m_position.z() << "]\n";
     message << t_indentation << "    - orientation : \n";
-    message << t_indentation << "        - quaternion [w, x, y, z] : [ " << m_quaternion.w() << ", "  << m_quaternion.x() << ", "  << m_quaternion.y() << ", "  << m_quaternion.z() << "]\n";
+    message << t_indentation << "        - quaternion [w, x, y, z] :\n";
+    message << t_indentation << "           [ " << m_quaternion.w() << ", "  << m_quaternion.x() << ", "  << m_quaternion.y() << ", "  << m_quaternion.z() << "]\n";
 
     const auto R = getRotationMatrix();
-    message << t_indentation << "                            | " << R.row(0) << " |\n";
-    message << t_indentation << "        - rotation matrix : | " << R.row(1) << " |\n";
-    message << t_indentation << "                            | " << R.row(2) << " |\n";
+    message << t_indentation << "        - rotation matrix :\n";
+    message << R;
     message << t_indentation << "\n\n";
 
 
