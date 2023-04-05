@@ -22,9 +22,14 @@ target_compile_options(${PROJECT_NAME}
 
 
 install(TARGETS ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}Exports
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 install(DIRECTORY include/${PROJECT_NAME}
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+install(EXPORT ${PROJECT_NAME}Exports
+        NAMESPACE ${PROJECT_NAME}::
+        DESTINATION lib/cmake/${PROJECT_NAME}
 )
 
