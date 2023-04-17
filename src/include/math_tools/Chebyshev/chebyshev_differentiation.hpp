@@ -41,7 +41,7 @@ enum class INTEGRATION_DIRECTION {
  * \return An std::vector containing the Chebyshev points
  */
 std::vector<double> ComputeChebyshevPoints(const unsigned int t_number_of_chebyshev_nodes,
-                                                    const unsigned int t_L=1);
+                                           const double &t_L=1.0f);
 
 
 /*!

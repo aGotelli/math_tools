@@ -7,7 +7,7 @@
 namespace Chebyshev {
 
 std::vector<double> ComputeChebyshevPoints(const unsigned int t_number_of_chebyshev_nodes,
-                                                    const unsigned int t_L)
+                                           const double &t_L)
 {
     std::vector<double> x(t_number_of_chebyshev_nodes);
 
