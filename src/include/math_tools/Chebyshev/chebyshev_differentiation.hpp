@@ -137,22 +137,25 @@ unsigned int getintialConditionAddress(unsigned int t_number_of_chebyshev_nodes,
 /*!
  * \brief The ChebyshevReconstructor class an handle for the reconstruction of a shape observed with Chebyshev points
  */
+
 class ChebyshevReconstructor {
 public:
 
     /*!
      * \brief ChebyshevReconstructor Initialises the object ChebyshevReconstructor
      */
+    [[deprecated("this class is outdated, you should use the Chebyshev interpolator that is correct and unsensitive to the state dymension")]]
     ChebyshevReconstructor()=default;
 
     /*!
      * \brief ChebyshevReconstructor Initialises the object ChebyshevReconstructor
      * \param t_number_of_Chebyshev_points the number of Chebyshev point used in the observation
      */
+    [[deprecated("this class is outdated, you should use the Chebyshev interpolator that is correct and unsensitive to the state dymension")]]
     ChebyshevReconstructor(const unsigned int t_number_of_Chebyshev_points);
 
 
-
+    [[deprecated("this class is outdated, you should use the Chebyshev interpolator that is correct and unsensitive to the state dymension")]]
     ChebyshevReconstructor(const unsigned int t_number_of_Chebyshev_points,
                            const unsigned int t_number_of_reconstruction_points,
                            const int t_state_dimension)
@@ -166,6 +169,7 @@ public:
      * \param t_number_of_Chebyshev_points the number of Chebyshev point used in the observation
      * \param t_number_of_reconstruction_points the number of points to use in the reconstruction
      */
+    [[deprecated("this class is outdated, you should use the Chebyshev interpolator that is correct and unsensitive to the state dymension")]]
     ChebyshevReconstructor(const unsigned int t_number_of_Chebyshev_points,
                           const unsigned int t_number_of_reconstruction_points);
 
@@ -174,6 +178,7 @@ public:
      * \param t_centerline_points the observed centerline positions at the Chebyshev points
      * \return the shape of the rod from the observed centerline positions at the Chebyshev points
      */
+    [[deprecated("this class is outdated, you should use the Chebyshev interpolator that is correct and unsensitive to the state dymension")]]
     Eigen::MatrixXd reconstructRodShape(const Eigen::MatrixXd &t_centerline_points)const;
 
 
@@ -181,6 +186,7 @@ public:
      * \brief getNumberOfReconstructionPoints gives the number of reconstruction points used to reconstruct the shape of the rod
      * \return the number of reconstruction points used to reconstruct the shape of the rod
      */
+    [[deprecated("this class is outdated, you should use the Chebyshev interpolator that is correct and unsensitive to the state dymension")]]
     inline unsigned int getNumberOfReconstructionPoints()const{return m_number_of_reconstruction_points;}
 
     private:
