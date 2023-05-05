@@ -6,17 +6,35 @@
 #include <boost/math/special_functions/chebyshev.hpp>
 namespace Chebyshev {
 
+
+
+
 std::vector<double> ComputeChebyshevPoints(const unsigned int t_number_of_chebyshev_nodes,
                                            const double &t_L)
 {
-    std::vector<double> x(t_number_of_chebyshev_nodes);
+    return ComputeChebyshevPoints(t_number_of_chebyshev_nodes, 0, t_L);
+}
+
+
+
+std::vector<double> ComputeChebyshevPoints(const unsigned int t_number_of_chebyshev_nodes,
+                                           const double t_lower_bound,
+                                           const double t_upper_bound)
+{
+    std::vector<double> Chebyshev_points(t_number_of_chebyshev_nodes);
+
+    const double range = 0.5 * ( t_upper_bound -  t_lower_bound);
+    const double offset = 0.5 * ( t_upper_bound +  t_lower_bound);
 
     unsigned int j = 0;
-    std::generate(x.begin(), x.end(), [&](){
-        return (static_cast<double>(t_L)/2)*(1 +cos( M_PI * static_cast<double>(j++) / static_cast<double>(t_number_of_chebyshev_nodes-1) ));
+    std::generate(Chebyshev_points.begin(), Chebyshev_points.end(), [&](){
+        const double y = cos( M_PI * static_cast<double>(j++) / static_cast<double>(t_number_of_chebyshev_nodes-1) );
+
+        const double x = y*range + offset;
+        return x;
     });
 
-    return x;
+    return Chebyshev_points;
 }
 
 
@@ -262,25 +280,37 @@ Eigen::MatrixXd ChebyshevReconstructor::reconstructRodShape(const Eigen::MatrixX
 
 
 ChebyshevInterpolator::ChebyshevInterpolator(const unsigned int t_number_of_Chebyshev_points,
-                                             const unsigned int t_number_of_interpolation_points)
-    : ChebyshevInterpolator(t_number_of_Chebyshev_points,
-                            Eigen::VectorXd::LinSpaced(t_number_of_interpolation_points, 0.0, 1.0))
+                                             const unsigned int t_number_of_interpolation_points,
+                                             const double t_lower_bound,
+                                             const double t_upper_bound)
+    : ChebyshevInterpolator(::Chebyshev::ComputeChebyshevPoints(t_number_of_Chebyshev_points),
+                            Eigen::VectorXd::LinSpaced(t_number_of_interpolation_points, t_lower_bound, t_upper_bound))
 {}
 
-ChebyshevInterpolator::ChebyshevInterpolator(const unsigned int t_number_of_Chebyshev_points,
-                                             const Eigen::VectorXd t_interpolation_points)
+
+ChebyshevInterpolator::ChebyshevInterpolator(const std::vector<double> &t_Chebyshev_points,
+                      const unsigned int t_number_of_interpolation_points)
+    : ChebyshevInterpolator(t_Chebyshev_points,
+                            Eigen::VectorXd::LinSpaced(t_number_of_interpolation_points,
+                                                       t_Chebyshev_points[t_Chebyshev_points.size() - 1],
+                                                       t_Chebyshev_points[0]))
+{}
+
+ChebyshevInterpolator::ChebyshevInterpolator(const std::vector<double> &t_Chebyshev_points,
+                                             const Eigen::VectorXd &t_interpolation_points)
 {
 
-    //  translate into the same variable of book
-    const unsigned int N  = t_number_of_Chebyshev_points - 1;
+    //  Get the number of Chebyshev points
+    const unsigned int number_of_Chebyshev_points = t_Chebyshev_points.size();
 
-    //  Define the set of Chebyshev-Lobatto points -> formula 4.48
-    const Eigen::VectorXd x_k = [t_number_of_Chebyshev_points, N](){
-        Eigen::VectorXd x_k_(t_number_of_Chebyshev_points);
-        for(unsigned int k=0; k<=N; k++)
-            x_k_(k) = - cos(k*M_PI/N);
-        return x_k_;
-    }();
+    //  translate into the same variable of book
+    const unsigned int N  = number_of_Chebyshev_points - 1;
+
+
+
+    //  Define the upper and lower bound of the function domain
+    const double lower_bound = t_Chebyshev_points[N];   //  Corresponding to last Chebyshev points
+    const double upper_bound = t_Chebyshev_points[0];   //  Corresponding to first Chebyshev points
 
 
     //  Handle to the Chebyshev polynomial to be coherent with formulas in book
@@ -291,11 +321,16 @@ ChebyshevInterpolator::ChebyshevInterpolator(const unsigned int t_number_of_Cheb
     //  Define the stack of Chebyshev polynomials at the Chebyshev points
     const Eigen::MatrixXd TN_cheb = [&](){
         Eigen::MatrixXd TN_cheb_ =
-                Eigen::MatrixXd::Zero(t_number_of_Chebyshev_points, t_number_of_Chebyshev_points);
+                Eigen::MatrixXd::Zero(number_of_Chebyshev_points, number_of_Chebyshev_points);
 
         for(unsigned int i=0; i<=N; i++)
-            for(unsigned int j=0; j<=N; j++)
-                TN_cheb_(j, i) =  T(i, x_k[j]) ;
+            for(unsigned int j=0; j<=N; j++){
+
+                const auto x = t_Chebyshev_points[j];
+                const double y = (x - 0.5*(upper_bound+lower_bound))/(0.5*(upper_bound-lower_bound));
+
+                TN_cheb_(j, i) =  T(i, y) ;
+            }
 
         TN_cheb_.row(0) *= 0.5;
         TN_cheb_.row(N) *= 0.5;
@@ -304,17 +339,23 @@ ChebyshevInterpolator::ChebyshevInterpolator(const unsigned int t_number_of_Cheb
     }();
 
 
+
     const unsigned int number_of_interpolation_points = t_interpolation_points.size();
 
     //  Define the stack of Chebyshev polynomials at the interpolation points
     const Eigen::MatrixXd TN_equi = [&](){
         Eigen::MatrixXd TN_equi_ =
-                Eigen::MatrixXd::Zero(t_number_of_Chebyshev_points, number_of_interpolation_points);
+                Eigen::MatrixXd::Zero(number_of_Chebyshev_points, number_of_interpolation_points);
 
         //  Fill the matrices
         for(unsigned int i=0; i<=N; i++)
-            for(unsigned int j=0; j<=N; j++)
-                TN_equi_(i, j) = T(i, t_interpolation_points(j));
+            for(unsigned int j=0; j<number_of_interpolation_points; j++){
+
+                const auto x = t_interpolation_points[j];
+                const double y = (x - 0.5*(upper_bound+lower_bound))/(0.5*(upper_bound-lower_bound));
+
+                TN_equi_(i, j) = T(i, y);
+            }
 
         TN_equi_.row(0) *= 0.5;
         TN_equi_.row(N) *= 0.5;

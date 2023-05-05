@@ -1,0 +1,21 @@
+close all
+clear
+clc
+
+
+analytic_function = load("analytic_functions.csv");
+interpolated_function = load("interpolated_function.csv");
+observed_function = load("observed_function.csv");
+
+Chebyshev_points = load("Chebyshev_points.csv");
+interpolation_points = load("interpolation_points.csv");
+
+
+figure("Name", "Comparison")
+plot(interpolation_points, analytic_function(1, :), '-r', 'DisplayName', 'x');
+plot(interpolation_points, interpolated_function(1, :), '-b', 'DisplayName', 'x');
+
+plot(interpolation_points, analytic_function(1, :), '-r', 'DisplayName', 'x');
+plot(interpolation_points, interpolated_function(1, :), '-b', 'DisplayName', 'x');
+
+legend()

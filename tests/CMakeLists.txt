@@ -56,3 +56,14 @@ target_link_libraries(test_log_SO3
         ${PROJECT_NAME}
 )
 
+
+find_package(utilities REQUIRED)
+
+add_executable(test_chebyshev_reconstructor test_chebyshev_reconstructor.cpp)
+target_link_libraries(test_chebyshev_reconstructor
+    PRIVATE
+        Eigen3::Eigen
+        ${PROJECT_NAME}
+        utilities
+)
+
