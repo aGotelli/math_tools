@@ -27,7 +27,7 @@ plot(Chebyshev_points, observed_function(2, :), 'kx', 'DisplayName', 'chebyshev 
 legend("Location","northwest")
 
 
-figure("Name", "f=x² + sin(x)")
+figure("Name", "f=x² (1 + sin(x))")
 plot(interpolation_points, analytic_function(3, :), '-r', 'DisplayName', 'analytic');
 hold on
 plot(interpolation_points, interpolated_function(3, :), '--b', 'DisplayName', 'chebyshev');

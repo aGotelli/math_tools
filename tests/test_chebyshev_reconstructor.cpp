@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     //  Define the dimension of the state
     const unsigned int state_dimension = 7;
     //  Define number of Chebyshev points
-    const unsigned int Nc = 31;
+    const unsigned int Nc = 21;
 
     //  translate into the same variable of book
     const unsigned int N  = Nc - 1;
@@ -32,15 +32,15 @@ int main(int argc, char *argv[])
 
 
     //  Define the domain
-    const int min = 0;
-    const int max = 1;
+    const double min = 0;
+    const double max = 1.5;
 
     //  Define a function to interpolate
     auto f = [&](const double x) {
         Eigen::VectorXd state(state_dimension);
         state << x,
                  x*x,
-                 x*x + sin(x),
+                 x*x *(1 + sin(x)),
                  exp(x),
                  sqrt(x),
                  atan(x),
@@ -105,13 +105,13 @@ int main(int argc, char *argv[])
 
 
 
-    std::cout << "f = x error norm:           " << error.row(0).norm() << "\n";
-    std::cout << "f = x² error norm:          " << error.row(1).norm() << "\n";
-    std::cout << "f = x² + sin(x) error norm: " << error.row(2).norm() << "\n";
-    std::cout << "f = e^x error norm:         " << error.row(3).norm() << "\n";
-    std::cout << "f = sqrt(x) error norm:     " << error.row(4).norm() << "\n";
-    std::cout << "f = atan(x) error norm:     " << error.row(5).norm() << "\n";
-    std::cout << "f = gaussian(x) error norm: " << error.row(6).norm() << "\n";
+    std::cout << "f = x error norm:               " << error.row(0).norm() << "\n";
+    std::cout << "f = x² error norm:              " << error.row(1).norm() << "\n";
+    std::cout << "f = x² (1 + sin(x)) error norm: " << error.row(2).norm() << "\n";
+    std::cout << "f = e^x error norm:             " << error.row(3).norm() << "\n";
+    std::cout << "f = sqrt(x) error norm:         " << error.row(4).norm() << "\n";
+    std::cout << "f = atan(x) error norm:         " << error.row(5).norm() << "\n";
+    std::cout << "f = gaussian(x) error norm:     " << error.row(6).norm() << "\n";
 
     std::cout << "\n\n\n" <<
                  "global error norm : " << error.norm() << "\n\n";
