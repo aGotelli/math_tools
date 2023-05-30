@@ -12,6 +12,7 @@ add_library(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
         Eigen3::Eigen
+        utilities
 )
 target_compile_options(${PROJECT_NAME}
     PRIVATE

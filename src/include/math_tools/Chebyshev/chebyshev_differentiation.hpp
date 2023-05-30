@@ -262,28 +262,34 @@ struct ChebyshevInterpolator {
                           const double t_upper_bound=1.0);
 
 
-//    /*!
-//     * \brief ChebyshevInterpolator construct the object for a given number of Chebyshev using an albitrary set of interpolation points
-//     * \param t_number_of_Chebyshev_points the number of Chebyshev points on which the function is observed
-//     * \param t_interpolation_points the set of interpolation points in the normalised domain [0, 1]
-//     */
-//    ChebyshevInterpolator(const unsigned int t_number_of_Chebyshev_points,
-//                          const Eigen::VectorXd t_interpolation_points);
-
     /*!
      * \brief ChebyshevInterpolator construct the object for a given number of Chebyshev using an albitrary set of interpolation points
      * \param t_Chebyshev_points the set of Chebyshev points on which the function is observed
-     * \param t_number_of_interpolation_points the number of interpolation points
+     * \param t_number_of_interpolation_points the number of equispaced points in which the function will be interpolated
+     * \param t_lower_bound the lower bound of the function domain
+     * \param t_upper_bound the upper bound of the function domain
      *
      */
     ChebyshevInterpolator(const std::vector<double> &t_Chebyshev_points,
-                          const unsigned int t_number_of_interpolation_points=101);
+                          const unsigned int t_number_of_interpolation_points=101,
+                          const double t_lower_bound=0.0,
+                          const double t_upper_bound=1.0);
 
 
     /*!
      * \brief ChebyshevInterpolator construct the object for a given number of Chebyshev using an albitrary set of interpolation points
      * \param t_Chebyshev_points the set of Chebyshev points on which the function is observed
-     * \param t_interpolation_points the set of interpolation points
+     * \param t_interpolation_points the set of interpolation points in the normalised domain [0, 1]
+     *
+     */
+    ChebyshevInterpolator(const unsigned int t_number_of_Chebyshev_points,
+                          const Eigen::VectorXd &t_interpolation_points);
+
+
+    /*!
+     * \brief ChebyshevInterpolator construct the object for a given number of Chebyshev using an albitrary set of interpolation points
+     * \param t_number_of_Chebyshev_points the number of Chebyshev points on which the function is observed
+     * \param t_interpolation_points the set of interpolation points in the normalised domain [0, 1]
      *
      */
     ChebyshevInterpolator(const std::vector<double> &t_Chebyshev_points,
@@ -306,6 +312,13 @@ struct ChebyshevInterpolator {
      * number of Chebyshev points on which it is observed.
      */
     Eigen::MatrixXd operator()(const Eigen::MatrixXd &t_function_to_interpolate)const;
+
+
+    /*!
+     * \brief getNumberOfInterpolationPoints returns the number of points at which we interpolate (the number of interpolation points)
+     * \return the number of interpolation points
+     */
+    unsigned int getNumberOfInterpolationPoints()const;
 
 
 private:

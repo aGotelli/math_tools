@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
         F.col(i) = f( x );
     }
 
-//    std::cout << "F: \n" << F << "\n\n";
+    std::cout << "F: \n" << F << "\n\n";
 
 
 

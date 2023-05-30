@@ -4,6 +4,8 @@
 #include <vector>
 
 #include <boost/math/special_functions/chebyshev.hpp>
+
+
 namespace Chebyshev {
 
 
@@ -289,11 +291,18 @@ ChebyshevInterpolator::ChebyshevInterpolator(const unsigned int t_number_of_Cheb
 
 
 ChebyshevInterpolator::ChebyshevInterpolator(const std::vector<double> &t_Chebyshev_points,
-                      const unsigned int t_number_of_interpolation_points)
+                                             const unsigned int t_number_of_interpolation_points,
+                                             const double t_lower_bound,
+                                             const double t_upper_bound)
     : ChebyshevInterpolator(t_Chebyshev_points,
-                            Eigen::VectorXd::LinSpaced(t_number_of_interpolation_points,
-                                                       t_Chebyshev_points[t_Chebyshev_points.size() - 1],
-                                                       t_Chebyshev_points[0]))
+                            Eigen::VectorXd::LinSpaced(t_number_of_interpolation_points, t_lower_bound, t_upper_bound))
+{}
+
+
+ChebyshevInterpolator::ChebyshevInterpolator(const unsigned int t_number_of_Chebyshev_points,
+                                             const Eigen::VectorXd &t_interpolation_points)
+    : ChebyshevInterpolator(::Chebyshev::ComputeChebyshevPoints(t_number_of_Chebyshev_points),
+                            t_interpolation_points)
 {}
 
 ChebyshevInterpolator::ChebyshevInterpolator(const std::vector<double> &t_Chebyshev_points,
@@ -363,6 +372,7 @@ ChebyshevInterpolator::ChebyshevInterpolator(const std::vector<double> &t_Chebys
         return TN_equi_;
     }();
 
+
     //  Finally compose the interpolation matrix
     m_interpolation_matrix = 2.0/N * TN_cheb * TN_equi;
 }
@@ -382,6 +392,12 @@ Eigen::MatrixXd ChebyshevInterpolator::operator()(const Eigen::MatrixXd &t_funct
     const Eigen::MatrixXd interpolated_function = t_function_to_interpolate * m_interpolation_matrix;
 
     return interpolated_function;
+}
+
+
+unsigned int ChebyshevInterpolator::gtNumberOfInterpolationPoints() const
+{
+    return m_interpolation_matrix.cols();
 }
 
 
