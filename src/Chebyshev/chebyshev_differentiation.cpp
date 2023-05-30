@@ -395,7 +395,7 @@ Eigen::MatrixXd ChebyshevInterpolator::operator()(const Eigen::MatrixXd &t_funct
 }
 
 
-unsigned int ChebyshevInterpolator::gtNumberOfInterpolationPoints() const
+unsigned int ChebyshevInterpolator::getNumberOfInterpolationPoints() const
 {
     return m_interpolation_matrix.cols();
 }
