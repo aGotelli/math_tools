@@ -42,5 +42,5 @@ cd ..
 make_install_build_of_type Release
 
 
-make doc
+#make doc
 
