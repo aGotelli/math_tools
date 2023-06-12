@@ -305,6 +305,20 @@ ChebyshevInterpolator::ChebyshevInterpolator(const unsigned int t_number_of_Cheb
                             t_interpolation_points)
 {}
 
+
+ChebyshevInterpolator::ChebyshevInterpolator(const unsigned int t_number_of_Chebyshev_points,
+                                             const std::vector<double> &t_interpolation_points)
+    : ChebyshevInterpolator(::Chebyshev::ComputeChebyshevPoints(t_number_of_Chebyshev_points),
+                            [&]()->Eigen::VectorXd{
+    Eigen::VectorXd interpolation_points(t_interpolation_points.size());
+
+    std::copy(t_interpolation_points.begin(), t_interpolation_points.end(), interpolation_points.begin());
+
+    return interpolation_points;
+}())
+{}
+
+
 ChebyshevInterpolator::ChebyshevInterpolator(const std::vector<double> &t_Chebyshev_points,
                                              const Eigen::VectorXd &t_interpolation_points)
 {
