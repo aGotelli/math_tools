@@ -11,6 +11,18 @@
 int main(int argc, char *argv[])
 {
 
+    Eigen::Vector3d K(1, 2, 3);
+
+    std::cout << ::LieAlgebra::expRodigues(K) << "\n\n";
+
+    const auto K_hat = ::LieAlgebra::skew(K);
+
+    std::cout << ::LieAlgebra::expRodigues(K_hat) << "\n\n";
+    std::cout.flush();
+
+
+
+
 
     const Eigen::Matrix3d R1 = Eigen::Matrix3d::Identity();
     Eigen::Matrix3d R2;

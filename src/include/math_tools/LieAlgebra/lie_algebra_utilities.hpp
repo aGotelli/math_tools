@@ -468,6 +468,9 @@ Eigen::Matrix3d expRodigues(const Eigen::Matrix3d &t_Omega);
 
 
 
+Eigen::Matrix3d expRodigues(const Eigen::Vector3d &t_Omega);
+
+
 /*!
  * \brief differenceInSO3 computes the difference in SO(3) between two orientation matrices
  * \param t_Ra the orientation matrix of frame a with respect to the reference frame

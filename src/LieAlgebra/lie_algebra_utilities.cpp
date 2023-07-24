@@ -2,7 +2,7 @@
 
 #include <eigen3/unsupported/Eigen/KroneckerProduct>
 
-
+#include <iostream>
 
 namespace LieAlgebra {
 
@@ -388,6 +388,29 @@ Eigen::Matrix3d expRodigues(const Eigen::Matrix3d &t_Omega)
 
     return exp;
 }
+
+
+
+Eigen::Matrix3d expRodigues(const Eigen::Vector3d &t_Omega)
+{
+    const auto theta = t_Omega.norm();
+    const auto omega = t_Omega / theta;
+
+
+    if(omega.hasNaN())
+        return Eigen::Matrix3d::Identity();
+
+
+    return Eigen::AngleAxisd(theta, omega).toRotationMatrix();
+//    const auto exp = Eigen::Matrix3d::Identity()
+//                    + ( omega * sin( theta )
+//                        +omega.cross(omega) * (1 - cos( theta )) ).cross(Eigen::Matrix3d::Identity());
+
+
+//    return exp;
+}
+
+
 
 
 
