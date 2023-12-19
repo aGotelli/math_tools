@@ -564,17 +564,16 @@ Eigen::Matrix3d DeltaTSO3(const Eigen::Vector3d &t_Theta,
 
         const auto [alpha, beta] = alpha_beta( t_Theta );
 
-        Eigen::Matrix3d row1 = (cth-alpha)*Uf1*eye;
-        Eigen::Matrix3d row2 = (1-alpha)*(t_Delta_Theta*UT-U*t_Delta_Theta.transpose());
-        Eigen::Matrix3d row3 = (3*alpha-cth-2)*Uf1*(U*UT);
-        Eigen::Matrix3d row4 = (f3-alpha)*Uf1*skew(t_Theta);
-        Eigen::Matrix3d row5 = 0.5*f3*skew(t_Delta_Theta);
+        Eigen::Matrix3d C1 = (cth-alpha)*Uf1*eye;
+        Eigen::Matrix3d C2 = (1-alpha)*(t_Delta_Theta*UT-U*t_Delta_Theta.transpose());
+        Eigen::Matrix3d C3 = (3*alpha-cth-2)*Uf1*(U*UT);
+        Eigen::Matrix3d C4 = (f3-alpha)*Uf1*skew(t_Theta);
+        Eigen::Matrix3d C5 = 0.5*f3*skew(t_Delta_Theta);
 
-        Delta_TSO3 = row1
-                   + row2
-                   + row3
-                   + row4
-                   - row5;
+        Delta_TSO3 = C1 + C2 + C3 + C4 - C5;
+
+
+
 
 
     }

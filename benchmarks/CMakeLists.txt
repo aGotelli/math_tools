@@ -20,4 +20,13 @@ target_link_libraries(benchmark_error_SO3
 )
 
 
+add_executable(benchmark_T_SO3 benchmark_T_SO3.cpp)
+target_link_libraries(benchmark_T_SO3
+    PRIVATE
+        Eigen3::Eigen
+        ${PROJECT_NAME}
+        benchmark::benchmark
+)
+
+
 
