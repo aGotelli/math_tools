@@ -534,6 +534,60 @@ Eigen::Matrix3d TSO3_inverse(const Eigen::Vector3d &t_Theta)
 
 
 
+Eigen::Matrix3d DeltaTSO3(const Eigen::Vector3d &t_Theta,
+                          const Eigen::Vector3d &t_Delta_Theta)
+{
+
+    const auto theta = t_Theta.norm();
+
+
+    Eigen::Matrix3d Delta_TSO3;
+
+    if(abs( theta ) <= 1e-5) [[unlikely]]
+            Delta_TSO3 = -0.5*skew(t_Delta_Theta);
+    else [[likely]] {
+        const auto U = t_Theta/theta;
+        const auto UT = U.transpose();
+
+
+        const Eigen::Matrix3d eye = Eigen::Matrix3d::Identity();
+
+        const Eigen::Vector3d f1 = t_Delta_Theta/theta;
+
+        const double f2 = sin(0.5*theta)/(0.5*theta);
+
+        const double f3 = f2*f2;
+
+        const double cth = cos(theta);
+
+        const double Uf1 = U.dot(f1);
+
+        const auto [alpha, beta] = alpha_beta( t_Theta );
+
+        Eigen::Matrix3d row1 = (cth-alpha)*Uf1*eye;
+        Eigen::Matrix3d row2 = (1-alpha)*(t_Delta_Theta*UT-U*t_Delta_Theta.transpose());
+        Eigen::Matrix3d row3 = (3*alpha-cth-2)*Uf1*(U*UT);
+        Eigen::Matrix3d row4 = (f3-alpha)*Uf1*skew(t_Theta);
+        Eigen::Matrix3d row5 = 0.5*f3*skew(t_Delta_Theta);
+
+        Delta_TSO3 = row1
+                   + row2
+                   + row3
+                   + row4
+                   - row5;
+
+
+    }
+
+
+
+    return Delta_TSO3;
+
+
+}
+
+
+
 
 
 }   //  namespace LieAlgebra

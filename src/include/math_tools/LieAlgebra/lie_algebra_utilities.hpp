@@ -535,6 +535,10 @@ Eigen::Matrix3d TSO3(const Eigen::Vector3d &t_Theta);
 Eigen::Matrix3d TSO3_inverse(const Eigen::Vector3d &t_Theta);
 
 
+Eigen::Matrix3d DeltaTSO3(const Eigen::Vector3d &t_Theta,
+                          const Eigen::Vector3d &t_Delta_Theta);
+
+
 }   //  namespace LieAlgebra
 
 
