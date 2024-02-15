@@ -29,6 +29,14 @@ SE3Pose::SE3Pose(const Eigen::Vector4d &t_quaternion,
 {}
 
 
+SE3Pose::SE3Pose(const Eigen::Matrix3d &t_R,
+                 const Eigen::Vector3d &t_position)
+    : m_quaternion( Eigen::Quaterniond(t_R) ),
+      m_position(t_position)
+{}
+
+
+
 SE3Pose::SE3Pose(const Eigen::Vector3d &t_position,
                  const double &t_roll,
                  const double &t_pitch,
@@ -142,6 +150,21 @@ std::string Kinematics::toString(const std::string &t_indentation)const
 
 
     return message.str();
+}
+
+
+
+Kinematics Kinematics::operator*(const Kinematics &t_other)const
+{
+    Kinematics result;
+
+    result.m_pose = this->m_pose*t_other.m_pose;
+
+    result.m_twist = this->m_twist + t_other.m_twist;
+
+    result.m_accelerations = this->m_accelerations + t_other.m_accelerations;
+
+    return result;
 }
 
 

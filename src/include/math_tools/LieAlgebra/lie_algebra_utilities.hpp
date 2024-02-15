@@ -47,7 +47,7 @@ struct SE3Pose {
     SE3Pose()=default;
 
     /*!
-     * \brief SE3Pose constructs the object using
+     * \brief SE3Pose constructs the object using only the position
      * \param t_position the user defined position of the SE(3) pose
      *
      * This constructor assign the position to the pose leaving the orientation as identity
@@ -56,7 +56,7 @@ struct SE3Pose {
 
 
     /*!
-     * \brief SE3Pose constructs the object using
+     * \brief SE3Pose constructs the object using an Eigen::Quaterniond and position
      * \param t_quaternion the user defined orientation of the SE(3) pose, using Eigen::Quaterniond
      * \param t_position the user defined position of the SE(3) pose
      */
@@ -64,7 +64,7 @@ struct SE3Pose {
             const Eigen::Vector3d &t_position);
 
     /*!
-     * \brief SE3Pose constructs the object using
+     * \brief SE3Pose constructs the object using a quaternion and position as Eigen::Vector
      * \param t_quaternion the user defined orientation of the SE(3) pose, using Eigen::Vector4d
      * \param t_position the user defined position of the SE(3) pose
      *
@@ -73,6 +73,16 @@ struct SE3Pose {
      * the vector should then be filled as \f$ t\_quaternion = \begin{bmatrix} w    &   x   &   y   &   z \end{bmatrix} \f$
      */
     SE3Pose(const Eigen::Vector4d &t_quaternion,
+            const Eigen::Vector3d &t_position);
+
+
+    /*!
+     * \brief SE3Pose constructs the object using a rotation matrix and a position vector
+     * \param t_R the user defined orientation of the SE(3) pose as a rotation matrix
+     * \param t_position the user defined position of the SE(3) pose
+     *
+     */
+    SE3Pose(const Eigen::Matrix3d &t_R,
             const Eigen::Vector3d &t_position);
 
 
@@ -172,6 +182,16 @@ struct Kinematics {
      * \return the string containing all the information about the body kinematics
      */
     std::string toString(const std::string &t_indentation="")const;
+
+
+    /*!
+     * \brief operator * defines the multiplication of two kinematics configurations
+     * \param t_other The other kinematic configuration
+     * \return the result of the multiplication of t_other kinematics by this pose
+     *
+     * This operator is used to multiply directly two elements of type Kinematics
+     */
+    Kinematics operator*(const Kinematics &t_other)const;
 
 
     /// The pose in SE(3) of the body
@@ -430,7 +450,7 @@ Matrix6d DeltaDotAd(const Kinematics &t_relative_kinematics_ab,
 
 /*!
  * \brief rotateAlongAxis rotates the quaternion along the given axis
- * \param t_angle is the angle of rotation
+ * \param t_angle is the angle of rotation in radians [RAD]
  * \param t_axis is the normalised rotation axis
  * \return the quaternion rotated along the given axis
  */
@@ -441,7 +461,7 @@ Eigen::Quaterniond rotateAlongAxis(const double &t_angle,
 
 /*!
  * \brief getRx compute the rotation matrix associated to a rotation along the x axis
- * \param t_alpha the angle of rotation along the x axis
+ * \param t_alpha the angle of rotation along the x axis in radians [RAD]
  * \return the rotation matrix associated to a rotation along the x axis
  */
 Eigen::Matrix3d getRx(const double &t_alpha);
@@ -449,7 +469,7 @@ Eigen::Matrix3d getRx(const double &t_alpha);
 
 /*!
  * \brief getRy compute the rotation matrix associated to a rotation along the y axis
- * \param t_beta the angle of rotation along the y axis
+ * \param t_beta the angle of rotation along the y axis in radians [RAD]
  * \return the rotation matrix associated to a rotation along the y axis
  */
 Eigen::Matrix3d getRy(const double &t_beta);
@@ -457,7 +477,7 @@ Eigen::Matrix3d getRy(const double &t_beta);
 
 /*!
  * \brief getRz compute the rotation matrix associated to a rotation along the z axis
- * \param t_theta the angle of rotation along the z axis
+ * \param t_theta the angle of rotation along the z axis in radians [RAD]
  * \return the rotation matrix associated to a rotation along the z axis
  */
 Eigen::Matrix3d getRz(const double &t_theta);
