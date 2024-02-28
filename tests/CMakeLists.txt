@@ -67,3 +67,10 @@ target_link_libraries(test_chebyshev_reconstructor
         utilities
 )
 
+
+add_executable(test_expSO3 test_expSO3.cpp)
+target_link_libraries(test_expSO3
+    PRIVATE
+        Eigen3::Eigen
+        ${PROJECT_NAME}
+)
