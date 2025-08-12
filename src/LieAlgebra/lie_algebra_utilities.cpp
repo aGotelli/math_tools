@@ -180,6 +180,19 @@ Eigen::Matrix3d skew(const Eigen::Vector3d &t_v)
 }
 
 
+Eigen::Matrix4d hat_se3(const Vector6d &t_v)
+{
+    const auto angular = t_v.block<3,1>(0, 0);
+    const auto linear  = t_v.block<3,1>(3, 0);
+
+    Eigen::Matrix4d M = Eigen::Matrix4d::Zero();
+    M.block<3,3>(0,0) = skew(angular);
+    M.block<3,1>(0,3) = linear;
+
+    return M;
+}
+
+
 Eigen::Vector3d antiSkew(const Eigen::Matrix3d &t_skew_simmetric_matrix)
 {
 

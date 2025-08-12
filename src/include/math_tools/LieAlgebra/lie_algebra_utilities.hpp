@@ -234,6 +234,14 @@ Eigen::Matrix3d skew(const Eigen::Vector3d &t_v);
 
 
 /*!
+ * \brief hat_se3 computes the se(3) matrix associated to a vector in R^6
+ * \param t_v the vector in R^6
+ * \return the se(3) matrix associated to a vector in R^6
+ */
+Eigen::Matrix4d hat_se3(const Vector6d &t_v);
+
+
+/*!
  * \brief antiSkew gives the inverse of the skew operator
  * \param t_skew_simmetric_matrix the skew simmetrix matrix to convert into a vector
  * \return the inverse of the skew operator
