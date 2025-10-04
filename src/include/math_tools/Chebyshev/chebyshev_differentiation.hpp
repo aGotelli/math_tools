@@ -307,6 +307,16 @@ struct ChebyshevInterpolator {
 
 
     /*!
+     * \brief ChebyshevInterpolator construct the object for a given number of Chebyshev using an albitrary set of interpolation points
+     * \param t_Chebyshev_points the set of Chebyshev points on which the function is observed
+     * \param t_interpolation_points the set of interpolation points in the normalised domain [0, 1]
+     *
+     */
+    ChebyshevInterpolator(const std::vector<double> &t_Chebyshev_points,
+                          const std::vector<double> &t_interpolation_points);
+
+
+    /*!
      * \brief operator () interpolates the given function on the defines grid of interpolation points
      * \param t_function_to_interpolate is the function to interpolate of an albitrary state dimension
      *
